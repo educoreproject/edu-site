@@ -11,7 +11,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"studio:dev": "cd studio && sanity dev",
-		"studio:build": "cd studio && sanity build"
+		"studio:build": "cd studio && SANITY_ALLOW_PLACEHOLDER_PROJECT=true sanity build"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^7.0.1",

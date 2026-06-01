@@ -61,9 +61,11 @@ export const dsuHome = defineType({
 					name: 'items',
 					title: 'Items',
 					type: 'array',
-					of: [{type: 'string'}]
+					of: [{type: 'string'}],
+					validation: (rule) => rule.required().min(1)
 				})
-			]
+			],
+			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'voices',
