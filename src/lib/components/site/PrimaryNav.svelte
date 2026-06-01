@@ -62,7 +62,7 @@
 		flex-wrap: wrap;
 		gap: 0.5rem;
 		justify-content: flex-end;
-		padding: 0.5rem clamp(1.25rem, 4vw, 2.5rem) 0.5rem 1rem;
+		padding: 0.5rem clamp(1.25rem, 10vw, 8rem) 0.5rem 1rem;
 	}
 
 	.links a,
