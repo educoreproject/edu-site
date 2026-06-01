@@ -16,16 +16,16 @@
 <style>
 	div {
 		margin-inline: auto;
-		max-width: 1180px;
-		padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+		max-width: 1280px;
+		padding-inline: clamp(1.25rem, 10vw, 8rem);
 		width: 100%;
 	}
 
 	.narrow {
-		max-width: 880px;
+		max-width: 1024px;
 	}
 
 	.wide {
-		max-width: 1320px;
+		max-width: 1440px;
 	}
 </style>
