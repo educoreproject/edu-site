@@ -26,7 +26,10 @@ async function fetchFromSanity<T>(query: string, fallback: T, label: string): Pr
 
 		return result;
 	} catch (error) {
-		console.error(`[content] Failed to fetch ${label} from Sanity; using fallback content.`, error);
+		if (dev) {
+			console.error(`[content] Failed to fetch ${label} from Sanity; using fallback content.`, error);
+		}
+
 		return fallback;
 	}
 }
