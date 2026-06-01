@@ -1,0 +1,13 @@
+{
+	"name": "educore-studio",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"dependencies": {
+		"@sanity/vision": "^5.28.0",
+		"react": "^19.2.2",
+		"react-dom": "^19.2.2",
+		"styled-components": "^6.1.15",
+		"sanity": "^5.28.0"
+	}
+}
