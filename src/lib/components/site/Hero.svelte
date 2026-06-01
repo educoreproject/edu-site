@@ -8,13 +8,15 @@
 		content: HeroContent;
 		background?: 'navy' | 'teal' | 'violet';
 		compact?: boolean;
+		titleId?: string;
 		children?: Snippet;
 	};
 
-	let { content, background = 'navy', compact = false, children }: Props = $props();
+	const uid = $props.id();
+	let { content, background = 'navy', compact = false, titleId = `${uid}-title`, children }: Props = $props();
 </script>
 
-<section class:compact class:teal={background === 'teal'} class:violet={background === 'violet'} aria-labelledby="site-hero-title">
+<section class:compact class:teal={background === 'teal'} class:violet={background === 'violet'} aria-labelledby={titleId}>
 	<div class="globe" aria-hidden="true">
 		<span class="ring ring-one"></span>
 		<span class="ring ring-two"></span>
@@ -32,7 +34,7 @@
 				</div>
 			{/if}
 
-			<h1 id="site-hero-title">{content.title}</h1>
+			<h1 id={titleId}>{content.title}</h1>
 
 			{#if content.description}
 				<p>{content.description}</p>
