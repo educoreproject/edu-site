@@ -1,0 +1,117 @@
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-Medium.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-Bold.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: italic;
+	font-weight: 400;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-Italic.woff2") format("woff2");
+}
+
+:root {
+	--ec-navy: #002b70;
+	--ec-subnav: #0d3b66;
+	--ec-navy-deep: #0c171d;
+	--ec-navy-mid: #0d538c;
+	--ec-ink: #2e2e2e;
+	--ec-ink-soft: #5b6670;
+	--ec-white: #fdfdfd;
+	--ec-surface: #f4f5f6;
+	--ec-border: #ccd0d6;
+	--ec-border-soft: #e4e5e6;
+	--ec-teal: #00b9bb;
+	--ec-teal-dark: #00797a;
+	--ec-teal-darker: #004747;
+	--ec-teal-soft: #5fbebf;
+	--ec-gold: #fbb244;
+	--ec-violet: #3e4ded;
+	--ec-violet-dark: #2b33b5;
+	--ec-cream: #fff3ea;
+	--ec-link: #0f62fe;
+	--ec-focus: #2491ff;
+	--ec-font-sans: "Public Sans Web", "Public Sans", system-ui, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: var(--ec-font-sans);
+	color: var(--ec-ink);
+	background: var(--ec-white);
+}
+
+body {
+	margin: 0;
+	min-width: 320px;
+}
+
+a {
+	color: var(--ec-link);
+}
+
+a:hover {
+	color: var(--ec-navy);
+}
+
+:focus-visible {
+	outline: 4px solid var(--ec-focus);
+	outline-offset: 2px;
+}
+
+button,
+input,
+textarea,
+select {
+	font: inherit;
+}
+
+img,
+picture,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
