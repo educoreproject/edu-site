@@ -41,11 +41,16 @@
 
 			<div class="resource-grid">
 				{#each page.cards as card}
+					{@const isCtaDisabled = !card.cta.href || card.cta.href === '#'}
 					<article class="resource-card">
 						<p class="meta">{card.meta}</p>
 						<h3>{card.title}</h3>
 						<p>{card.description}</p>
-						<a class="card-link" href={card.cta.href}>{card.cta.label}</a>
+						{#if isCtaDisabled}
+							<span class="card-link disabled" aria-disabled="true">{card.cta.label}</span>
+						{:else}
+							<a class="card-link" href={card.cta.href}>{card.cta.label}</a>
+						{/if}
 					</article>
 				{/each}
 			</div>
@@ -110,6 +115,7 @@
 	h3,
 	p,
 	a,
+	span,
 	label,
 	input,
 	button {
@@ -180,6 +186,13 @@
 		margin-top: auto;
 		text-decoration-thickness: 0.125rem;
 		text-underline-offset: 0.1875rem;
+	}
+
+	.card-link.disabled {
+		color: var(--ec-ink-soft);
+		cursor: not-allowed;
+		opacity: 0.72;
+		text-decoration: none;
 	}
 
 	.newsletter {

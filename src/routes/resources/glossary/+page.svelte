@@ -16,7 +16,6 @@
 	let { data }: Props = $props();
 	let page = $derived(data.page);
 	let chrome = $derived(data.chrome);
-	let categories = $derived(['All terms', ...page.categories.filter((category) => category !== 'All terms')]);
 </script>
 
 <svelte:head>
@@ -42,7 +41,7 @@
 
 			<div class="content-layout">
 				<aside class="category-list" aria-label="Glossary categories">
-					{#each categories as category, index}
+					{#each page.categories as category, index}
 						<span class:current={index === 0} aria-current={index === 0 ? 'true' : undefined}>
 							{category}
 						</span>
