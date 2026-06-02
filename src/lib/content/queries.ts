@@ -77,6 +77,70 @@ export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-
 	}
 }`;
 
+export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joining"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero{
+		chip,
+		title,
+		description,
+		"ctas": coalesce(ctas[]${ctaProjection}, [])
+	},
+	"membershipTypes": coalesce(membershipTypes[]{
+		kind,
+		kindColor,
+		title,
+		description,
+		"bullets": coalesce(bullets, []),
+		cta${ctaProjection},
+		featured
+	}, []),
+	process{
+		eyebrow,
+		heading,
+		"steps": coalesce(steps[]{
+			title,
+			description
+		}, [])
+	},
+	contact{
+		eyebrow,
+		heading,
+		description,
+		email
+	},
+	submissionChecklist{
+		heading,
+		"items": coalesce(items, [])
+	}
+}`;
+
+export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "dsu-projects"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero{
+		chip,
+		title,
+		description,
+		"ctas": coalesce(ctas[]${ctaProjection}, [])
+	},
+	"projects": coalesce(projects[]{
+		tag,
+		title,
+		category,
+		href,
+		logoLabel,
+		logoColor
+	}, []),
+	joinCta{
+		heading,
+		description,
+		cta${ctaProjection}
+	}
+}`;
+
 export const chromeQuery = `*[_type == "siteChrome"][0]{
 	"primaryNav": coalesce(primaryNav[]${linkItemProjection}, []),
 	"footerColumns": coalesce(footerColumns[]{

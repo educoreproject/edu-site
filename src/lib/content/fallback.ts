@@ -1,4 +1,11 @@
-import type { DsuHomePage, DsuMembersPage, LinkItem, SiteChrome } from './types';
+import type {
+	DsuHomePage,
+	DsuJoinPage,
+	DsuMembersPage,
+	DsuProjectsPage,
+	LinkItem,
+	SiteChrome
+} from './types';
 
 const fallbackDsuSubNav = [
 	{ label: 'Home', href: '/' },
@@ -276,3 +283,168 @@ export const fallbackDsuMembers = {
 		}
 	}
 } satisfies DsuMembersPage;
+
+export const fallbackDsuJoin = {
+	slug: 'dsu-joining',
+	activeSection: 'DSU',
+	subNav: fallbackDsuSubNav,
+	hero: {
+		chip: 'DATA STANDARDS UNITED',
+		title: 'Joining DSU',
+		description:
+			'We welcome participation from everyone. DSU is committed to building a global community dedicated to free, open standards that support lifelong learning, interoperability, and portability.'
+	},
+	membershipTypes: [
+		{
+			kind: 'Signatory Member',
+			kindColor: '#00797A',
+			title: 'Full organizational commitment',
+			description:
+				"For Standards Development Organizations and data standards bodies. Signatory members formally commit their organization to DSU's core values and actively participate in shaping the collaborative's direction.",
+			bullets: [
+				'Vote on DSU initiatives and governance',
+				'Co-lead working groups and projects',
+				'Listed as a signatory member organization',
+				'Full participation in all meetings and events'
+			],
+			cta: {
+				label: 'Download signatory agreement PDF',
+				href: '#',
+				variant: 'teal'
+			},
+			featured: true
+		},
+		{
+			kind: 'Affiliate Member',
+			kindColor: '#002B70',
+			title: 'Advisory participation',
+			description:
+				"For organizations that support DSU's mission but are not standards development bodies, or whose governance doesn't allow full organizational commitment. Affiliate members participate in an advisory capacity.",
+			bullets: [
+				'Participate in working groups and discussions',
+				'Attend all DSU meetings and events',
+				'Listed as an affiliate supporter',
+				'Advisory voice in DSU initiatives'
+			],
+			cta: {
+				label: 'Download affiliate agreement PDF',
+				href: '#',
+				variant: 'outline'
+			}
+		}
+	],
+	process: {
+		eyebrow: 'Process',
+		heading: 'How to join',
+		steps: [
+			{
+				title: 'Choose your membership type',
+				description:
+					"Signatory membership is for standards development organizations. Affiliate membership is for other stakeholders or organizations whose governance doesn't permit full signatory commitment. Both are equally welcome."
+			},
+			{
+				title: 'Download the agreement',
+				description:
+					"Each membership type has its own agreement PDF. Download the one that fits your organization's situation - both can be signed digitally."
+			},
+			{
+				title: 'Sign and submit',
+				description:
+					"Complete the agreement and send it to alex@bardicsystems.com along with your organization's logo and a brief note on why you're joining DSU."
+			},
+			{
+				title: 'Welcome to DSU',
+				description:
+					'The DSU team will confirm receipt, add your organization to the member directory, and connect you with upcoming working groups and meetings.'
+			}
+		]
+	},
+	contact: {
+		eyebrow: 'Questions?',
+		heading: 'Get in touch',
+		description:
+			"Not sure which membership type is right for your organization? Reach out and we'll help you figure it out.",
+		email: 'alex@bardicsystems.com'
+	},
+	submissionChecklist: {
+		heading: 'When submitting your agreement, please include:',
+		items: [
+			'Your completed and signed agreement PDF',
+			"Your organization's logo (PNG or SVG preferred)",
+			'A brief note on why your organization is joining DSU',
+			'A contact name and email for follow-up'
+		]
+	}
+} satisfies DsuJoinPage;
+
+export const fallbackDsuProjects = {
+	slug: 'dsu-projects',
+	activeSection: 'DSU',
+	subNav: fallbackDsuSubNav,
+	hero: {
+		chip: 'DATA STANDARDS UNITED',
+		title: 'DSU supported projects',
+		description:
+			'Active working groups and initiatives across the DSU network - coordinating the technical, governance, and alignment work that makes standards interoperability real.'
+	},
+	projects: [
+		{
+			tag: 'A4L Unity',
+			title: 'Personal Privacy Balance',
+			category: 'Working Group · Free & Open',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		},
+		{
+			tag: 'A4L Unity',
+			title: 'JSON-LD Transcript',
+			category: 'Development Workgroup · Free & Open',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		},
+		{
+			tag: 'A4L Unity',
+			title: 'Gender Identity',
+			category: 'Task Force · Free & Open',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		},
+		{
+			tag: 'CEDS',
+			title: 'CEDS Sustainability',
+			category: 'Stewardship · Active',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		},
+		{
+			tag: 'CEDS',
+			title: 'A4L Unity CEDS Project',
+			category: 'Alignment · Active',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		},
+		{
+			tag: 'CEDS',
+			title: 'CEDS-SEDM',
+			category: 'State Adoption · Active',
+			href: '#',
+			logoLabel: 'UNITY',
+			logoColor: '#002B70'
+		}
+	],
+	joinCta: {
+		heading: 'Ready to join the collaborative?',
+		description:
+			'DSU membership is open to all SDOs and stakeholders committed to open, interoperable education data standards.',
+		cta: {
+			label: 'View joining information',
+			href: '/dsu/joining',
+			variant: 'primary'
+		}
+	}
+} satisfies DsuProjectsPage;

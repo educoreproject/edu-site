@@ -276,6 +276,203 @@ export const memberOrganization = defineType({
 	}
 })
 
+export const membershipType = defineType({
+	name: 'membershipType',
+	title: 'Membership type',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'kind',
+			title: 'Kind',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'kindColor',
+			title: 'Kind color',
+			type: 'string'
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 4,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'bullets',
+			title: 'Bullets',
+			type: 'array',
+			of: [{type: 'string'}],
+			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'featured',
+			title: 'Featured',
+			type: 'boolean',
+			initialValue: false
+		})
+	],
+	preview: {
+		select: {
+			title: 'kind',
+			subtitle: 'title'
+		}
+	}
+})
+
+export const processStep = defineType({
+	name: 'processStep',
+	title: 'Process step',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'description'
+		}
+	}
+})
+
+export const checklist = defineType({
+	name: 'checklist',
+	title: 'Checklist',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'items',
+			title: 'Items',
+			type: 'array',
+			of: [{type: 'string'}],
+			validation: (rule) => rule.required().min(1)
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading'
+		}
+	}
+})
+
+export const contactPrompt = defineType({
+	name: 'contactPrompt',
+	title: 'Contact prompt',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'email',
+			title: 'Email',
+			type: 'email',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'email'
+		}
+	}
+})
+
+export const dsuProject = defineType({
+	name: 'dsuProject',
+	title: 'DSU project',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'tag',
+			title: 'Tag',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'category',
+			title: 'Category',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'href',
+			title: 'Href',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'logoLabel',
+			title: 'Logo label',
+			type: 'string'
+		}),
+		defineField({
+			name: 'logoColor',
+			title: 'Logo color',
+			type: 'string'
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'category'
+		}
+	}
+})
+
 export const joinCta = defineType({
 	name: 'joinCta',
 	title: 'Join CTA',

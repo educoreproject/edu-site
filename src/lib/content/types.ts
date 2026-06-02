@@ -49,6 +49,42 @@ export type MemberOrganization = {
 	logoColor?: string;
 };
 
+export type MembershipType = {
+	kind: string;
+	kindColor?: string;
+	title: string;
+	description: string;
+	bullets: string[];
+	cta: Cta;
+	featured?: boolean;
+};
+
+export type ProcessStep = {
+	title: string;
+	description: string;
+};
+
+export type Checklist = {
+	heading: string;
+	items: string[];
+};
+
+export type ContactPrompt = {
+	eyebrow: string;
+	heading: string;
+	description: string;
+	email: string;
+};
+
+export type DsuProject = {
+	tag: string;
+	title: string;
+	category: string;
+	href: string;
+	logoLabel?: string;
+	logoColor?: string;
+};
+
 export type FooterColumn = {
 	heading: string;
 	links: LinkItem[];
@@ -82,6 +118,34 @@ export type DsuMembersPage = {
 	signatoryMembers: MemberOrganization[];
 	affiliateMembers: MemberOrganization[];
 	affiliateIntro: string;
+	joinCta: {
+		heading: string;
+		description: string;
+		cta: Cta;
+	};
+};
+
+export type DsuJoinPage = {
+	slug: 'dsu-joining';
+	activeSection: 'DSU';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	membershipTypes: MembershipType[];
+	process: {
+		eyebrow: string;
+		heading: string;
+		steps: ProcessStep[];
+	};
+	contact: ContactPrompt;
+	submissionChecklist: Checklist;
+};
+
+export type DsuProjectsPage = {
+	slug: 'dsu-projects';
+	activeSection: 'DSU';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	projects: DsuProject[];
 	joinCta: {
 		heading: string;
 		description: string;
