@@ -1,8 +1,8 @@
 import { dev } from '$app/environment';
 import { hasSanityConfig, sanityClient } from '$lib/sanity/client';
-import { fallbackChrome, fallbackDsuHome } from './fallback';
-import { chromeQuery, dsuHomeQuery } from './queries';
-import type { DsuHomePage, SiteChrome } from './types';
+import { fallbackChrome, fallbackDsuHome, fallbackDsuMembers } from './fallback';
+import { chromeQuery, dsuHomeQuery, dsuMembersQuery } from './queries';
+import type { DsuHomePage, DsuMembersPage, SiteChrome } from './types';
 
 async function fetchFromSanity<T>(query: string, fallback: T, label: string): Promise<T> {
 	if (!hasSanityConfig || !sanityClient) {
@@ -40,4 +40,12 @@ export function getSiteChrome(): Promise<SiteChrome> {
 
 export function getDsuHomePage(): Promise<DsuHomePage> {
 	return fetchFromSanity<DsuHomePage>(dsuHomeQuery, fallbackDsuHome, 'DSU home page');
+}
+
+export function getDsuMembersPage(): Promise<DsuMembersPage> {
+	return fetchFromSanity<DsuMembersPage>(
+		dsuMembersQuery,
+		fallbackDsuMembers,
+		'DSU members page'
+	);
 }

@@ -1,5 +1,17 @@
 import {dsuHome} from './dsuHome'
-import {cta, footerColumn, heroContent, linkItem, numberedValue, quote, textBlock} from './objects'
+import {dsuMembers} from './dsuMembers'
+import {
+	cta,
+	footerColumn,
+	heroContent,
+	joinCta,
+	linkItem,
+	memberOrganization,
+	numberedValue,
+	quote,
+	textBlock,
+	videoTestimonial
+} from './objects'
 import {siteChrome} from './siteChrome'
 
 export const schemaTypes = [
@@ -9,7 +21,11 @@ export const schemaTypes = [
 	textBlock,
 	numberedValue,
 	quote,
+	videoTestimonial,
+	memberOrganization,
+	joinCta,
 	footerColumn,
 	siteChrome,
-	dsuHome
+	dsuHome,
+	dsuMembers
 ]

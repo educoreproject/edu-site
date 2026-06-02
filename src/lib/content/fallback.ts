@@ -1,4 +1,11 @@
-import type { DsuHomePage, SiteChrome } from './types';
+import type { DsuHomePage, DsuMembersPage, LinkItem, SiteChrome } from './types';
+
+const fallbackDsuSubNav = [
+	{ label: 'Home', href: '/' },
+	{ label: 'Members', href: '/dsu/members' },
+	{ label: 'Joining DSU', href: '/dsu/joining' },
+	{ label: 'Projects', href: '/dsu/projects' }
+] satisfies LinkItem[];
 
 export const fallbackChrome = {
 	primaryNav: [
@@ -70,12 +77,7 @@ export const fallbackChrome = {
 export const fallbackDsuHome = {
 	slug: 'dsu-home',
 	activeSection: 'DSU',
-	subNav: [
-		{ label: 'Home', href: '/' },
-		{ label: 'Members', href: '/dsu/members' },
-		{ label: 'Joining DSU', href: '/dsu/joining' },
-		{ label: 'Projects', href: '/dsu/projects' }
-	],
+	subNav: fallbackDsuSubNav,
 	hero: {
 		chip: 'DATA STANDARDS UNITED',
 		title: 'The coordinating body for global education data standards.',
@@ -150,3 +152,127 @@ export const fallbackDsuHome = {
 		}
 	]
 } satisfies DsuHomePage;
+
+export const fallbackDsuMembers = {
+	slug: 'dsu-members',
+	activeSection: 'DSU',
+	subNav: fallbackDsuSubNav,
+	hero: {
+		chip: 'DATA STANDARDS UNITED',
+		title: 'Our members.'
+	},
+	videos: [
+		{
+			name: 'Jason Tyszko',
+			title: 'Sr. Vice President',
+			organization: 'US Chamber of Commerce Foundation',
+			provider: 'Vimeo'
+		},
+		{
+			name: 'Nancy Copa',
+			title: 'CEDS Project Director',
+			organization: 'Education Data Unlimited',
+			provider: 'Vimeo'
+		},
+		{
+			name: 'Duane Brown',
+			title: 'Senior Business Analyst',
+			organization: 'AEM Education Data Standards',
+			provider: 'Vimeo'
+		}
+	],
+	signatoryMembers: [
+		{
+			name: 'Access 4 Learning (A4L)',
+			url: 'a4l.org',
+			logoLabel: 'A4L',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Dublin Core Metadata Initiative (DCMI)',
+			url: 'dublincore.org',
+			logoLabel: 'DCMI',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'HR Open Standards Consortium',
+			url: 'hropenstandards.org',
+			logoLabel: 'HR',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'IMS Global Learning Consortium',
+			url: 'imsglobal.org',
+			logoLabel: 'IMS',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Medbiquitous',
+			url: 'medbiq.org',
+			logoLabel: 'MED',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Postsecondary Electronic Standards Council (PESC)',
+			url: 'pesc.org',
+			logoLabel: 'PESC',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Credential Engine',
+			url: 'credentialengine.org',
+			logoLabel: 'CE',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Ed3',
+			url: 'ed3.org',
+			logoLabel: 'ED3',
+			logoColor: '#002B70'
+		},
+		{
+			name: 'Groningen Declaration Network',
+			url: 'groningendeclaration.org',
+			logoLabel: 'GDN',
+			logoColor: '#002B70'
+		}
+	],
+	affiliateMembers: [
+		{
+			name: 'Advanced Digital Learning (ADL) Initiative',
+			url: 'adlnet.gov',
+			logoLabel: 'ADL',
+			logoColor: '#5b3fb8'
+		},
+		{
+			name: 'Common Education Data Standards (CEDS)',
+			url: 'ceds.ed.gov',
+			logoLabel: 'CEDS',
+			logoColor: '#5b3fb8'
+		},
+		{
+			name: 'IEEE Learning Technology Standards Committee (LTSC)',
+			url: 'ieee.org',
+			logoLabel: 'IEEE',
+			logoColor: '#5b3fb8'
+		},
+		{
+			name: 'Loop Data',
+			url: 'loopdataservices.com',
+			logoLabel: 'LOOP',
+			logoColor: '#5b3fb8'
+		}
+	],
+	affiliateIntro:
+		"Affiliate members support DSU's mission in an advisory capacity - typically organizations that are not standards development bodies, or whose governance does not allow full signatory commitment.",
+	joinCta: {
+		heading: 'Ready to join the collaborative?',
+		description:
+			'DSU membership is open to all SDOs and stakeholders committed to open, interoperable education data standards.',
+		cta: {
+			label: 'View joining information',
+			href: '/dsu/joining',
+			variant: 'primary'
+		}
+	}
+} satisfies DsuMembersPage;

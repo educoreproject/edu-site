@@ -34,6 +34,21 @@ export type Quote = {
 	organization: string;
 };
 
+export type VideoTestimonial = {
+	name: string;
+	title: string;
+	organization: string;
+	provider?: string;
+	url?: string;
+};
+
+export type MemberOrganization = {
+	name: string;
+	url: string;
+	logoLabel?: string;
+	logoColor?: string;
+};
+
 export type FooterColumn = {
 	heading: string;
 	links: LinkItem[];
@@ -56,4 +71,20 @@ export type DsuHomePage = {
 		items: string[];
 	};
 	voices: Quote[];
+};
+
+export type DsuMembersPage = {
+	slug: 'dsu-members';
+	activeSection: 'DSU';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	videos: VideoTestimonial[];
+	signatoryMembers: MemberOrganization[];
+	affiliateMembers: MemberOrganization[];
+	affiliateIntro: string;
+	joinCta: {
+		heading: string;
+		description: string;
+		cta: Cta;
+	};
 };

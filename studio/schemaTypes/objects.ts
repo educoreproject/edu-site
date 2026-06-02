@@ -198,6 +198,111 @@ export const quote = defineType({
 	}
 })
 
+export const videoTestimonial = defineType({
+	name: 'videoTestimonial',
+	title: 'Video testimonial',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'name',
+			title: 'Name',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'organization',
+			title: 'Organization',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'provider',
+			title: 'Provider',
+			type: 'string'
+		}),
+		defineField({
+			name: 'url',
+			title: 'URL',
+			type: 'url'
+		})
+	],
+	preview: {
+		select: {
+			title: 'name',
+			subtitle: 'organization'
+		}
+	}
+})
+
+export const memberOrganization = defineType({
+	name: 'memberOrganization',
+	title: 'Member organization',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'name',
+			title: 'Name',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'url',
+			title: 'URL',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'logoLabel',
+			title: 'Logo label',
+			type: 'string'
+		}),
+		defineField({
+			name: 'logoColor',
+			title: 'Logo color',
+			type: 'string'
+		})
+	],
+	preview: {
+		select: {
+			title: 'name',
+			subtitle: 'url'
+		}
+	}
+})
+
+export const joinCta = defineType({
+	name: 'joinCta',
+	title: 'Join CTA',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta',
+			validation: (rule) => rule.required()
+		})
+	]
+})
+
 export const footerColumn = defineType({
 	name: 'footerColumn',
 	title: 'Footer column',
