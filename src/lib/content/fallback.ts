@@ -3,6 +3,10 @@ import type {
 	DsuJoinPage,
 	DsuMembersPage,
 	DsuProjectsPage,
+	EduBoardPage,
+	EduContactPage,
+	EduHistoryPage,
+	EduOverviewPage,
 	LinkItem,
 	SiteChrome
 } from './types';
@@ -12,6 +16,13 @@ const fallbackDsuSubNav = [
 	{ label: 'Members', href: '/dsu/members' },
 	{ label: 'Joining DSU', href: '/dsu/joining' },
 	{ label: 'Projects', href: '/dsu/projects' }
+] satisfies LinkItem[];
+
+const fallbackEduSubNav = [
+	{ label: 'Overview', href: '/edu' },
+	{ label: 'Board', href: '/edu/board' },
+	{ label: 'History', href: '/edu/history' },
+	{ label: 'Contact', href: '/edu/contact' }
 ] satisfies LinkItem[];
 
 export const fallbackChrome = {
@@ -448,3 +459,237 @@ export const fallbackDsuProjects = {
 		}
 	}
 } satisfies DsuProjectsPage;
+
+export const fallbackEduOverview = {
+	slug: 'edu-overview',
+	activeSection: 'About EDU',
+	subNav: fallbackEduSubNav,
+	hero: {
+		chip: 'EDUCATION DATA UNLIMITED',
+		title: 'One infrastructure. Endless possibility.',
+		description:
+			'Education Data Unlimited is the collaborative network and AI-powered platform that makes interoperable education, training, and workforce data a reality - advancing equity for every learner.'
+	},
+	mission: {
+		eyebrow: 'Overview',
+		heading: 'Mission Statement',
+		paragraphs: [
+			'At Education Data Unlimited (EDU), we are building the foundation for a world where data seamlessly connects learning to opportunity. By uniting agencies, organizations, and industries across the entire education and workforce continuum, we eliminate fragmentation, harmonize data standards, and enable lifelong learning to be accurately recognized and valued. Through collaboration and sustainability, we create a future-proof ecosystem where data flows without barriers - supporting students, workers, and employers in an ever-evolving global economy.'
+		]
+	},
+	organization: {
+		heading: 'Organization Description',
+		paragraphs: [
+			'Education Data Unlimited (EDU) is a non-profit catalyst for data collaboration across the entire education and workforce spectrum. We bridge horizontal sectors - from Pre-K to graduate education and workforce development - and vertical industries spanning government, military, healthcare, HR, and upskilling initiatives. Our goal is to unify standards, streamline interoperability, and reduce inefficiencies that hinder progress in learning, credentialing, and employment.',
+			'EDU serves as a strategic convening force, providing a stable, long-term home for initiatives and frameworks that drive data interoperability. We champion an approach that is market-responsive yet mission-driven, ensuring that evolving technologies - including AI, digital credentials, and lifelong learning records - are built on a strong, sustainable foundation.',
+			'By fostering open collaboration among key stakeholders and reducing redundant efforts, EDU advances a data standards ecosystem that is future-proof, cost-effective, and impactful. Our work empowers organizations to shift from proprietary silos to a shared digital infrastructure that supports innovation, accelerates workforce mobility, and unlocks new economic opportunities for individuals and communities worldwide.'
+		]
+	},
+	willDo: {
+		heading: 'Things EDU will do',
+		description: 'The scope of activity Education Data Unlimited takes on as a convening body.',
+		items: [
+			'Act as a convening and organizing system for data standards',
+			"Operate as a project home for initiatives and data standards work that don't have another home",
+			'Act as a unifying force to reduce the confusion and proliferation of data standards',
+			'Conduct research and educate the public on issues related to developing and encouraging the adoption of data interoperability standards, specifically designed to meet the needs of the education and workforce markets',
+			'Include testing and validating interoperability systems',
+			'Sponsor conferences, forums and collaborative events',
+			'Perform other activities designed to meet the needs of the education and workforce market as they emerge'
+		]
+	},
+	willNotDo: {
+		heading: 'Things EDU will not do',
+		description: 'Boundaries set by our 501(c)(3) charter.',
+		items: [
+			'No substantial part of the activities of which is carrying on propaganda, or otherwise attempting to influence legislation, except as is otherwise provided by section 501(h) of the Internal Revenue Code.',
+			'No part of any activities of the organization will include participating in or intervening in any political campaign on behalf of or in opposition to any candidate for public office.'
+		]
+	},
+	unification: {
+		heading: 'An Opportunity For Unification',
+		paragraphs: [
+			'Education Data Unlimited (EDU), in partnership with funders, leading organizations, and the signatories of Data Standards United (DSU), offers a groundbreaking opportunity to reduce the fragmentation of data standards that has long plagued education and workforce systems. The current landscape is filled with competing, overlapping, and disconnected standards, making it difficult for learners, educators, employers, and policymakers to navigate and exchange data effectively. By uniting key players - including 1EdTech, Access4Learning (A4L), Credential Engine, DublinCore, ED3, the Groningen Declaration Network, HR Open Standards (HROS), Medbiquitous, and the Postsecondary Education Standards Council (PESC) - EDU is spearheading an effort to consolidate and harmonize critical data frameworks.',
+			'Through its role as a fully open, neutral convening force, EDU fosters collaboration among standards organizations, industry leaders, and government entities, creating a unified approach to data governance. This model aligns the ontologies, vocabularies, and technical frameworks that underpin existing standards, allowing organizations to integrate their data more efficiently while preserving the specificity needed for different domains.',
+			'This partnership-driven strategy is the only scalable, sustainable way to ensure a future-proof data ecosystem. EDU and its DSU partners are building a shared digital infrastructure, much like the electrical grid or the internet, where stakeholders can plug in and operate efficiently without reinventing the wheel.'
+		]
+	},
+	incorporation: {
+		heading: 'Incorporation Information',
+		paragraphs: [
+			'This corporation is organized exclusively for charitable and educational purposes within the meaning of section 501(c)(3) in the District of Columbia. The organization will engage in activities permissible under section 501(c)(3).'
+		]
+	}
+} satisfies EduOverviewPage;
+
+export const fallbackEduBoard = {
+	slug: 'edu-board',
+	activeSection: 'About EDU',
+	subNav: fallbackEduSubNav,
+	hero: {
+		chip: 'EDU',
+		title: 'Board of Directors'
+	},
+	members: [
+		{
+			role: 'Chair',
+			name: 'Alex Jackl',
+			organization: 'CEO of Bardic Systems, Chair of DSU',
+			email: 'alex@bardicsystems.com'
+		},
+		{
+			role: 'Co-Chair',
+			name: 'Open'
+		},
+		{
+			role: 'Vice-Chair',
+			name: 'Francisco Valines',
+			organization: 'Director of Financial Aid, Florida International University',
+			email: 'valinesf@fiu.edu'
+		},
+		{
+			role: 'Treasurer',
+			name: 'George Gatsis',
+			organization: 'CTO 95 Percent Group',
+			email: 'ggatsis@95percentgroup.com'
+		},
+		{
+			role: 'Secretary',
+			name: 'Jeff Simons',
+			organization: 'CIO Washington School Information Processing Cooperative (WSIPC)',
+			email: 'jsimons@wsipc.org'
+		},
+		{
+			role: 'Member',
+			name: 'Ben Silberglitt',
+			organization: 'VP of Standards and Data, Level Data',
+			email: 'Ben.Silberglitt@leveldata.com'
+		},
+		{
+			role: 'Member',
+			name: 'Mark Cohen',
+			organization: 'CA Community Colleges Technology Center',
+			email: 'mcohen@ccctechcenter.org'
+		},
+		{
+			role: 'Member',
+			name: 'Jay Pennington',
+			organization: 'Bureau Chief, Iowa Dept of Education',
+			email: 'jay.pennington@iowa.gov'
+		},
+		{
+			role: 'Member',
+			name: 'John Kraman',
+			organization: 'CIO Mississippi Dept of Education',
+			email: 'jkraman@mdek12.org'
+		},
+		{
+			role: 'Member',
+			name: 'Kathy Warren',
+			organization: 'Director of Education Data, Maine Dept of Education',
+			email: 'katherine.warren@maine.gov'
+		},
+		{
+			role: 'Member',
+			name: 'Robert Mcgough',
+			organization: 'Chief Data Officer, Arkansas Department of Information Services',
+			email: 'robert.mcgough@arkansas.gov'
+		}
+	]
+} satisfies EduBoardPage;
+
+export const fallbackEduHistory = {
+	slug: 'edu-history',
+	activeSection: 'About EDU',
+	subNav: fallbackEduSubNav,
+	hero: {
+		chip: 'EDU',
+		title: 'Our history',
+		description:
+			'From an informal conversation among standards bodies to a chartered non-profit building shared data infrastructure for education and the workforce.'
+	},
+	entries: [
+		{
+			year: '2019',
+			title: 'The conversation begins',
+			text: 'Standards development organizations across education and workforce data recognize the growing cost of fragmentation and begin informal coordination on shared vocabularies.'
+		},
+		{
+			year: '2021',
+			title: 'Data Standards United forms',
+			text: 'A coalition of SDOs, agencies, and practitioners signs on to a common-ground charter - committing to free, open, consensus-based standards across the PK-20W continuum.'
+		},
+		{
+			year: '2023',
+			title: 'CEDS sustainability work',
+			text: 'DSU takes on stewardship initiatives for the Common Education Data Standards, convening the Tiger Team and launching the A4L Unity alignment project.'
+		},
+		{
+			year: '2025',
+			title: 'Education Data Unlimited launches',
+			text: 'EDU is incorporated as a 501(c)(3) to serve as the neutral, long-term home for data interoperability initiatives - and to build EDUcore, the AI-native standards platform.'
+		},
+		{
+			year: '2026',
+			title: 'EDUcore open beta',
+			text: 'The reference library, Graphinator, and Standards Partner tools enter open beta, giving practitioners AI-assisted access to harmonized education data standards.'
+		}
+	]
+} satisfies EduHistoryPage;
+
+export const fallbackEduContact = {
+	slug: 'edu-contact',
+	activeSection: 'Contact',
+	subNav: fallbackEduSubNav,
+	hero: {
+		chip: 'EDU',
+		title: 'Contact EDU',
+		description:
+			'Questions about membership, the standards work, or EDUcore? Reach out and the team will point you in the right direction.'
+	},
+	fields: [
+		{
+			label: 'Name',
+			placeholder: 'Your name',
+			name: 'name',
+			type: 'text',
+			required: true
+		},
+		{
+			label: 'Organization',
+			placeholder: 'Your organization',
+			name: 'organization',
+			type: 'text'
+		},
+		{
+			label: 'Email',
+			placeholder: 'you@example.org',
+			name: 'email',
+			type: 'email',
+			required: true,
+			full: true
+		},
+		{
+			label: 'How can we help?',
+			placeholder: 'Tell us a little about your question...',
+			name: 'message',
+			type: 'textarea',
+			required: true,
+			full: true
+		}
+	],
+	directCard: {
+		eyebrow: 'Direct',
+		heading: 'General inquiries',
+		email: 'alex@bardicsystems.com'
+	},
+	collaborativeCard: {
+		heading: 'Join the collaborative',
+		text: 'Interested in becoming a DSU signatory or affiliate member?',
+		cta: {
+			label: 'View joining information',
+			href: '/dsu/joining',
+			variant: 'teal'
+		}
+	}
+} satisfies EduContactPage;

@@ -10,16 +10,38 @@ const ctaProjection = `{
 	variant
 }`;
 
+const heroProjection = `{
+	chip,
+	title,
+	description,
+	"ctas": coalesce(ctas[]${ctaProjection}, [])
+}`;
+
+const eduOverviewSectionProjection = `{
+	eyebrow,
+	heading,
+	"paragraphs": coalesce(paragraphs, [])
+}`;
+
+const eduListGroupProjection = `{
+	heading,
+	description,
+	"items": coalesce(items, [])
+}`;
+
+const infoCardProjection = `{
+	eyebrow,
+	heading,
+	text,
+	email,
+	cta${ctaProjection}
+}`;
+
 export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"][0]{
 	"slug": slug.current,
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
-	hero{
-		chip,
-		title,
-		description,
-		"ctas": coalesce(ctas[]${ctaProjection}, [])
-	},
+	hero${heroProjection},
 	"pillars": coalesce(pillars[]{
 		label,
 		text
@@ -44,12 +66,7 @@ export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-
 	"slug": slug.current,
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
-	hero{
-		chip,
-		title,
-		description,
-		"ctas": coalesce(ctas[]${ctaProjection}, [])
-	},
+	hero${heroProjection},
 	"videos": coalesce(videos[]{
 		name,
 		title,
@@ -81,12 +98,7 @@ export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joinin
 	"slug": slug.current,
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
-	hero{
-		chip,
-		title,
-		description,
-		"ctas": coalesce(ctas[]${ctaProjection}, [])
-	},
+	hero${heroProjection},
 	"membershipTypes": coalesce(membershipTypes[]{
 		kind,
 		kindColor,
@@ -120,12 +132,7 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 	"slug": slug.current,
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
-	hero{
-		chip,
-		title,
-		description,
-		"ctas": coalesce(ctas[]${ctaProjection}, [])
-	},
+	hero${heroProjection},
 	"projects": coalesce(projects[]{
 		tag,
 		title,
@@ -139,6 +146,61 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 		description,
 		cta${ctaProjection}
 	}
+}`;
+
+export const eduOverviewQuery = `*[_type == "eduOverview" && slug.current == "edu-overview"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	mission${eduOverviewSectionProjection},
+	organization${eduOverviewSectionProjection},
+	willDo${eduListGroupProjection},
+	willNotDo${eduListGroupProjection},
+	unification${eduOverviewSectionProjection},
+	incorporation${eduOverviewSectionProjection}
+}`;
+
+export const eduBoardQuery = `*[_type == "eduBoard" && slug.current == "edu-board"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"members": coalesce(members[]{
+		role,
+		name,
+		organization,
+		email
+	}, [])
+}`;
+
+export const eduHistoryQuery = `*[_type == "eduHistory" && slug.current == "edu-history"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"entries": coalesce(entries[]{
+		year,
+		title,
+		text
+	}, [])
+}`;
+
+export const eduContactQuery = `*[_type == "eduContact" && slug.current == "edu-contact"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"fields": coalesce(fields[]{
+		label,
+		placeholder,
+		name,
+		type,
+		required,
+		full
+	}, []),
+	directCard${infoCardProjection},
+	collaborativeCard${infoCardProjection}
 }`;
 
 export const chromeQuery = `*[_type == "siteChrome"][0]{

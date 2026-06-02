@@ -5,16 +5,34 @@ import {
 	fallbackDsuHome,
 	fallbackDsuJoin,
 	fallbackDsuMembers,
-	fallbackDsuProjects
+	fallbackDsuProjects,
+	fallbackEduBoard,
+	fallbackEduContact,
+	fallbackEduHistory,
+	fallbackEduOverview
 } from './fallback';
 import {
 	chromeQuery,
 	dsuHomeQuery,
 	dsuJoinQuery,
 	dsuMembersQuery,
-	dsuProjectsQuery
+	dsuProjectsQuery,
+	eduBoardQuery,
+	eduContactQuery,
+	eduHistoryQuery,
+	eduOverviewQuery
 } from './queries';
-import type { DsuHomePage, DsuJoinPage, DsuMembersPage, DsuProjectsPage, SiteChrome } from './types';
+import type {
+	DsuHomePage,
+	DsuJoinPage,
+	DsuMembersPage,
+	DsuProjectsPage,
+	EduBoardPage,
+	EduContactPage,
+	EduHistoryPage,
+	EduOverviewPage,
+	SiteChrome
+} from './types';
 
 async function fetchFromSanity<T>(query: string, fallback: T, label: string): Promise<T> {
 	if (!hasSanityConfig || !sanityClient) {
@@ -71,5 +89,33 @@ export function getDsuProjectsPage(): Promise<DsuProjectsPage> {
 		dsuProjectsQuery,
 		fallbackDsuProjects,
 		'DSU projects page'
+	);
+}
+
+export function getEduOverviewPage(): Promise<EduOverviewPage> {
+	return fetchFromSanity<EduOverviewPage>(
+		eduOverviewQuery,
+		fallbackEduOverview,
+		'EDU overview page'
+	);
+}
+
+export function getEduBoardPage(): Promise<EduBoardPage> {
+	return fetchFromSanity<EduBoardPage>(eduBoardQuery, fallbackEduBoard, 'EDU board page');
+}
+
+export function getEduHistoryPage(): Promise<EduHistoryPage> {
+	return fetchFromSanity<EduHistoryPage>(
+		eduHistoryQuery,
+		fallbackEduHistory,
+		'EDU history page'
+	);
+}
+
+export function getEduContactPage(): Promise<EduContactPage> {
+	return fetchFromSanity<EduContactPage>(
+		eduContactQuery,
+		fallbackEduContact,
+		'EDU contact page'
 	);
 }

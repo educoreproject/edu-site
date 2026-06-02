@@ -85,6 +85,50 @@ export type DsuProject = {
 	logoColor?: string;
 };
 
+export type EduSection = 'About EDU';
+
+export type EduOverviewSection = {
+	eyebrow?: string;
+	heading: string;
+	paragraphs: string[];
+};
+
+export type EduListGroup = {
+	heading: string;
+	description: string;
+	items: string[];
+};
+
+export type BoardMember = {
+	role: string;
+	name: string;
+	organization?: string;
+	email?: string;
+};
+
+export type TimelineEntry = {
+	year: string;
+	title: string;
+	text: string;
+};
+
+export type ContactField = {
+	label: string;
+	placeholder: string;
+	name: string;
+	type?: 'text' | 'email' | 'textarea';
+	required?: boolean;
+	full?: boolean;
+};
+
+export type InfoCard = {
+	eyebrow?: string;
+	heading: string;
+	text?: string;
+	email?: string;
+	cta?: Cta;
+};
+
 export type FooterColumn = {
 	heading: string;
 	links: LinkItem[];
@@ -151,4 +195,43 @@ export type DsuProjectsPage = {
 		description: string;
 		cta: Cta;
 	};
+};
+
+export type EduOverviewPage = {
+	slug: 'edu-overview';
+	activeSection: EduSection;
+	subNav: LinkItem[];
+	hero: HeroContent;
+	mission: EduOverviewSection;
+	organization: EduOverviewSection;
+	willDo: EduListGroup;
+	willNotDo: EduListGroup;
+	unification: EduOverviewSection;
+	incorporation: EduOverviewSection;
+};
+
+export type EduBoardPage = {
+	slug: 'edu-board';
+	activeSection: EduSection;
+	subNav: LinkItem[];
+	hero: HeroContent;
+	members: BoardMember[];
+};
+
+export type EduHistoryPage = {
+	slug: 'edu-history';
+	activeSection: EduSection;
+	subNav: LinkItem[];
+	hero: HeroContent;
+	entries: TimelineEntry[];
+};
+
+export type EduContactPage = {
+	slug: 'edu-contact';
+	activeSection: 'Contact';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	fields: ContactField[];
+	directCard: InfoCard;
+	collaborativeCard: InfoCard;
 };

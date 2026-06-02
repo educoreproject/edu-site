@@ -473,6 +473,240 @@ export const dsuProject = defineType({
 	}
 })
 
+export const eduOverviewSection = defineType({
+	name: 'eduOverviewSection',
+	title: 'EDU overview section',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string'
+		}),
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'paragraphs',
+			title: 'Paragraphs',
+			type: 'array',
+			of: [{type: 'text'}],
+			validation: (rule) => rule.required().min(1)
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'eyebrow'
+		}
+	}
+})
+
+export const eduListGroup = defineType({
+	name: 'eduListGroup',
+	title: 'EDU list group',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'items',
+			title: 'Items',
+			type: 'array',
+			of: [{type: 'string'}],
+			validation: (rule) => rule.required().min(1)
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'description'
+		}
+	}
+})
+
+export const boardMember = defineType({
+	name: 'boardMember',
+	title: 'Board member',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'role',
+			title: 'Role',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'name',
+			title: 'Name',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'organization',
+			title: 'Organization',
+			type: 'string'
+		}),
+		defineField({
+			name: 'email',
+			title: 'Email',
+			type: 'email'
+		})
+	],
+	preview: {
+		select: {
+			title: 'name',
+			subtitle: 'role'
+		}
+	}
+})
+
+export const timelineEntry = defineType({
+	name: 'timelineEntry',
+	title: 'Timeline entry',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'year',
+			title: 'Year',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'text',
+			title: 'Text',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'year'
+		}
+	}
+})
+
+export const contactField = defineType({
+	name: 'contactField',
+	title: 'Contact field',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'label',
+			title: 'Label',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'placeholder',
+			title: 'Placeholder',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'name',
+			title: 'Name',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'type',
+			title: 'Type',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'Text', value: 'text'},
+					{title: 'Email', value: 'email'},
+					{title: 'Textarea', value: 'textarea'}
+				]
+			},
+			initialValue: 'text',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'required',
+			title: 'Required',
+			type: 'boolean',
+			initialValue: false
+		}),
+		defineField({
+			name: 'full',
+			title: 'Full width',
+			type: 'boolean',
+			initialValue: false
+		})
+	],
+	preview: {
+		select: {
+			title: 'label',
+			subtitle: 'name'
+		}
+	}
+})
+
+export const infoCard = defineType({
+	name: 'infoCard',
+	title: 'Info card',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string'
+		}),
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'text',
+			title: 'Text',
+			type: 'text',
+			rows: 3
+		}),
+		defineField({
+			name: 'email',
+			title: 'Email',
+			type: 'email'
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta'
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'eyebrow'
+		}
+	}
+})
+
 export const joinCta = defineType({
 	name: 'joinCta',
 	title: 'Join CTA',

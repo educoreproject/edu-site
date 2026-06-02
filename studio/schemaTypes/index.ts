@@ -2,13 +2,22 @@ import {dsuHome} from './dsuHome'
 import {dsuJoin} from './dsuJoin'
 import {dsuMembers} from './dsuMembers'
 import {dsuProjects} from './dsuProjects'
+import {eduBoard} from './eduBoard'
+import {eduContact} from './eduContact'
+import {eduHistory} from './eduHistory'
+import {eduOverview} from './eduOverview'
 import {
+	boardMember,
 	checklist,
 	contactPrompt,
+	contactField,
 	cta,
 	dsuProject,
+	eduListGroup,
+	eduOverviewSection,
 	footerColumn,
 	heroContent,
+	infoCard,
 	joinCta,
 	linkItem,
 	memberOrganization,
@@ -17,6 +26,7 @@ import {
 	processStep,
 	quote,
 	textBlock,
+	timelineEntry,
 	videoTestimonial
 } from './objects'
 import {siteChrome} from './siteChrome'
@@ -35,11 +45,21 @@ export const schemaTypes = [
 	checklist,
 	contactPrompt,
 	dsuProject,
+	eduOverviewSection,
+	eduListGroup,
+	boardMember,
+	timelineEntry,
+	contactField,
+	infoCard,
 	joinCta,
 	footerColumn,
 	siteChrome,
 	dsuHome,
 	dsuMembers,
 	dsuJoin,
-	dsuProjects
+	dsuProjects,
+	eduOverview,
+	eduBoard,
+	eduHistory,
+	eduContact
 ]
