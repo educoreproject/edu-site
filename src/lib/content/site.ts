@@ -9,7 +9,10 @@ import {
 	fallbackEduBoard,
 	fallbackEduContact,
 	fallbackEduHistory,
-	fallbackEduOverview
+	fallbackEduOverview,
+	fallbackResourcesFaq,
+	fallbackResourcesGlossary,
+	fallbackResourcesHub
 } from './fallback';
 import {
 	chromeQuery,
@@ -20,7 +23,10 @@ import {
 	eduBoardQuery,
 	eduContactQuery,
 	eduHistoryQuery,
-	eduOverviewQuery
+	eduOverviewQuery,
+	resourcesFaqQuery,
+	resourcesGlossaryQuery,
+	resourcesHubQuery
 } from './queries';
 import type {
 	DsuHomePage,
@@ -31,6 +37,9 @@ import type {
 	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
+	ResourcesFaqPage,
+	ResourcesGlossaryPage,
+	ResourcesHubPage,
 	SiteChrome
 } from './types';
 
@@ -89,6 +98,30 @@ export function getDsuProjectsPage(): Promise<DsuProjectsPage> {
 		dsuProjectsQuery,
 		fallbackDsuProjects,
 		'DSU projects page'
+	);
+}
+
+export function getResourcesHubPage(): Promise<ResourcesHubPage> {
+	return fetchFromSanity<ResourcesHubPage>(
+		resourcesHubQuery,
+		fallbackResourcesHub,
+		'Resources hub page'
+	);
+}
+
+export function getResourcesGlossaryPage(): Promise<ResourcesGlossaryPage> {
+	return fetchFromSanity<ResourcesGlossaryPage>(
+		resourcesGlossaryQuery,
+		fallbackResourcesGlossary,
+		'Resources glossary page'
+	);
+}
+
+export function getResourcesFaqPage(): Promise<ResourcesFaqPage> {
+	return fetchFromSanity<ResourcesFaqPage>(
+		resourcesFaqQuery,
+		fallbackResourcesFaq,
+		'Resources FAQ page'
 	);
 }
 

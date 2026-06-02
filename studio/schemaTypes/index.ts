@@ -15,20 +15,27 @@ import {
 	dsuProject,
 	eduListGroup,
 	eduOverviewSection,
+	faqItem,
 	footerColumn,
+	glossaryTerm,
 	heroContent,
 	infoCard,
 	joinCta,
 	linkItem,
 	memberOrganization,
 	membershipType,
+	newsletterBand,
 	numberedValue,
 	processStep,
 	quote,
+	resourceCard,
 	textBlock,
 	timelineEntry,
 	videoTestimonial
 } from './objects'
+import {resourcesFaq} from './resourcesFaq'
+import {resourcesGlossary} from './resourcesGlossary'
+import {resourcesHub} from './resourcesHub'
 import {siteChrome} from './siteChrome'
 
 export const schemaTypes = [
@@ -45,6 +52,10 @@ export const schemaTypes = [
 	checklist,
 	contactPrompt,
 	dsuProject,
+	resourceCard,
+	newsletterBand,
+	glossaryTerm,
+	faqItem,
 	eduOverviewSection,
 	eduListGroup,
 	boardMember,
@@ -58,6 +69,9 @@ export const schemaTypes = [
 	dsuMembers,
 	dsuJoin,
 	dsuProjects,
+	resourcesHub,
+	resourcesGlossary,
+	resourcesFaq,
 	eduOverview,
 	eduBoard,
 	eduHistory,

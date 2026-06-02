@@ -85,6 +85,33 @@ export type DsuProject = {
 	logoColor?: string;
 };
 
+export type ResourceCard = {
+	meta: string;
+	title: string;
+	description: string;
+	cta: Cta;
+};
+
+export type NewsletterBandContent = {
+	heading: string;
+	description: string;
+	emailPlaceholder: string;
+	ctaLabel: string;
+	background?: 'navy' | 'teal';
+};
+
+export type GlossaryTerm = {
+	term: string;
+	definition: string;
+	category: string;
+};
+
+export type FaqItem = {
+	question: string;
+	answer: string;
+	category?: string;
+};
+
 export type EduSection = 'About EDU';
 
 export type EduOverviewSection = {
@@ -195,6 +222,37 @@ export type DsuProjectsPage = {
 		description: string;
 		cta: Cta;
 	};
+};
+
+export type ResourcesHubPage = {
+	slug: 'resources-library';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	eyebrow: string;
+	heading: string;
+	cards: ResourceCard[];
+	newsletter: NewsletterBandContent;
+};
+
+export type ResourcesGlossaryPage = {
+	slug: 'resources-glossary';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	categories: string[];
+	terms: GlossaryTerm[];
+	newsletter: NewsletterBandContent;
+};
+
+export type ResourcesFaqPage = {
+	slug: 'resources-faq';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	categories: string[];
+	items: FaqItem[];
+	newsletter: NewsletterBandContent;
 };
 
 export type EduOverviewPage = {

@@ -473,6 +473,160 @@ export const dsuProject = defineType({
 	}
 })
 
+export const resourceCard = defineType({
+	name: 'resourceCard',
+	title: 'Resource card',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'meta',
+			title: 'Meta',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'meta'
+		}
+	}
+})
+
+export const newsletterBand = defineType({
+	name: 'newsletterBand',
+	title: 'Newsletter band',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'emailPlaceholder',
+			title: 'Email placeholder',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'ctaLabel',
+			title: 'CTA label',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'background',
+			title: 'Background',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'Navy', value: 'navy'},
+					{title: 'Teal', value: 'teal'}
+				]
+			}
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'ctaLabel'
+		}
+	}
+})
+
+export const glossaryTerm = defineType({
+	name: 'glossaryTerm',
+	title: 'Glossary term',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'term',
+			title: 'Term',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'definition',
+			title: 'Definition',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'category',
+			title: 'Category',
+			type: 'string',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'term',
+			subtitle: 'category'
+		}
+	}
+})
+
+export const faqItem = defineType({
+	name: 'faqItem',
+	title: 'FAQ item',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'question',
+			title: 'Question',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'answer',
+			title: 'Answer',
+			type: 'text',
+			rows: 4,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'category',
+			title: 'Category',
+			type: 'string'
+		})
+	],
+	preview: {
+		select: {
+			title: 'question',
+			subtitle: 'category'
+		}
+	}
+})
+
 export const eduOverviewSection = defineType({
 	name: 'eduOverviewSection',
 	title: 'EDU overview section',

@@ -37,6 +37,21 @@ const infoCardProjection = `{
 	cta${ctaProjection}
 }`;
 
+const resourceCardProjection = `{
+	meta,
+	title,
+	description,
+	cta${ctaProjection}
+}`;
+
+const newsletterBandProjection = `{
+	heading,
+	description,
+	emailPlaceholder,
+	ctaLabel,
+	background
+}`;
+
 export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"][0]{
 	"slug": slug.current,
 	activeSection,
@@ -146,6 +161,45 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 		description,
 		cta${ctaProjection}
 	}
+}`;
+
+export const resourcesHubQuery = `*[_type == "resourcesHub" && slug.current == "resources-library"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	eyebrow,
+	heading,
+	"cards": coalesce(cards[]${resourceCardProjection}, []),
+	newsletter${newsletterBandProjection}
+}`;
+
+export const resourcesGlossaryQuery = `*[_type == "resourcesGlossary" && slug.current == "resources-glossary"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"terms": coalesce(terms[]{
+		term,
+		definition,
+		category
+	}, []),
+	newsletter${newsletterBandProjection}
+}`;
+
+export const resourcesFaqQuery = `*[_type == "resourcesFaq" && slug.current == "resources-faq"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"items": coalesce(items[]{
+		question,
+		answer,
+		category
+	}, []),
+	newsletter${newsletterBandProjection}
 }`;
 
 export const eduOverviewQuery = `*[_type == "eduOverview" && slug.current == "edu-overview"][0]{

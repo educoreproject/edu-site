@@ -8,6 +8,9 @@ import type {
 	EduHistoryPage,
 	EduOverviewPage,
 	LinkItem,
+	ResourcesFaqPage,
+	ResourcesGlossaryPage,
+	ResourcesHubPage,
 	SiteChrome
 } from './types';
 
@@ -23,6 +26,15 @@ const fallbackEduSubNav = [
 	{ label: 'Board', href: '/edu/board' },
 	{ label: 'History', href: '/edu/history' },
 	{ label: 'Contact', href: '/edu/contact' }
+] satisfies LinkItem[];
+
+const fallbackResourcesSubNav = [
+	{ label: 'Library', href: '/resources' },
+	{ label: 'Newsletter', href: '/resources#newsletter' },
+	{ label: 'Glossary', href: '/resources/glossary' },
+	{ label: 'FAQ', href: '/resources/faq' },
+	{ label: 'Standards matrix', href: '/resources/standards-matrix', disabled: true },
+	{ label: 'Press & charter', href: '/resources/press-charter', disabled: true }
 ] satisfies LinkItem[];
 
 export const fallbackChrome = {
@@ -459,6 +471,235 @@ export const fallbackDsuProjects = {
 		}
 	}
 } satisfies DsuProjectsPage;
+
+const fallbackNewsletterBand = {
+	heading: 'Stay connected to the standards community',
+	description:
+		'Monthly updates on DSU activities, CEDS developments, EDUcore progress, and upcoming events.',
+	emailPlaceholder: 'Email address',
+	ctaLabel: 'Sign up'
+};
+
+export const fallbackResourcesHub = {
+	slug: 'resources-library',
+	activeSection: 'Resources',
+	subNav: fallbackResourcesSubNav,
+	hero: {
+		chip: 'RESOURCES',
+		title: 'Resource library',
+		description:
+			'White papers, newsletters, glossaries, and governance documents from Education Data Unlimited and the DSU community.'
+	},
+	eyebrow: 'Browse by type',
+	heading: 'All resources',
+	cards: [
+		{
+			meta: '12 documents',
+			title: 'White Papers & Reports',
+			description:
+				'Peer-reviewed research, policy briefs, and technical reports from the EDU and DSU communities.',
+			cta: {
+				label: 'Browse white papers',
+				href: '#',
+				variant: 'outline'
+			}
+		},
+		{
+			meta: 'Current + archive',
+			title: 'Newsletter',
+			description:
+				'Monthly updates on DSU activities, CEDS developments, EDUcore progress, and upcoming events.',
+			cta: {
+				label: 'View newsletter',
+				href: '#newsletter',
+				variant: 'outline'
+			}
+		},
+		{
+			meta: '200+ terms',
+			title: 'Glossary',
+			description:
+				'Authoritative definitions for education data standards terminology - drawn from CEDS and DSU member organizations.',
+			cta: {
+				label: 'Browse glossary',
+				href: '/resources/glossary',
+				variant: 'outline'
+			}
+		},
+		{
+			meta: '30+ questions',
+			title: 'FAQ',
+			description:
+				'Answers to the most common questions about EDU, DSU, CEDS, and the EDUcore platform.',
+			cta: {
+				label: 'View FAQ',
+				href: '/resources/faq',
+				variant: 'outline'
+			}
+		},
+		{
+			meta: 'External resource',
+			title: 'Standards Matrix',
+			description:
+				'The EdMatrix - a comprehensive crosswalk of education data standards by domain, sector, and organization.',
+			cta: {
+				label: 'Open EdMatrix',
+				href: '#',
+				variant: 'outline'
+			}
+		},
+		{
+			meta: 'Charter + releases',
+			title: 'Press & Charter',
+			description:
+				'Press releases, the DSU charter document, and organizational governance materials.',
+			cta: {
+				label: 'View documents',
+				href: '#',
+				variant: 'outline'
+			}
+		}
+	],
+	newsletter: {
+		...fallbackNewsletterBand,
+		background: 'navy'
+	}
+} satisfies ResourcesHubPage;
+
+export const fallbackResourcesGlossary = {
+	slug: 'resources-glossary',
+	activeSection: 'Resources',
+	subNav: fallbackResourcesSubNav,
+	hero: {
+		chip: 'RESOURCES',
+		title: 'Glossary'
+	},
+	categories: ['All terms', 'Education', 'Skills/Talent/Workforce', 'Technology'],
+	terms: [
+		{
+			term: '504 Plan',
+			definition:
+				'A plan developed to ensure a student with a disability receives accommodations under Section 504 of the Rehabilitation Act.',
+			category: 'Education'
+		},
+		{
+			term: 'AACRAO',
+			definition:
+				'American Association of Collegiate Registrars and Admissions Officers - a DSU signatory member organization.',
+			category: 'Education'
+		},
+		{
+			term: 'A4L',
+			definition:
+				'Access 4 Learning Community - a non-profit that manages the SIF data standard for K-12 interoperability.',
+			category: 'Technology'
+		},
+		{
+			term: 'CEDS',
+			definition:
+				'Common Education Data Standards - a national, voluntary effort to standardize key education data elements.',
+			category: 'Education'
+		},
+		{
+			term: 'Credential Engine',
+			definition:
+				'An organization maintaining the Credential Transparency Description Language (CTDL) registry.',
+			category: 'Skills/Talent/Workforce'
+		},
+		{
+			term: 'Interoperability',
+			definition:
+				'The ability of different information systems to exchange data and use the information that has been exchanged.',
+			category: 'Technology'
+		},
+		{
+			term: 'LER',
+			definition:
+				"Learning and Employment Record - a digital record of an individual's learning and work history across providers.",
+			category: 'Skills/Talent/Workforce'
+		},
+		{
+			term: 'Ontology',
+			definition:
+				'A formal specification of the concepts and relationships within a domain - the backbone of harmonized standards.',
+			category: 'Technology'
+		},
+		{
+			term: 'PESC',
+			definition:
+				'Postsecondary Electronic Standards Council - a DSU signatory maintaining standards for postsecondary data exchange.',
+			category: 'Education'
+		},
+		{
+			term: 'SEDM',
+			definition:
+				'Special Education Data Management - a cross-standard model for special education data across PK20W+ environments.',
+			category: 'Education'
+		},
+		{
+			term: 'SIF',
+			definition:
+				"Schools Interoperability Framework - A4L's data model and integration specification for education software.",
+			category: 'Technology'
+		}
+	],
+	newsletter: {
+		...fallbackNewsletterBand,
+		background: 'teal'
+	}
+} satisfies ResourcesGlossaryPage;
+
+export const fallbackResourcesFaq = {
+	slug: 'resources-faq',
+	activeSection: 'Resources',
+	subNav: fallbackResourcesSubNav,
+	hero: {
+		chip: 'RESOURCES',
+		title: 'Frequently asked questions'
+	},
+	categories: ['About DSU', 'About EDU', 'About EDUcore'],
+	items: [
+		{
+			question: 'Ontological Modeling (including Person, Organizations and Events)',
+			answer:
+				'A project to support the work to create core data objects needed by most education applications and services in almost all horizontals and verticals. This work is in partnership with the CEDS and CTDL work and includes cross-standard cooperation with all the DSU standards.'
+		},
+		{
+			question: 'Special Education Data Management (SEDM) and IDEA Compliance',
+			answer:
+				'A cross-standard (CEDS, A4L, and ed-fi) effort to create a universal special education data model that can be used in any PK20W+ environment.'
+		},
+		{
+			question: 'P20W+ Learning and Employment Record (LER) Management',
+			answer:
+				'A project to harmonize all the efforts to create and define the LER - including the work being done in IEEE, HROS, T3, ADL, CEDS, 1EdTech, PESC, W3C, the INFUSE project, and many vendors in the wallet, credential, and employment space.'
+		},
+		{
+			question: 'Standards Library',
+			answer:
+				'A web site and reference application that contains linked data to all the standards people need for the ecosystem regardless of who publishes them. It provides smart navigation, best practices, and links to useful reference implementations all under one roof.'
+		},
+		{
+			question: 'Working with the Open Source Community (OSC) to create a sustainable home for CEDS',
+			answer:
+				'Setting up all the resources needed to sustain CEDS - available and either primarily housed or duplicated in an open location in case the ceds.ed.gov site goes down.'
+		},
+		{
+			question: 'Structuring for Data Analytics and AI',
+			answer:
+				'Standardizing the way data needs to be stored, presented, and accessed so it is optimized to support the use of AI and analytics, and standardizing the outputs of AI so it can be used to positively impact learning.'
+		},
+		{
+			question: 'Data Governance Modernization',
+			answer:
+				'Addressing privacy, access, ownership, longevity, and accuracy of data so learners control and own their data, and systems have the minimum they need to support self-sovereignty, learner mobility, and data portability.'
+		}
+	],
+	newsletter: {
+		...fallbackNewsletterBand,
+		background: 'teal'
+	}
+} satisfies ResourcesFaqPage;
 
 export const fallbackEduOverview = {
 	slug: 'edu-overview',
