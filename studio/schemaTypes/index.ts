@@ -6,6 +6,8 @@ import {eduBoard} from './eduBoard'
 import {eduContact} from './eduContact'
 import {eduHistory} from './eduHistory'
 import {eduOverview} from './eduOverview'
+import {eventsPast} from './eventsPast'
+import {eventsUpcoming} from './eventsUpcoming'
 import {
 	boardMember,
 	checklist,
@@ -15,6 +17,8 @@ import {
 	dsuProject,
 	eduListGroup,
 	eduOverviewSection,
+	eventArchiveGroup,
+	eventItem,
 	faqItem,
 	footerColumn,
 	glossaryTerm,
@@ -54,6 +58,8 @@ export const schemaTypes = [
 	dsuProject,
 	resourceCard,
 	newsletterBand,
+	eventItem,
+	eventArchiveGroup,
 	glossaryTerm,
 	faqItem,
 	eduOverviewSection,
@@ -72,6 +78,8 @@ export const schemaTypes = [
 	resourcesHub,
 	resourcesGlossary,
 	resourcesFaq,
+	eventsUpcoming,
+	eventsPast,
 	eduOverview,
 	eduBoard,
 	eduHistory,

@@ -49,7 +49,17 @@ const newsletterBandProjection = `{
 	description,
 	emailPlaceholder,
 	ctaLabel,
+	note,
 	background
+}`;
+
+const eventItemProjection = `{
+	poster,
+	tag,
+	date,
+	title,
+	description,
+	href
 }`;
 
 export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"][0]{
@@ -198,6 +208,28 @@ export const resourcesFaqQuery = `*[_type == "resourcesFaq" && slug.current == "
 		question,
 		answer,
 		category
+	}, []),
+	newsletter${newsletterBandProjection}
+}`;
+
+export const eventsUpcomingQuery = `*[_type == "eventsUpcoming" && slug.current == "events-upcoming"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"events": coalesce(events[]${eventItemProjection}, []),
+	counterLabel,
+	newsletter${newsletterBandProjection}
+}`;
+
+export const eventsPastQuery = `*[_type == "eventsPast" && slug.current == "events-past"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"archive": coalesce(archive[]{
+		year,
+		"events": coalesce(events[]${eventItemProjection}, [])
 	}, []),
 	newsletter${newsletterBandProjection}
 }`;

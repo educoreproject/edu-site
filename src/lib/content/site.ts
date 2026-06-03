@@ -10,6 +10,8 @@ import {
 	fallbackEduContact,
 	fallbackEduHistory,
 	fallbackEduOverview,
+	fallbackEventsPast,
+	fallbackEventsUpcoming,
 	fallbackResourcesFaq,
 	fallbackResourcesGlossary,
 	fallbackResourcesHub
@@ -24,6 +26,8 @@ import {
 	eduContactQuery,
 	eduHistoryQuery,
 	eduOverviewQuery,
+	eventsPastQuery,
+	eventsUpcomingQuery,
 	resourcesFaqQuery,
 	resourcesGlossaryQuery,
 	resourcesHubQuery
@@ -37,6 +41,8 @@ import type {
 	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
+	EventsPastPage,
+	EventsUpcomingPage,
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
 	ResourcesHubPage,
@@ -122,6 +128,22 @@ export function getResourcesFaqPage(): Promise<ResourcesFaqPage> {
 		resourcesFaqQuery,
 		fallbackResourcesFaq,
 		'Resources FAQ page'
+	);
+}
+
+export function getEventsUpcomingPage(): Promise<EventsUpcomingPage> {
+	return fetchFromSanity<EventsUpcomingPage>(
+		eventsUpcomingQuery,
+		fallbackEventsUpcoming,
+		'Events upcoming page'
+	);
+}
+
+export function getEventsPastPage(): Promise<EventsPastPage> {
+	return fetchFromSanity<EventsPastPage>(
+		eventsPastQuery,
+		fallbackEventsPast,
+		'Events past page'
 	);
 }
 

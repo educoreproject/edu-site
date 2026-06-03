@@ -97,7 +97,22 @@ export type NewsletterBandContent = {
 	description: string;
 	emailPlaceholder: string;
 	ctaLabel: string;
+	note: string;
 	background?: 'navy' | 'teal';
+};
+
+export type EventItem = {
+	poster: string;
+	tag: string;
+	date: string;
+	title: string;
+	description: string;
+	href: string;
+};
+
+export type EventArchiveGroup = {
+	year: string;
+	events: EventItem[];
 };
 
 export type GlossaryTerm = {
@@ -252,6 +267,25 @@ export type ResourcesFaqPage = {
 	hero: HeroContent;
 	categories: string[];
 	items: FaqItem[];
+	newsletter: NewsletterBandContent;
+};
+
+export type EventsUpcomingPage = {
+	slug: 'events-upcoming';
+	activeSection: 'Events';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	events: EventItem[];
+	counterLabel: string;
+	newsletter: NewsletterBandContent;
+};
+
+export type EventsPastPage = {
+	slug: 'events-past';
+	activeSection: 'Events';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	archive: EventArchiveGroup[];
 	newsletter: NewsletterBandContent;
 };
 

@@ -7,6 +7,8 @@ import type {
 	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
+	EventsPastPage,
+	EventsUpcomingPage,
 	LinkItem,
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
@@ -35,6 +37,11 @@ const fallbackResourcesSubNav = [
 	{ label: 'FAQ', href: '/resources/faq' },
 	{ label: 'Standards matrix', href: '/resources/standards-matrix', disabled: true },
 	{ label: 'Press & charter', href: '/resources/press-charter', disabled: true }
+] satisfies LinkItem[];
+
+const fallbackEventsSubNav = [
+	{ label: 'Upcoming', href: '/events' },
+	{ label: 'Past events', href: '/events/past' }
 ] satisfies LinkItem[];
 
 export const fallbackChrome = {
@@ -477,7 +484,48 @@ const fallbackNewsletterBand = {
 	description:
 		'Monthly updates on DSU activities, CEDS developments, EDUcore progress, and upcoming events.',
 	emailPlaceholder: 'Email address',
-	ctaLabel: 'Sign up'
+	ctaLabel: 'Sign up',
+	note: 'We will only send standards community updates.'
+};
+
+const fallbackUpcomingEvents = [
+	{
+		poster: '2026 1EdTech Learning Impact Conference',
+		tag: 'DSU',
+		date: 'June 1st - 3rd, 2026',
+		title: '2026 1EdTech Learning Impact Conference',
+		description:
+			"Join us at 1EdTech's premier event, the Learning Impact Conference, where global education and technology leaders unite to drive innovation, champion interoperability, and shape the future of teaching and learning.",
+		href: '#'
+	},
+	{
+		poster: 'DSU Annual Convening 2026',
+		tag: 'DSU',
+		date: 'July 15 - 17, 2026',
+		title: 'DSU Annual Convening 2026',
+		description:
+			'The yearly gathering of DSU signatory and affiliate members - working sessions on CEDS sustainability, the A4L Unity project, and the EDUcore roadmap.',
+		href: '#'
+	},
+	{
+		poster: 'EDUcore Open Beta Launch',
+		tag: 'EDUcore',
+		date: 'September 2026',
+		title: 'EDUcore Open Beta Launch',
+		description:
+			'The reference library, Graphinator, and Standards Partner tools open to the wider standards community - with live demos and an onboarding workshop.',
+		href: '#'
+	}
+];
+
+const fallbackPastConferenceEvent = {
+	poster: '2026 1EdTech Learning Impact Conference',
+	tag: 'DSU',
+	date: 'June 1st - 3rd, 2026',
+	title: '2026 1EdTech Learning Impact Conference',
+	description:
+		"Join us at 1EdTech's premier event, the Learning Impact Conference, where global education and technology leaders unite to drive innovation, champion interoperability, and shape the future of teaching and learning.",
+	href: '#'
 };
 
 export const fallbackResourcesHub = {
@@ -700,6 +748,65 @@ export const fallbackResourcesFaq = {
 		background: 'teal'
 	}
 } satisfies ResourcesFaqPage;
+
+export const fallbackEventsUpcoming = {
+	slug: 'events-upcoming',
+	activeSection: 'Events',
+	subNav: fallbackEventsSubNav,
+	hero: {
+		chip: 'EVENTS',
+		title: 'Upcoming Events',
+		description:
+			'Convenings, working group sessions, and platform launches across the EDU, DSU, CEDS, and EDUcore communities.'
+	},
+	events: fallbackUpcomingEvents,
+	counterLabel: 'Upcoming events',
+	newsletter: {
+		heading: 'Get event updates in your inbox',
+		description:
+			'Receive invitations, agenda releases, and community updates for EDU, DSU, CEDS, and EDUcore events.',
+		emailPlaceholder: 'Email address',
+		ctaLabel: 'Subscribe',
+		note: 'No spam. Just timely event and community updates.',
+		background: 'navy'
+	}
+} satisfies EventsUpcomingPage;
+
+export const fallbackEventsPast = {
+	slug: 'events-past',
+	activeSection: 'Events',
+	subNav: fallbackEventsSubNav,
+	hero: {
+		chip: 'EVENTS',
+		title: 'Event Archive',
+		description:
+			'Past convenings, working sessions, and launches from the EDU, DSU, CEDS, and EDUcore communities.'
+	},
+	archive: [
+		{
+			year: '2026',
+			events: [
+				fallbackPastConferenceEvent,
+				fallbackPastConferenceEvent,
+				fallbackPastConferenceEvent,
+				fallbackPastConferenceEvent
+			]
+		},
+		{
+			year: '2025',
+			events: [fallbackPastConferenceEvent, fallbackPastConferenceEvent, fallbackPastConferenceEvent]
+		}
+	],
+	newsletter: {
+		heading: 'Get event updates in your inbox',
+		description:
+			'Receive invitations, agenda releases, and community updates for EDU, DSU, CEDS, and EDUcore events.',
+		emailPlaceholder: 'Email address',
+		ctaLabel: 'Subscribe',
+		note: 'No spam. Just timely event and community updates.',
+		background: 'teal'
+	}
+} satisfies EventsPastPage;
 
 export const fallbackEduOverview = {
 	slug: 'edu-overview',

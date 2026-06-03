@@ -543,6 +543,12 @@ export const newsletterBand = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
+			name: 'note',
+			title: 'Note',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
 			name: 'background',
 			title: 'Background',
 			type: 'string',
@@ -559,6 +565,88 @@ export const newsletterBand = defineType({
 			title: 'heading',
 			subtitle: 'ctaLabel'
 		}
+	}
+})
+
+export const eventItem = defineType({
+	name: 'eventItem',
+	title: 'Event item',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'poster',
+			title: 'Poster',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'tag',
+			title: 'Tag',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'date',
+			title: 'Date',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 4,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'href',
+			title: 'Href',
+			type: 'string',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'date'
+		}
+	}
+})
+
+export const eventArchiveGroup = defineType({
+	name: 'eventArchiveGroup',
+	title: 'Event archive group',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'year',
+			title: 'Year',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'events',
+			title: 'Events',
+			type: 'array',
+			of: [{type: 'eventItem'}],
+			validation: (rule) => rule.required().min(1)
+		})
+	],
+	preview: {
+		select: {
+			title: 'year',
+			events: 'events'
+		},
+		prepare: ({title, events}) => ({
+			title,
+			subtitle: `${events?.length ?? 0} events`
+		})
 	}
 })
 
