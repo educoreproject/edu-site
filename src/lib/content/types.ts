@@ -97,7 +97,7 @@ export type NewsletterBandContent = {
 	description: string;
 	emailPlaceholder: string;
 	ctaLabel: string;
-	note: string;
+	note?: string;
 	background?: 'navy' | 'teal';
 };
 

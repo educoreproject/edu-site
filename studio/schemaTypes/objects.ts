@@ -545,8 +545,7 @@ export const newsletterBand = defineType({
 		defineField({
 			name: 'note',
 			title: 'Note',
-			type: 'string',
-			validation: (rule) => rule.required()
+			type: 'string'
 		}),
 		defineField({
 			name: 'background',
