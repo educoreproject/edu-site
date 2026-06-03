@@ -6,6 +6,7 @@ import {eduBoard} from './eduBoard'
 import {eduContact} from './eduContact'
 import {eduHistory} from './eduHistory'
 import {eduOverview} from './eduOverview'
+import {educoreOverview} from './educoreOverview'
 import {eventsPast} from './eventsPast'
 import {eventsUpcoming} from './eventsUpcoming'
 import {
@@ -30,12 +31,14 @@ import {
 	membershipType,
 	newsletterBand,
 	numberedValue,
+	platformTool,
 	processStep,
 	quote,
 	resourceCard,
 	textBlock,
 	timelineEntry,
-	videoTestimonial
+	videoTestimonial,
+	ctaBand
 } from './objects'
 import {resourcesFaq} from './resourcesFaq'
 import {resourcesGlossary} from './resourcesGlossary'
@@ -64,11 +67,13 @@ export const schemaTypes = [
 	faqItem,
 	eduOverviewSection,
 	eduListGroup,
+	platformTool,
 	boardMember,
 	timelineEntry,
 	contactField,
 	infoCard,
 	joinCta,
+	ctaBand,
 	footerColumn,
 	siteChrome,
 	dsuHome,
@@ -83,5 +88,6 @@ export const schemaTypes = [
 	eduOverview,
 	eduBoard,
 	eduHistory,
-	eduContact
+	eduContact,
+	educoreOverview
 ]

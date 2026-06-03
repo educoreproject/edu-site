@@ -10,6 +10,7 @@ import {
 	fallbackEduContact,
 	fallbackEduHistory,
 	fallbackEduOverview,
+	fallbackEducoreOverview,
 	fallbackEventsPast,
 	fallbackEventsUpcoming,
 	fallbackResourcesFaq,
@@ -26,6 +27,7 @@ import {
 	eduContactQuery,
 	eduHistoryQuery,
 	eduOverviewQuery,
+	educoreOverviewQuery,
 	eventsPastQuery,
 	eventsUpcomingQuery,
 	resourcesFaqQuery,
@@ -41,6 +43,7 @@ import type {
 	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
+	EducoreOverviewPage,
 	EventsPastPage,
 	EventsUpcomingPage,
 	ResourcesFaqPage,
@@ -172,5 +175,13 @@ export function getEduContactPage(): Promise<EduContactPage> {
 		eduContactQuery,
 		fallbackEduContact,
 		'EDU contact page'
+	);
+}
+
+export function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {
+	return fetchFromSanity<EducoreOverviewPage>(
+		educoreOverviewQuery,
+		fallbackEducoreOverview,
+		'EDUcore overview page'
 	);
 }

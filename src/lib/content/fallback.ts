@@ -7,6 +7,7 @@ import type {
 	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
+	EducoreOverviewPage,
 	EventsPastPage,
 	EventsUpcomingPage,
 	LinkItem,
@@ -42,6 +43,14 @@ const fallbackResourcesSubNav = [
 const fallbackEventsSubNav = [
 	{ label: 'Upcoming', href: '/events' },
 	{ label: 'Past events', href: '/events/past' }
+] satisfies LinkItem[];
+
+const fallbackEducoreSubNav = [
+	{ label: 'Overview', href: '/educore' },
+	{ label: 'Reference Library', href: '/educore/reference-library', disabled: true },
+	{ label: 'Graphinator', href: '/educore/graphinator', disabled: true },
+	{ label: 'Standards Partner', href: '/educore/standards-partner', disabled: true },
+	{ label: 'Prospectus', href: '/educore/prospectus', disabled: true }
 ] satisfies LinkItem[];
 
 export const fallbackChrome = {
@@ -1041,3 +1050,61 @@ export const fallbackEduContact = {
 		}
 	}
 } satisfies EduContactPage;
+
+export const fallbackEducoreOverview = {
+	slug: 'educore-overview',
+	activeSection: 'EDUcore',
+	subNav: fallbackEducoreSubNav,
+	hero: {
+		chip: 'EDUCORE',
+		title: 'AI-powered tools for education data standards.',
+		description:
+			'Establishing a unified, AI-sustained data infrastructure that enables secure, standards-based interoperability of assessments and credentials across the entire U.S. education-to-employment ecosystem.'
+	},
+	platform: {
+		eyebrow: 'The platform',
+		heading: 'One platform, four ways in',
+		description:
+			'EDUcore brings the harmonized standards work of DSU and CEDS into a set of AI-native tools - so practitioners can discover, understand, and apply education data standards without the manual overhead.',
+		tools: [
+			{
+				name: 'Reference Library',
+				tag: 'Linked standards data',
+				description:
+					'A web reference application with linked data to every standard practitioners need - smart navigation, best practices, and links to reference implementations, all under one roof.',
+				href: '#'
+			},
+			{
+				name: 'Graphinator',
+				tag: 'AI mapping engine',
+				description:
+					'AI-assisted crosswalking that maps elements across CEDS, A4L, PESC, and other frameworks - turning manual mapping work that took months into an interactive graph.',
+				href: '#'
+			},
+			{
+				name: 'Standards Partner',
+				tag: 'Conversational guidance',
+				description:
+					'A conversational assistant trained on harmonized education data standards - answering implementation questions and pointing to authoritative sources in plain language.',
+				href: '#'
+			},
+			{
+				name: 'Project Prospectus',
+				tag: 'Initiative home',
+				description:
+					'A living catalog of the data-standards initiatives EDUcore hosts - scope, status, and how to get involved with each working group and project.',
+				href: '#'
+			}
+		]
+	},
+	ctaBand: {
+		heading: 'EDUcore is in open beta',
+		description:
+			'Try the reference library, Graphinator, and Standards Partner - and tell us what the standards community needs next.',
+		cta: {
+			label: 'Request beta access',
+			href: '#',
+			variant: 'teal'
+		}
+	}
+} satisfies EducoreOverviewPage;

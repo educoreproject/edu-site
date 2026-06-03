@@ -780,6 +780,45 @@ export const eduListGroup = defineType({
 	}
 })
 
+export const platformTool = defineType({
+	name: 'platformTool',
+	title: 'Platform tool',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'name',
+			title: 'Name',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'tag',
+			title: 'Tag',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 4,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'href',
+			title: 'Href',
+			type: 'string',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'name',
+			subtitle: 'tag'
+		}
+	}
+})
+
 export const boardMember = defineType({
 	name: 'boardMember',
 	title: 'Board member',
@@ -973,6 +1012,39 @@ export const joinCta = defineType({
 			validation: (rule) => rule.required()
 		})
 	]
+})
+
+export const ctaBand = defineType({
+	name: 'ctaBand',
+	title: 'CTA band',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'cta.label'
+		}
+	}
 })
 
 export const footerColumn = defineType({

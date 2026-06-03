@@ -129,6 +129,8 @@ export type FaqItem = {
 
 export type EduSection = 'About EDU';
 
+export type EducoreSection = 'EDUcore';
+
 export type EduOverviewSection = {
 	eyebrow?: string;
 	heading: string;
@@ -139,6 +141,19 @@ export type EduListGroup = {
 	heading: string;
 	description: string;
 	items: string[];
+};
+
+export type PlatformTool = {
+	name: string;
+	tag: string;
+	description: string;
+	href: string;
+};
+
+export type CtaBand = {
+	heading: string;
+	description: string;
+	cta: Cta;
 };
 
 export type BoardMember = {
@@ -326,4 +341,18 @@ export type EduContactPage = {
 	fields: ContactField[];
 	directCard: InfoCard;
 	collaborativeCard: InfoCard;
+};
+
+export type EducoreOverviewPage = {
+	slug: 'educore-overview';
+	activeSection: EducoreSection;
+	subNav: LinkItem[];
+	hero: HeroContent;
+	platform: {
+		eyebrow: string;
+		heading: string;
+		description: string;
+		tools: PlatformTool[];
+	};
+	ctaBand: CtaBand;
 };

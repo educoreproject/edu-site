@@ -29,6 +29,19 @@ const eduListGroupProjection = `{
 	"items": coalesce(items, [])
 }`;
 
+const platformToolProjection = `{
+	name,
+	tag,
+	description,
+	href
+}`;
+
+const ctaBandProjection = `{
+	heading,
+	description,
+	cta${ctaProjection}
+}`;
+
 const infoCardProjection = `{
 	eyebrow,
 	heading,
@@ -287,6 +300,20 @@ export const eduContactQuery = `*[_type == "eduContact" && slug.current == "edu-
 	}, []),
 	directCard${infoCardProjection},
 	collaborativeCard${infoCardProjection}
+}`;
+
+export const educoreOverviewQuery = `*[_type == "educoreOverview" && slug.current == "educore-overview"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	platform{
+		eyebrow,
+		heading,
+		description,
+		"tools": coalesce(tools[]${platformToolProjection}, [])
+	},
+	ctaBand${ctaBandProjection}
 }`;
 
 export const chromeQuery = `*[_type == "siteChrome"][0]{
