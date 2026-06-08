@@ -3,6 +3,9 @@
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
+	"engines": {
+		"node": "24.x"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -10,16 +13,21 @@
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"vercel:dev": "vercel dev",
+		"vercel:pull": "vercel pull",
+		"deploy:preview": "vercel deploy",
+		"deploy:prod": "vercel deploy --prod",
 		"studio:dev": "cd studio && node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js dev",
 		"studio:build": "cd studio && SANITY_ALLOW_PLACEHOLDER_PROJECT=true node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js build"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-vercel": "^6.3.3",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"svelte": "^5.55.2",
 		"svelte-check": "^4.4.6",
 		"typescript": "^6.0.2",
+		"vercel": "^54.9.1",
 		"vite": "^8.0.7"
 	},
 	"dependencies": {
