@@ -1,0 +1,93 @@
+import {dsuHome} from './dsuHome'
+import {dsuJoin} from './dsuJoin'
+import {dsuMembers} from './dsuMembers'
+import {dsuProjects} from './dsuProjects'
+import {eduBoard} from './eduBoard'
+import {eduContact} from './eduContact'
+import {eduHistory} from './eduHistory'
+import {eduOverview} from './eduOverview'
+import {educoreOverview} from './educoreOverview'
+import {eventsPast} from './eventsPast'
+import {eventsUpcoming} from './eventsUpcoming'
+import {
+	boardMember,
+	checklist,
+	contactPrompt,
+	contactField,
+	cta,
+	dsuProject,
+	eduListGroup,
+	eduOverviewSection,
+	eventArchiveGroup,
+	eventItem,
+	faqItem,
+	footerColumn,
+	glossaryTerm,
+	heroContent,
+	infoCard,
+	joinCta,
+	linkItem,
+	memberOrganization,
+	membershipType,
+	newsletterBand,
+	numberedValue,
+	platformTool,
+	processStep,
+	quote,
+	resourceCard,
+	textBlock,
+	timelineEntry,
+	videoTestimonial,
+	ctaBand
+} from './objects'
+import {resourcesFaq} from './resourcesFaq'
+import {resourcesGlossary} from './resourcesGlossary'
+import {resourcesHub} from './resourcesHub'
+import {siteChrome} from './siteChrome'
+
+export const schemaTypes = [
+	linkItem,
+	cta,
+	heroContent,
+	textBlock,
+	numberedValue,
+	quote,
+	videoTestimonial,
+	memberOrganization,
+	membershipType,
+	processStep,
+	checklist,
+	contactPrompt,
+	dsuProject,
+	resourceCard,
+	newsletterBand,
+	eventItem,
+	eventArchiveGroup,
+	glossaryTerm,
+	faqItem,
+	eduOverviewSection,
+	eduListGroup,
+	platformTool,
+	boardMember,
+	timelineEntry,
+	contactField,
+	infoCard,
+	joinCta,
+	ctaBand,
+	footerColumn,
+	siteChrome,
+	dsuHome,
+	dsuMembers,
+	dsuJoin,
+	dsuProjects,
+	resourcesHub,
+	resourcesGlossary,
+	resourcesFaq,
+	eventsUpcoming,
+	eventsPast,
+	eduOverview,
+	eduBoard,
+	eduHistory,
+	eduContact,
+	educoreOverview
+]

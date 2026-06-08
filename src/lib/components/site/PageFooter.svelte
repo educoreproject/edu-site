@@ -1,0 +1,177 @@
+<script lang="ts">
+	import type { SiteChrome } from '$lib/content/types';
+	import Container from './Container.svelte';
+
+	type Props = {
+		chrome: SiteChrome;
+		blurb?: string;
+		copyright?: string;
+	};
+
+	let {
+		chrome,
+		blurb = 'Connecting the ecosystem of education data standards.',
+		copyright = 'All rights reserved · © 2026'
+	}: Props = $props();
+</script>
+
+<footer>
+	<Container>
+		<div class="footer-layout">
+			<div class="brand">
+				<div class="logo" aria-hidden="true">
+					<img src="/assets/educore-logo.png" alt="" />
+				</div>
+
+				<p>{blurb}</p>
+
+				<div class="legal">
+					<div>Data Standards United</div>
+					<span>{copyright}</span>
+				</div>
+			</div>
+
+			<div class="columns" aria-label="Footer navigation">
+				{#each chrome.footerColumns as column}
+					<section aria-labelledby={`footer-${column.heading.toLowerCase().replaceAll(' ', '-')}`}>
+						<h2 id={`footer-${column.heading.toLowerCase().replaceAll(' ', '-')}`}>{column.heading}</h2>
+
+						<ul>
+							{#each column.links as link}
+								<li>
+									{#if link.disabled}
+										<span aria-disabled="true">{link.label}</span>
+									{:else}
+										<a href={link.href}>{link.label}</a>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					</section>
+				{/each}
+			</div>
+		</div>
+	</Container>
+</footer>
+
+<style>
+	footer {
+		background: var(--ec-footer-navy);
+		padding-block: 5rem 4.25rem;
+	}
+
+	.footer-layout {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 3rem;
+	}
+
+	.brand {
+		flex: 0 0 15rem;
+	}
+
+	.logo {
+		align-items: center;
+		background: var(--ec-white);
+		border-radius: 4px;
+		display: flex;
+		height: 2.5rem;
+		justify-content: center;
+		margin-bottom: 1rem;
+		width: 5.0625rem;
+	}
+
+	.logo img {
+		filter: none;
+		height: 1.375rem;
+		width: auto;
+	}
+
+	p {
+		color: rgba(255, 255, 255, 0.86);
+		font-family: var(--ec-font-sans);
+		font-size: 1.25rem;
+		line-height: 1.55;
+		margin: 0 0 2.25rem;
+	}
+
+	.legal {
+		border-top: 1px solid rgba(255, 255, 255, 0.36);
+		color: rgba(255, 255, 255, 0.86);
+		font-family: var(--ec-font-sans);
+		font-size: 1.375rem;
+		line-height: 1.7;
+		padding-top: 2.5rem;
+	}
+
+	.legal div {
+		color: var(--ec-white);
+		font-weight: 700;
+	}
+
+	.columns {
+		display: flex;
+		flex: 1 1 34rem;
+		flex-wrap: wrap;
+		gap: 2.5rem;
+	}
+
+	section {
+		min-width: 7.5rem;
+	}
+
+	h2 {
+		color: rgba(255, 255, 255, 0.74);
+		font-family: var(--ec-font-sans);
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+		line-height: 1.25;
+		margin: 0 0 0.875rem;
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5625rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	a,
+	li span {
+		font-family: var(--ec-font-sans);
+		font-size: 1.25rem;
+		line-height: 1.35;
+	}
+
+	a {
+		color: var(--ec-teal-muted);
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: var(--ec-white);
+		text-decoration: underline;
+		text-underline-offset: 0.1875rem;
+	}
+
+	li span {
+		color: rgba(255, 255, 255, 0.48);
+		cursor: not-allowed;
+		opacity: 0.65;
+	}
+
+	@media (max-width: 620px) {
+		.footer-layout,
+		.columns {
+			gap: 2rem;
+		}
+
+		.brand,
+		.columns {
+			flex-basis: 100%;
+		}
+	}
+</style>
