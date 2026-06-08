@@ -1,42 +1,77 @@
-# sv
+# DUS Website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+SvelteKit website with a same-repo Sanity Studio.
 
-## Creating a project
+## Setup
 
-If you're seeing this, you've probably already done this step. Congrats!
+Use the Node version in `.nvmrc`:
 
 ```sh
-# create a new project
-npx sv create my-app
+nvm use
+npm install
 ```
 
-To recreate this project with the same configuration:
+Copy `.env.example` to `.env` for local Sanity-backed development:
 
 ```sh
-# recreate this project
-npx sv@0.15.3 create --template minimal --types ts --install npm .
+PUBLIC_SANITY_PROJECT_ID=saoj8gx9
+PUBLIC_SANITY_DATASET=production
+PUBLIC_SANITY_API_VERSION=2026-06-01
 ```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```sh
 npm run dev
+```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+Run Sanity Studio locally:
+
+```sh
+npm run studio:dev
 ```
 
 ## Building
 
-To create a production version of your app:
-
 ```sh
+npm run check
 npm run build
 ```
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Vercel
+
+This project uses `@sveltejs/adapter-vercel` and the local Vercel CLI.
+
+Link this checkout to the existing Vercel project:
+
+```sh
+npm run vercel:pull
+```
+
+Run the Vercel dev server:
+
+```sh
+npm run vercel:dev
+```
+
+Deploy a preview:
+
+```sh
+npm run deploy:preview
+```
+
+Deploy production:
+
+```sh
+npm run deploy:prod
+```
+
+Set these environment variables in Vercel for preview and production:
+
+```sh
+PUBLIC_SANITY_PROJECT_ID=saoj8gx9
+PUBLIC_SANITY_DATASET=production
+PUBLIC_SANITY_API_VERSION=2026-06-01
+```
