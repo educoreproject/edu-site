@@ -24,7 +24,7 @@
 	<meta name="description" content={page.hero.description} />
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} activeSection={page.activeSection} />
+<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Joining DSU" />
 <SubNav crumb={page.activeSection} links={page.subNav} active="Joining DSU" />
 
 <main>

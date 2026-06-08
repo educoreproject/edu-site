@@ -35,7 +35,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} activeSection={page.activeSection} />
+<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Members" />
 <SubNav crumb={page.activeSection} links={page.subNav} active="Members" />
 
 <main>

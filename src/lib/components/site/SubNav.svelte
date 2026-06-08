@@ -14,9 +14,12 @@
 <nav aria-label="{crumb} navigation">
 	<Container>
 		<div class="inner">
-			<div class="crumb" aria-hidden="true">
+			<div class="crumb">
 				<span>{crumb}</span>
 				<span class="chevron">›</span>
+				{#if active}
+					<span class="current">{active}</span>
+				{/if}
 			</div>
 
 			<div class="links">
@@ -38,7 +41,11 @@
 		align-items: center;
 		background: var(--ec-white);
 		display: flex;
-		min-height: 4.75rem;
+		position: sticky;
+		top: 3.75rem;
+		z-index: 40;
+		min-height: 3rem;
+		border-bottom: 1px solid var(--ec-border);
 	}
 
 	.inner {
@@ -59,16 +66,24 @@
 	.crumb span:first-child {
 		color: var(--ec-teal-darker);
 		font-family: var(--ec-font-sans);
-		font-size: 1.375rem;
-		font-weight: 500;
+		font-size: .875rem;
+		font-weight: 400;
 		line-height: 1.3;
 	}
 
 	.chevron {
 		color: var(--ec-border);
 		font-size: 2rem;
-		font-weight: 700;
+		font-weight: 400;
 		line-height: 1;
+	}
+
+	.current {
+		color: var(--ec-ink-soft);
+		font-family: var(--ec-font-sans);
+		font-size: .875rem;
+		font-weight: 400;
+		line-height: 1.3;
 	}
 
 	.links {
@@ -84,8 +99,8 @@
 		border-bottom: 2px solid transparent;
 		color: var(--ec-teal-darker);
 		font-family: var(--ec-font-sans);
-		font-size: 1.375rem;
-		font-weight: 500;
+		font-size: .875rem;
+		font-weight: 400;
 		line-height: 1.3;
 		padding-block: 0.125rem;
 		text-decoration: none;
@@ -102,7 +117,7 @@
 	.links .active {
 		border-bottom-color: transparent;
 		color: var(--ec-teal-darker);
-		font-weight: 500;
+		font-weight: 400;
 	}
 
 	.links .disabled {
@@ -111,21 +126,23 @@
 	}
 
 	@media (max-width: 720px) {
+		nav {
+			top: 4.5rem;
+		}
+
 		.inner {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 0.625rem;
-			padding-block: 0.75rem;
+			align-items: center;
+			flex-direction: row;
+			gap: 0;
+			min-height: 3rem;
 		}
 
 		.links {
-			gap: 1rem;
-			justify-content: flex-start;
+			display: none;
 		}
 
 		.crumb span:first-child,
-		.links a,
-		.links span {
+		.current {
 			font-size: 1rem;
 		}
 	}

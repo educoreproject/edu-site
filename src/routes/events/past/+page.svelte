@@ -28,7 +28,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} activeSection={page.activeSection} />
+<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Past events" />
 <SubNav crumb="Events" links={page.subNav} active="Past events" />
 
 <main>
