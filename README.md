@@ -17,6 +17,8 @@ Copy `.env.example` to `.env` for local Sanity-backed development:
 PUBLIC_SANITY_PROJECT_ID=saoj8gx9
 PUBLIC_SANITY_DATASET=production
 PUBLIC_SANITY_API_VERSION=2026-06-01
+SANITY_STUDIO_PROJECT_ID=saoj8gx9
+SANITY_STUDIO_DATASET=production
 ```
 
 ## Developing

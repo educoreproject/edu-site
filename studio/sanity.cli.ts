@@ -3,10 +3,11 @@ import {defineCliConfig} from 'sanity/cli'
 const placeholderProjectId = 'educoreplaceholder'
 const configuredProjectId = process.env.SANITY_STUDIO_PROJECT_ID || process.env.PUBLIC_SANITY_PROJECT_ID
 const allowsPlaceholderProject =
+	process.env.SANITY_STUDIO_ALLOW_PLACEHOLDER_PROJECT === 'true' ||
 	process.env.SANITY_ALLOW_PLACEHOLDER_PROJECT === 'true' ||
 	configuredProjectId === placeholderProjectId
 const missingProjectIdMessage =
-	'Missing Sanity project ID. Set SANITY_STUDIO_PROJECT_ID or PUBLIC_SANITY_PROJECT_ID, or opt into local placeholder builds with SANITY_ALLOW_PLACEHOLDER_PROJECT=true.'
+	'Missing Sanity project ID. Set SANITY_STUDIO_PROJECT_ID, or opt into local placeholder builds with SANITY_STUDIO_ALLOW_PLACEHOLDER_PROJECT=true.'
 
 if (!configuredProjectId && !allowsPlaceholderProject) {
 	console.error(missingProjectIdMessage)

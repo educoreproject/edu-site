@@ -21,6 +21,7 @@
 		"studio:build": "cd studio && SANITY_ALLOW_PLACEHOLDER_PROJECT=true node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js build"
 	},
 	"devDependencies": {
+		"@sanity/cli": "^7.1.0",
 		"@sveltejs/adapter-vercel": "^6.3.3",
 		"@sveltejs/kit": "^2.57.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
