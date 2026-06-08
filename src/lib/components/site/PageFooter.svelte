@@ -56,9 +56,8 @@
 
 <style>
 	footer {
-		background: var(--ec-white);
-		border-top: 1px solid var(--ec-border);
-		padding-block: 3rem 2.5rem;
+		background: var(--ec-footer-navy);
+		padding-block: 5rem 4.25rem;
 	}
 
 	.footer-layout {
@@ -73,41 +72,41 @@
 
 	.logo {
 		align-items: center;
-		background: var(--ec-navy);
+		background: var(--ec-white);
 		border-radius: 4px;
 		display: flex;
-		height: 3rem;
+		height: 2.5rem;
 		justify-content: center;
-		margin-bottom: 0.875rem;
-		width: 3rem;
+		margin-bottom: 1rem;
+		width: 5.0625rem;
 	}
 
 	.logo img {
-		filter: brightness(0) invert(1);
-		height: 1.125rem;
+		filter: none;
+		height: 1.375rem;
 		width: auto;
 	}
 
 	p {
-		color: var(--ec-ink-soft);
+		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--ec-font-sans);
-		font-size: 0.8125rem;
+		font-size: 1.25rem;
 		line-height: 1.55;
-		margin: 0 0 1rem;
+		margin: 0 0 2.25rem;
 	}
 
 	.legal {
-		border-top: 1px solid var(--ec-border);
-		color: var(--ec-ink-soft);
+		border-top: 1px solid rgba(255, 255, 255, 0.36);
+		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--ec-font-sans);
-		font-size: 0.75rem;
+		font-size: 1.375rem;
 		line-height: 1.7;
-		padding-top: 0.875rem;
+		padding-top: 2.5rem;
 	}
 
 	.legal div {
-		color: var(--ec-navy);
-		font-weight: 600;
+		color: var(--ec-white);
+		font-weight: 700;
 	}
 
 	.columns {
@@ -122,9 +121,9 @@
 	}
 
 	h2 {
-		color: var(--ec-border);
+		color: rgba(255, 255, 255, 0.74);
 		font-family: var(--ec-font-sans);
-		font-size: 0.875rem;
+		font-size: 1.25rem;
 		font-weight: 700;
 		letter-spacing: 0.02em;
 		line-height: 1.25;
@@ -143,23 +142,23 @@
 	a,
 	li span {
 		font-family: var(--ec-font-sans);
-		font-size: 0.875rem;
+		font-size: 1.25rem;
 		line-height: 1.35;
 	}
 
 	a {
-		color: var(--ec-link);
+		color: var(--ec-teal-muted);
 		text-decoration: none;
 	}
 
 	a:hover {
-		color: var(--ec-navy);
+		color: var(--ec-white);
 		text-decoration: underline;
 		text-underline-offset: 0.1875rem;
 	}
 
 	li span {
-		color: var(--ec-ink-soft);
+		color: rgba(255, 255, 255, 0.48);
 		cursor: not-allowed;
 		opacity: 0.65;
 	}

@@ -1,0 +1,794 @@
+/* =============================================================================
+   USWDS+ — Foundations: Colors & Type
+   -----------------------------------------------------------------------------
+   This file is the single source of truth for designs built against USWDS+.
+   It is hand-distilled from the upstream package's token graph:
+
+     - palette  : uswds-plus/src/lib/core/color/palette/styles.scss
+     - semantic : uswds-plus/output/base-tokens.json (usa-primary, usa-base, …)
+     - editorial: uswds-plus/docs-site/src/lib/styles/site.css + site-tokens/
+
+   Two layers ship here:
+     1) The full USWDS palette (`--usa-color-…`) — raw scales.
+     2) Semantic + role tokens (`--usa-primary-base`, `--usa-ink`, `--h1`, …)
+        that resolve to those palette colors.
+
+   The default semantic layer matches the **base** theme (federal-blue primary,
+   USWDS-standard gray ink). Swap to a theme by adding `data-theme="haystack"`
+   or `data-theme="editorial"` on a parent element — see the override blocks
+   at the bottom.
+   ============================================================================= */
+
+/* -------------------------------------------------------- 1. Web fonts -- */
+
+@font-face {
+  font-family: "Public Sans Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/public-sans/PublicSans-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Public Sans Web";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/public-sans/PublicSans-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Public Sans Web";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/public-sans/PublicSans-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Public Sans Web";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/public-sans/PublicSans-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Public Sans Web";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/public-sans/PublicSans-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Source Sans Pro Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/source-sans-pro/SourceSansPro-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans Pro Web";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/source-sans-pro/SourceSansPro-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans Pro Web";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/source-sans-pro/SourceSansPro-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Merriweather Web";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/merriweather/Latin-Merriweather-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Merriweather Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/merriweather/Latin-Merriweather-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Merriweather Web";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/merriweather/Latin-Merriweather-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Merriweather Web";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/merriweather/Latin-Merriweather-Italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Roboto Mono Web";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/roboto-mono/roboto-mono-regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto Mono Web";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/roboto-mono/roboto-mono-500.woff2") format("woff2");
+}
+
+/* --------------------------------------------- 2. USWDS color palette -- */
+
+:root {
+  /* ---- Primary blue family (federal blue) ---- */
+  --usa-color-blue-5:  #e6f0fb;
+  --usa-color-blue-10: #cdddf6;
+  --usa-color-blue-20: #9bb9e3;
+  --usa-color-blue-30: #6a95d0;
+  --usa-color-blue-40: #3a71bd;
+  --usa-color-blue-50: #1c57a9;
+  --usa-color-blue-60: #14437f;
+  --usa-color-blue-70: #0e305b;
+  --usa-color-blue-80: #081e37;
+  --usa-color-blue-vivid-5:  #e8f5ff;
+  --usa-color-blue-vivid-10: #cfe8ff;
+  --usa-color-blue-vivid-20: #a1d3ff;
+  --usa-color-blue-vivid-30: #58b4ff;
+  --usa-color-blue-vivid-40: #2491ff;
+  --usa-color-blue-vivid-50: #0076d6;
+  --usa-color-blue-vivid-60: #005ea2;
+  --usa-color-blue-vivid-70: #0b4778;
+  --usa-color-blue-vivid-80: #112f4e;
+  --usa-color-blue-warm-vivid-60: #0050d8;
+  --usa-color-blue-warm-vivid-70: #1a4480;
+  --usa-color-blue-warm-vivid-80: #162e51;
+  --usa-color-blue-warm-90: #13171f;
+
+  /* ---- Red family (secondary / emergency) ---- */
+  --usa-color-red-5:  #f9eeee;
+  --usa-color-red-10: #f8e1de;
+  --usa-color-red-20: #f7bbb1;
+  --usa-color-red-30: #f2938c;
+  --usa-color-red-40: #e9695f;
+  --usa-color-red-50: #d83933;
+  --usa-color-red-60: #a23737;
+  --usa-color-red-70: #6f3331;
+  --usa-color-red-80: #3e2927;
+  --usa-color-red-vivid-50: #e52207;
+  --usa-color-red-vivid-60: #b50909;
+  --usa-color-red-vivid-70: #8b0a03;
+  --usa-color-red-warm-5:  #f6efea;
+  --usa-color-red-warm-60: #805039;
+  --usa-color-red-warm-80: #332d29;
+  --usa-color-red-warm-vivid-10: #fce1d4;
+  --usa-color-red-warm-vivid-20: #f6bd9c;
+  --usa-color-red-warm-vivid-30: #f39268;
+  --usa-color-red-warm-vivid-50: #d54309;
+  --usa-color-red-warm-vivid-60: #9c3d10;
+  --usa-color-red-cool-10: #f3e1e4;
+  --usa-color-red-cool-vivid-50: #e41d3d;
+
+  /* ---- Orange family (accent-warm) ---- */
+  --usa-color-orange-5:  #f6efe9;
+  --usa-color-orange-10: #f2e4d4;
+  --usa-color-orange-20: #f3bf90;
+  --usa-color-orange-30: #f09860;
+  --usa-color-orange-40: #dd7533;
+  --usa-color-orange-50: #a86437;
+  --usa-color-orange-warm-40: #e17141;
+  --usa-color-orange-vivid-10: #fce2c5;
+  --usa-color-orange-vivid-20: #ffbc78;
+  --usa-color-orange-vivid-30: #fa9441;
+  --usa-color-orange-vivid-40: #e66f0e;
+  --usa-color-orange-vivid-50: #c05600;
+  --usa-color-orange-vivid-60: #8c471c;
+  --usa-color-orange-vivid-80: #352313;
+
+  /* ---- Gold / yellow (warning) ---- */
+  --usa-color-yellow-5:  #faf3d1;
+  --usa-color-yellow-vivid-10: #fee685;
+  --usa-color-yellow-vivid-20: #face00;
+  --usa-color-gold-vivid-20: #ffbe2e;
+  --usa-color-gold-vivid-30: #e5a000;
+  --usa-color-gold-vivid-50: #936f38;
+
+  /* ---- Green / mint (success) ---- */
+  --usa-color-green-5:  #eaf4dd;
+  --usa-color-green-cool-5:  #ecf3ec;
+  --usa-color-green-cool-vivid-20: #70e17b;
+  --usa-color-green-cool-vivid-40: #00a91c;
+  --usa-color-green-cool-vivid-50: #008817;
+  --usa-color-green-cool-vivid-60: #216e1f;
+  --usa-color-mint-vivid-30: #04c585;
+  --usa-color-mint-vivid-50: #008659;
+  --usa-color-mint-cool-vivid-40: #00a398;
+  --usa-color-mint-cool-vivid-50: #008480;
+
+  /* ---- Cyan (info) ---- */
+  --usa-color-cyan-5:  #e7f6f8;
+  --usa-color-cyan-20: #99deea;
+  --usa-color-cyan-vivid-30: #00bde3;
+  --usa-color-cyan-vivid-40: #009ec1;
+  --usa-color-blue-cool-60: #2e6276;
+
+  /* ---- Indigo / violet / magenta (accents) ---- */
+  --usa-color-indigo-50: #676cc8;
+  --usa-color-violet-50: #8168b3;
+  --usa-color-magenta-vivid-50: #d72d79;
+
+  /* ---- Neutral gray scale (default) ---- */
+  --usa-color-gray-1:  #fcfcfc;
+  --usa-color-gray-2:  #f9f9f9;
+  --usa-color-gray-3:  #f6f6f6;
+  --usa-color-gray-4:  #f3f3f3;
+  --usa-color-gray-5:  #f0f0f0;
+  --usa-color-gray-10: #e6e6e6;
+  --usa-color-gray-20: #c9c9c9;
+  --usa-color-gray-30: #adadad;
+  --usa-color-gray-40: #919191;
+  --usa-color-gray-50: #757575;
+  --usa-color-gray-60: #5c5c5c;
+  --usa-color-gray-70: #454545;
+  --usa-color-gray-80: #2e2e2e;
+  --usa-color-gray-90: #1b1b1b;
+  --usa-color-gray-100: #000000;
+
+  --usa-color-gray-cool-1:  #fbfcfd;
+  --usa-color-gray-cool-2:  #f7f9fa;
+  --usa-color-gray-cool-3:  #f5f6f7;
+  --usa-color-gray-cool-5:  #edeff0;
+  --usa-color-gray-cool-10: #dfe1e2;
+  --usa-color-gray-cool-20: #c6cace;
+  --usa-color-gray-cool-30: #a9aeb1;
+  --usa-color-gray-cool-40: #8d9297;
+  --usa-color-gray-cool-50: #71767a;
+  --usa-color-gray-cool-60: #565c65;
+  --usa-color-gray-cool-70: #3d4551;
+  --usa-color-gray-cool-80: #2d2e2f;
+  --usa-color-gray-cool-90: #1c1d1f;
+
+  --usa-color-gray-warm-5:  #f0f0ec;
+  --usa-color-gray-warm-50: #76766a;
+  --usa-color-gray-warm-90: #171716;
+
+  --usa-color-global-white: #ffffff;
+  --usa-color-global-black: #000000;
+  --usa-color-global-transparent: transparent;
+
+  /* ============================================================
+     3. Semantic role tokens — BASE theme (federal blue + USWDS ink)
+     These are the names designs actually call.
+     Override in a theme block below or under `[data-theme=…]`.
+     ============================================================ */
+
+  /* Primary — federal blue */
+  --usa-primary-lightest: var(--usa-color-blue-5);
+  --usa-primary-lighter:  var(--usa-color-blue-10);
+  --usa-primary-light:    var(--usa-color-blue-30);
+  --usa-primary-base:     var(--usa-color-blue-vivid-60);  /* #005ea2 — the canonical brand blue */
+  --usa-primary-vivid:    var(--usa-color-blue-warm-vivid-60);
+  --usa-primary-dark:     var(--usa-color-blue-warm-vivid-70);
+  --usa-primary-darker:   var(--usa-color-blue-warm-vivid-80);
+  --usa-primary-darkest:  var(--usa-color-blue-warm-90);
+  --usa-primary: var(--usa-primary-base);
+
+  /* Secondary — red */
+  --usa-secondary-lightest: var(--usa-color-red-5);
+  --usa-secondary-lighter:  var(--usa-color-red-cool-10);
+  --usa-secondary-light:    var(--usa-color-red-30);
+  --usa-secondary-base:     var(--usa-color-red-50);
+  --usa-secondary-vivid:    var(--usa-color-red-cool-vivid-50);
+  --usa-secondary-dark:     var(--usa-color-red-vivid-60);
+  --usa-secondary-darker:   var(--usa-color-red-vivid-70);
+  --usa-secondary-darkest:  var(--usa-color-red-80);
+  --usa-secondary: var(--usa-secondary-base);
+
+  /* Accent warm — orange */
+  --usa-accent-warm-lightest: var(--usa-color-orange-5);
+  --usa-accent-warm-lighter:  var(--usa-color-orange-10);
+  --usa-accent-warm-light:    var(--usa-color-orange-vivid-20);
+  --usa-accent-warm-base:     var(--usa-color-orange-30);
+  --usa-accent-warm-vivid:    var(--usa-color-orange-vivid-30);
+  --usa-accent-warm-dark:     var(--usa-color-orange-vivid-50);
+  --usa-accent-warm-darker:   var(--usa-color-orange-vivid-60);
+  --usa-accent-warm-darkest:  var(--usa-color-orange-vivid-80);
+
+  /* Accent cool — cyan/blue */
+  --usa-accent-cool-lightest: var(--usa-color-cyan-5);
+  --usa-accent-cool-light:    var(--usa-color-cyan-20);
+  --usa-accent-cool-base:     var(--usa-color-cyan-vivid-30);
+  --usa-accent-cool-vivid:    var(--usa-color-cyan-vivid-40);
+
+  /* Base — neutral text/borders */
+  --usa-base-lightest: var(--usa-color-gray-5);
+  --usa-base-lighter:  var(--usa-color-gray-cool-10);
+  --usa-base-light:    var(--usa-color-gray-cool-30);
+  --usa-base-base:     var(--usa-color-gray-cool-50);
+  --usa-base-dark:     var(--usa-color-gray-cool-60);
+  --usa-base-darker:   var(--usa-color-gray-cool-70);
+  --usa-base-darkest:  var(--usa-color-gray-90);
+
+  /* State colors */
+  --usa-info-lighter: var(--usa-color-cyan-5);
+  --usa-info-light:   #99deea;
+  --usa-info-base:    var(--usa-color-cyan-vivid-30);
+  --usa-info-dark:    var(--usa-color-cyan-vivid-40);
+  --usa-info-darker:  var(--usa-color-blue-cool-60);
+
+  --usa-success-lighter: var(--usa-color-green-cool-5);
+  --usa-success-light:   var(--usa-color-green-cool-vivid-20);
+  --usa-success-base:    var(--usa-color-green-cool-vivid-40);  /* #00a91c */
+  --usa-success-dark:    var(--usa-color-green-cool-vivid-50);
+  --usa-success-darker:  var(--usa-color-green-cool-vivid-60);
+
+  --usa-warning-lighter: var(--usa-color-yellow-5);
+  --usa-warning-light:   var(--usa-color-yellow-vivid-20);
+  --usa-warning-base:    var(--usa-color-gold-vivid-20);
+  --usa-warning-dark:    var(--usa-color-gold-vivid-30);
+  --usa-warning-darker:  var(--usa-color-gold-vivid-50);
+
+  --usa-error-lighter: var(--usa-color-red-warm-vivid-10);
+  --usa-error-light:   var(--usa-color-red-warm-vivid-30);
+  --usa-error-base:    var(--usa-color-red-warm-vivid-60);  /* #9c3d10 */
+  --usa-error-dark:    var(--usa-color-red-warm-vivid-60);
+  --usa-error-darker:  var(--usa-color-red-warm-80);
+
+  --usa-emergency-lighter: var(--usa-color-red-warm-5);
+  --usa-emergency-light:   var(--usa-color-red-warm-vivid-20);
+  --usa-emergency-base:    var(--usa-color-red-warm-vivid-60);
+  --usa-emergency-dark:    var(--usa-color-red-warm-80);
+  --usa-emergency-darker:  var(--usa-color-red-warm-90);
+
+  --usa-disabled-lighter: var(--usa-color-gray-20);
+  --usa-disabled-light:   var(--usa-color-gray-40);
+  --usa-disabled-base:    var(--usa-color-gray-50);
+  --usa-disabled-dark:    var(--usa-color-gray-70);
+  --usa-disabled-darker:  var(--usa-color-gray-90);
+
+  /* Surface tokens */
+  --usa-ink:             var(--usa-color-gray-90);
+  --usa-body-background: var(--usa-color-gray-1);
+  --usa-surface:         var(--usa-color-global-white);
+  --usa-surface-muted:   var(--usa-color-gray-cool-2);
+  --usa-link:            var(--usa-primary-base);
+  --usa-link-hover:      var(--usa-primary-dark);
+  --usa-link-visited:    #54278f;
+  --usa-focus:           var(--usa-color-blue-vivid-40);
+  --usa-border:          var(--usa-color-gray-cool-10);
+  --usa-border-strong:   var(--usa-color-gray-cool-30);
+
+  /* ============================================================
+     4. Typography
+     ============================================================ */
+
+  /* Font families — quotes preserve the original USWDS web names */
+  --usa-font-sans: "Public Sans Web", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+  --usa-font-serif: "Merriweather Web", Georgia, Cambria, "Times New Roman", Times, serif;
+  --usa-font-mono: "Roboto Mono Web", "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
+  --usa-font-source-sans: "Source Sans Pro Web", Helvetica, Arial, sans-serif;
+  --usa-font-heading: var(--usa-font-sans);
+  --usa-font-body:    var(--usa-font-sans);
+  --usa-font-ui:      var(--usa-font-sans);
+  --usa-font-code:    var(--usa-font-mono);
+  --usa-font-alt:     var(--usa-font-serif);
+  --usa-font-prose:   var(--usa-font-sans);
+
+  /* Weight ramp */
+  --usa-font-weight-thin:     100;
+  --usa-font-weight-light:    300;
+  --usa-font-weight-normal:   400;
+  --usa-font-weight-medium:   500;
+  --usa-font-weight-semibold: 600;
+  --usa-font-weight-bold:     700;
+  --usa-font-weight-heavy:    900;
+
+  /* Type scale (USWDS standard, in rem) */
+  --usa-font-size-3xs: 0.75rem;   /* 12px */
+  --usa-font-size-2xs: 0.8125rem; /* 13px */
+  --usa-font-size-xs:  0.875rem;  /* 14px */
+  --usa-font-size-sm:  1rem;      /* 16px */
+  --usa-font-size-md:  1.0625rem; /* 17px */
+  --usa-font-size-lg:  1.375rem;  /* 22px */
+  --usa-font-size-xl:  1.75rem;   /* 28px */
+  --usa-font-size-2xl: 2.125rem;  /* 34px */
+  --usa-font-size-3xl: 2.5rem;    /* 40px */
+
+  /* Line heights — semantic */
+  --usa-line-height-1: 0.94;
+  --usa-line-height-2: 1.08;
+  --usa-line-height-3: 1.27;
+  --usa-line-height-4: 1.41;
+  --usa-line-height-5: 1.52;
+  --usa-line-height-6: 1.64;
+
+  /* Letter spacing — semantic */
+  --usa-letter-spacing-neg-3: -.03em;
+  --usa-letter-spacing-neg-2: -.02em;
+  --usa-letter-spacing-neg-1: -.01em;
+  --usa-letter-spacing-1: .025em;
+  --usa-letter-spacing-2: .1em;
+  --usa-letter-spacing-3: .15em;
+
+  /* ============================================================
+     5. Spacing scale (USWDS "spacing units", 1 unit = 0.5rem = 8px)
+     ============================================================ */
+  --usa-spacing-0:   0;
+  --usa-spacing-1px: 1px;
+  --usa-spacing-2px: 2px;
+  --usa-spacing-05:  0.25rem;   /* 4px */
+  --usa-spacing-1:   0.5rem;    /* 8px */
+  --usa-spacing-105: 0.75rem;   /* 12px */
+  --usa-spacing-2:   1rem;      /* 16px */
+  --usa-spacing-205: 1.25rem;   /* 20px */
+  --usa-spacing-3:   1.5rem;    /* 24px */
+  --usa-spacing-4:   2rem;      /* 32px */
+  --usa-spacing-5:   2.5rem;    /* 40px */
+  --usa-spacing-6:   3rem;      /* 48px */
+  --usa-spacing-7:   3.5rem;    /* 56px */
+  --usa-spacing-8:   4rem;      /* 64px */
+  --usa-spacing-9:   4.5rem;    /* 72px */
+  --usa-spacing-10:  5rem;      /* 80px */
+  --usa-spacing-15:  7.5rem;    /* 120px */
+
+  /* Container widths */
+  --usa-spacing-mobile:    20rem;   /* 320 */
+  --usa-spacing-mobile-lg: 30rem;   /* 480 */
+  --usa-spacing-tablet:    40rem;   /* 640 */
+  --usa-spacing-tablet-lg: 55rem;   /* 880 */
+  --usa-spacing-desktop:   64rem;   /* 1024 */
+  --usa-spacing-desktop-lg:75rem;   /* 1200 */
+  --usa-spacing-widescreen:87.5rem; /* 1400 */
+
+  /* ============================================================
+     6. Radius, borders, shadows
+     ============================================================ */
+  --usa-radius-0:   0;
+  --usa-radius-sm:  2px;
+  --usa-radius-md:  4px;
+  --usa-radius-lg:  8px;
+  --usa-radius-xl:  1rem;
+  --usa-radius-pill: 999px;
+  --usa-border-radius: var(--usa-radius-md);  /* button/input default */
+
+  --usa-border-width: 1px;
+  --usa-border-width-2: 2px;
+  --usa-focus-outline-width: 0.25rem;
+
+  /* Shadow ramp (USWDS uses subtle, mostly flat surfaces) */
+  --usa-shadow-1: 0 1px 4px 0 rgb(0 0 0 / 0.1);
+  --usa-shadow-2: 0 4px 8px 0 rgb(0 0 0 / 0.1);
+  --usa-shadow-3: 0 8px 16px 0 rgb(0 0 0 / 0.1);
+  --usa-shadow-4: 0 12px 32px 0 rgb(0 0 0 / 0.1);
+  --usa-shadow-5: 0 16px 48px 0 rgb(0 0 0 / 0.1);
+
+  /* ============================================================
+     7. Semantic prose roles — drive directly off the foundations
+     ============================================================ */
+  --h1-font:    var(--usa-font-heading);
+  --h1-size:    var(--usa-font-size-3xl);
+  --h1-weight:  var(--usa-font-weight-bold);
+  --h1-leading: var(--usa-line-height-2);
+
+  --h2-font:    var(--usa-font-heading);
+  --h2-size:    var(--usa-font-size-2xl);
+  --h2-weight:  var(--usa-font-weight-bold);
+  --h2-leading: var(--usa-line-height-2);
+
+  --h3-font:    var(--usa-font-heading);
+  --h3-size:    var(--usa-font-size-lg);
+  --h3-weight:  var(--usa-font-weight-normal);
+  --h3-leading: var(--usa-line-height-2);
+
+  --h4-font:    var(--usa-font-heading);
+  --h4-size:    var(--usa-font-size-md);
+  --h4-weight:  var(--usa-font-weight-medium);
+  --h4-leading: var(--usa-line-height-2);
+
+  --h5-font:    var(--usa-font-heading);
+  --h5-size:    var(--usa-font-size-sm);
+  --h5-weight:  var(--usa-font-weight-bold);
+  --h5-leading: var(--usa-line-height-2);
+
+  --h6-font:    var(--usa-font-heading);
+  --h6-size:    var(--usa-font-size-sm);
+  --h6-weight:  var(--usa-font-weight-bold);
+  --h6-leading: var(--usa-line-height-2);
+  --h6-tracking: var(--usa-letter-spacing-1);
+  --h6-transform: uppercase;
+
+  --p-font:    var(--usa-font-body);
+  --p-size:    var(--usa-font-size-sm);
+  --p-leading: var(--usa-line-height-4);
+  --p-measure: 64ex;
+
+  --lead-size:    var(--usa-font-size-lg);
+  --lead-weight:  var(--usa-font-weight-medium);
+
+  --eyebrow-size:      var(--usa-font-size-3xs);
+  --eyebrow-tracking:  0.08em;
+  --eyebrow-transform: uppercase;
+  --eyebrow-weight:    var(--usa-font-weight-semibold);
+
+  --code-font: var(--usa-font-mono);
+  --code-size: 0.92em;
+}
+
+/* ============================================================================
+   SHIPPED THEMES — eight named token override layers.
+   Each theme rewrites the SEMANTIC layer (primary, ink, surface, link, etc.).
+   The raw palette stays untouched so utility classes keep working.
+   Activate via <html data-theme="<name>"> or [data-theme="<name>"] on any root.
+   ============================================================================ */
+
+/* ---------- Haystack — orange primary, mint/forest neutrals, warm cream */
+[data-theme="haystack"] {
+  --usa-primary-lightest: hsl(23, 100%, 96%);
+  --usa-primary-lighter:  hsl(24, 98%, 78%);
+  --usa-primary-light:    hsl(23, 99%, 64%);
+  --usa-primary-base:     hsl(23, 99%, 50%);
+  --usa-primary-vivid:    hsl(23, 99%, 50%);
+  --usa-primary-dark:     hsl(24, 99%, 36%);
+  --usa-primary-darker:   hsl(23, 98%, 22%);
+  --usa-primary-darkest:  hsl(23, 100%, 7%);
+
+  --usa-base-lightest: hsl(158, 12%, 90%);
+  --usa-base-lighter:  hsl(161, 13%, 82%);
+  --usa-base-light:    hsl(161, 13%, 74%);
+  --usa-base-base:     hsl(162, 13%, 58%);
+  --usa-base-dark:     hsl(161, 13%, 38%);
+  --usa-base-darker:   hsl(163, 13%, 22%);
+  --usa-base-darkest:  hsl(165, 13%, 12%);
+
+  --usa-ink:             #0a0a0a;
+  --usa-body-background: hsl(23, 100%, 96%);
+  --usa-surface:         #FFFCFA;
+  --usa-link:            var(--usa-primary-dark);
+  --usa-link-hover:      var(--usa-primary-darker);
+}
+
+/* ---------- COI — indigo primary, yellow secondary */
+[data-theme="coi"] {
+  --usa-primary-lightest: #EEEFFB;
+  --usa-primary-lighter:  #D7D8EA;
+  --usa-primary-light:    #9C9CDE;
+  --usa-primary-base:     #565ADB;
+  --usa-primary-vivid:    #565ADB;
+  --usa-primary-dark:     #4247AC;
+  --usa-primary-darker:   #1D1F49;
+  --usa-primary-darkest:  #1E1E1E;
+
+  --usa-secondary-lightest: #FFFFB8;
+  --usa-secondary-lighter:  #FFFF9A;
+  --usa-secondary-light:    #FFEA7C;
+  --usa-secondary-base:     #E1CC5E;
+  --usa-secondary-dark:     #C3AE40;
+  --usa-secondary-darker:   #A59022;
+
+  --usa-ink:             #1E1E1E;
+  --usa-body-background: #FFFFFF;
+  --usa-link:            var(--usa-primary-base);
+  --usa-link-hover:      var(--usa-primary-dark);
+}
+
+/* ---------- Adapt — deep blue primary, magenta secondary */
+[data-theme="adapt"] {
+  --usa-primary-lightest: hsl(223, 45%, 95%);
+  --usa-primary-lighter:  hsl(223, 45%, 85%);
+  --usa-primary-light:    hsl(223, 45%, 75%);
+  --usa-primary-base:     hsl(223, 45%, 55%);
+  --usa-primary-vivid:    hsl(223, 75%, 35%);
+  --usa-primary-dark:     hsl(223, 65%, 28%);
+  --usa-primary-darker:   hsl(223, 65%, 20%);
+  --usa-primary-darkest:  hsl(223, 65%, 15%);
+
+  --usa-secondary-light:  #e19fc7;
+  --usa-secondary-base:   #c33f8f;
+  --usa-secondary-dark:   #590046;
+  --usa-secondary-darker: #480039;
+
+  --usa-ink:             #0a0a0a;
+  --usa-body-background: #fefefe;
+  --usa-link:            var(--usa-primary-vivid);
+  --usa-link-hover:      var(--usa-primary-darker);
+}
+
+/* ---------- CIID — deep teal/slate primary, warm gold accent-warm */
+[data-theme="ciid"] {
+  --usa-primary-lightest: #E9F6FC;
+  --usa-primary-lighter:  #D4DEED;
+  --usa-primary-light:    #8791A0;
+  --usa-primary-base:     #2B5266;
+  --usa-primary-vivid:    #2B5266;
+  --usa-primary-dark:     #1F3D4C;
+  --usa-primary-darker:   #1B3441;
+  --usa-primary-darkest:  #0C171D;
+
+  --usa-accent-warm-lightest: #fff8ec;
+  --usa-accent-warm-lighter:  #F1E4AC;
+  --usa-accent-warm-light:    #FFD69E;
+  --usa-accent-warm-base:     #FBB244;
+  --usa-accent-warm-vivid:    #FA9E14;
+  --usa-accent-warm-dark:     #C87904;
+  --usa-accent-warm-darker:   #8C5503;
+
+  --usa-info-base: #0D538C;
+
+  --usa-ink:             #1A1A1A;
+  --usa-body-background: #FDFDFD;
+  --usa-link:            var(--usa-primary-base);
+  --usa-link-hover:      var(--usa-primary-darker);
+}
+
+/* ---------- ERIC — federal-blue baseline (closest to vanilla USWDS) */
+[data-theme="eric"] {
+  /* Inherits all base-theme defaults; alias for the consumer build. */
+}
+
+/* ---------- GovBot — steel blue-gray with vivid orange */
+[data-theme="govbot"] {
+  --usa-primary-lightest: #d9e2e8;
+  --usa-primary-lighter:  #b3c5d1;
+  --usa-primary-light:    #8da9ba;
+  --usa-primary-base:     #678ca3;
+  --usa-primary-vivid:    #678ca3;
+  --usa-primary-dark:     #415c6c;
+  --usa-primary-darker:   #122330;
+  --usa-primary-darkest:  #102e41;
+
+  --usa-accent-warm-lightest: hsl(30, 100%, 94%);
+  --usa-accent-warm-lighter:  hsl(30, 100%, 84%);
+  --usa-accent-warm-light:    hsl(30, 100%, 74%);
+  --usa-accent-warm-base:     hsl(30, 100%, 64%);
+  --usa-accent-warm-vivid:    hsl(30, 100%, 50%);
+  --usa-accent-warm-dark:     hsl(30, 100%, 34%);
+  --usa-accent-warm-darker:   hsl(30, 100%, 14%);
+
+  --usa-accent-cool-lightest: #f0f7f5;
+  --usa-accent-cool-light:    #a0cebf;
+  --usa-accent-cool-base:     #619c8a;
+  --usa-accent-cool-vivid:    #4e7d6e;
+
+  --usa-ink:             #0a0a0a;
+  --usa-body-background: #fefefe;
+  --usa-link:            var(--usa-primary-dark);
+  --usa-link-hover:      var(--usa-primary-darker);
+}
+
+/* ---------- Slugline — deep navy primary, brick-red secondary */
+[data-theme="slugline"] {
+  --usa-primary-lightest: hsl(220, 60%, 98%);
+  --usa-primary-lighter:  hsl(205, 30%, 86%);
+  --usa-primary-light:    hsl(218, 39%, 64%);
+  --usa-primary-base:     hsl(218, 64%, 32%);
+  --usa-primary-vivid:    hsl(218, 64%, 32%);
+  --usa-primary-dark:     hsl(218, 64%, 25%);
+  --usa-primary-darker:   hsl(218, 63%, 18%);
+  --usa-primary-darkest:  hsl(217, 65%, 8%);
+
+  --usa-secondary-lightest: #FAEBEC;
+  --usa-secondary-lighter:  #E8A1A8;
+  --usa-secondary-light:    #D14755;
+  --usa-secondary-base:     #AF1F2D;
+  --usa-secondary-dark:     #821721;
+  --usa-secondary-darker:   #570F16;
+
+  --usa-ink:             #071121;
+  --usa-body-background: #FCFCFC;
+  --usa-link:            var(--usa-primary-base);
+  --usa-link-hover:      var(--usa-primary-darker);
+}
+
+/* ---------- Weiss TA — bright indigo-cool primary */
+[data-theme="weiss-ta"] {
+  --usa-primary-lightest: #edf0ff;
+  --usa-primary-lighter:  #dee5ff;
+  --usa-primary-light:    #94adff;
+  --usa-primary-base:     #3e4ded;
+  --usa-primary-vivid:    #3e4ded;
+  --usa-primary-dark:     #222fbf;
+  --usa-primary-darker:   #261f5b;
+  --usa-primary-darkest:  #13171f;
+
+  --usa-info-base: #0D538C;
+
+  --usa-ink:             var(--usa-color-gray-90);
+  --usa-body-background: #fcfcfc;
+  --usa-link:            var(--usa-primary-base);
+  --usa-link-hover:      var(--usa-primary-dark);
+}
+
+/* ============================================================================
+   THEME: Editorial (docs-site) — olive/sage greens, Merriweather headings
+   Used by the live USWDS+ docs site itself (uswds-plus/docs-site/uswds-plus/site-tokens).
+   ============================================================================ */
+[data-theme="editorial"] {
+  --usa-primary-lightest: hsl(90, 18%, 97%);
+  --usa-primary-lighter:  hsl(90, 18%, 90%);
+  --usa-primary-light:    hsl(90, 18%, 75%);
+  --usa-primary-base:     hsl(90, 18%, 44%);
+  --usa-primary-vivid:    hsl(90, 38%, 44%);
+  --usa-primary-dark:     hsl(90, 18%, 28%);
+  --usa-primary-darker:   hsl(90, 18%, 18%);
+  --usa-primary-darkest:  hsl(90, 18%, 8%);
+
+  --usa-ink:             hsl(90, 18%, 8%);
+  --usa-body-background: hsl(90, 18%, 97%);
+  --usa-surface:         #ffffff;
+  --usa-link:            #1a3623;
+  --usa-link-hover:      hsl(90, 18%, 18%);
+
+  --usa-font-heading: "Merriweather Web", Georgia, Cambria, "Times New Roman", Times, serif;
+  --usa-font-body:    "Source Sans Pro Web", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+
+  /* Editorial site uses serif H1s with normal weight */
+  --h1-font: var(--usa-font-heading);
+  --h1-weight: var(--usa-font-weight-normal);
+}
+
+/* ============================================================================
+   USWDS+ BASE IDENTITY — 4 exploratory directions for "this is what USWDS+
+   looks like when consumers don't pick a theme". The vanilla USWDS federal-blue
+   default works but doesn't say USWDS+ specifically. These give us options.
+   ============================================================================ */
+
+/* Identity A — "Plus" : federal blue + accent magenta + sharper neutrals
+   Reads as USWDS but with a distinct accent move that signals "extended" */
+[data-identity="plus"] {
+  --usa-primary-base:    #1a4480;
+  --usa-primary-dark:    #112f4e;
+  --usa-primary-darker:  #0a1f33;
+  --usa-secondary-base:  #d72d79;  /* magenta accent move */
+  --usa-accent-cool-base:#00bde3;
+  --usa-ink:             #1c1d1f;
+  --usa-body-background: #fbfcfd;
+}
+
+/* Identity B — "Editorial" : the current docs-site olive sage, Merriweather */
+[data-identity="editorial"] {
+  --usa-primary-base:    hsl(90, 18%, 44%);
+  --usa-primary-dark:    hsl(90, 18%, 28%);
+  --usa-primary-darker:  hsl(90, 18%, 18%);
+  --usa-ink:             hsl(90, 18%, 8%);
+  --usa-body-background: hsl(90, 18%, 97%);
+  --usa-link:            #1a3623;
+  --usa-font-heading: "Merriweather Web", Georgia, serif;
+}
+
+/* Identity C — "Tokenist" : developer-tool feel, slate primary, mono headlines */
+[data-identity="tokenist"] {
+  --usa-primary-base:    #2d2e2f;
+  --usa-primary-dark:    #1c1d1f;
+  --usa-primary-darker:  #0a0a0a;
+  --usa-secondary-base:  #28a0cb;
+  --usa-accent-warm-base:#ffbe2e;
+  --usa-ink:             #1c1d1f;
+  --usa-body-background: #f7f9fa;
+  --usa-font-heading: "Roboto Mono Web", "Roboto Mono", monospace;
+}
+
+/* Identity D — "Warm" : haystack-lite, single warm accent on cream */
+[data-identity="warm"] {
+  --usa-primary-base:    hsl(24, 99%, 36%);
+  --usa-primary-dark:    hsl(23, 98%, 22%);
+  --usa-primary-darker:  hsl(23, 100%, 7%);
+  --usa-ink:             #1b1614;
+  --usa-body-background: #FFFCFA;
+  --usa-link:            var(--usa-primary-dark);
+}
+
+/* ============================================================================
+   Tiny convenience element resets — use these by adding `.usa-prose` to a wrapper
+   ============================================================================ */
+.usa-prose { text-wrap: pretty; color: var(--usa-ink); font-family: var(--usa-font-body); font-size: var(--p-size); line-height: var(--p-leading); }
+.usa-prose h1, h1.usa-prose { font-family: var(--h1-font); font-size: var(--h1-size); font-weight: var(--h1-weight); line-height: var(--h1-leading); margin: 0 0 var(--usa-spacing-3) 0; }
+.usa-prose h2, h2.usa-prose { font-family: var(--h2-font); font-size: var(--h2-size); font-weight: var(--h2-weight); line-height: var(--h2-leading); margin: var(--usa-spacing-4) 0 var(--usa-spacing-2) 0; }
+.usa-prose h3, h3.usa-prose { font-family: var(--h3-font); font-size: var(--h3-size); font-weight: var(--h3-weight); line-height: var(--h3-leading); margin: var(--usa-spacing-3) 0 var(--usa-spacing-105) 0; }
+.usa-prose p { margin: 0 0 var(--usa-spacing-2) 0; max-width: var(--p-measure); }
+.usa-prose code, code { font-family: var(--code-font); font-size: var(--code-size); background: var(--usa-color-gray-cool-3); padding: 1px 6px; border-radius: var(--usa-radius-sm); }
+.usa-eyebrow { font-size: var(--eyebrow-size); letter-spacing: var(--eyebrow-tracking); text-transform: var(--eyebrow-transform); font-weight: var(--eyebrow-weight); margin: 0; }

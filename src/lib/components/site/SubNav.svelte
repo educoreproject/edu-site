@@ -36,9 +36,9 @@
 <style>
 	nav {
 		align-items: center;
-		background: var(--ec-subnav);
+		background: var(--ec-white);
 		display: flex;
-		min-height: 3.0625rem;
+		min-height: 4.75rem;
 	}
 
 	.inner {
@@ -57,32 +57,35 @@
 	}
 
 	.crumb span:first-child {
-		color: #6da2ff;
+		color: var(--ec-teal-darker);
 		font-family: var(--ec-font-sans);
-		font-size: 0.875rem;
-		font-weight: 700;
+		font-size: 1.375rem;
+		font-weight: 500;
 		line-height: 1.3;
 	}
 
 	.chevron {
-		color: rgba(255, 255, 255, 0.5);
-		font-size: 0.8125rem;
+		color: var(--ec-border);
+		font-size: 2rem;
+		font-weight: 700;
+		line-height: 1;
 	}
 
 	.links {
 		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 1.5rem;
+		gap: clamp(1.5rem, 3vw, 2.5rem);
 		justify-content: flex-end;
 	}
 
 	.links a,
 	.links span {
 		border-bottom: 2px solid transparent;
-		color: rgba(255, 255, 255, 0.72);
+		color: var(--ec-teal-darker);
 		font-family: var(--ec-font-sans);
-		font-size: 0.875rem;
+		font-size: 1.375rem;
+		font-weight: 500;
 		line-height: 1.3;
 		padding-block: 0.125rem;
 		text-decoration: none;
@@ -93,13 +96,13 @@
 	}
 
 	.links a:hover {
-		color: var(--ec-white);
+		color: var(--ec-navy);
 	}
 
 	.links .active {
-		border-bottom-color: var(--ec-white);
-		color: var(--ec-white);
-		font-weight: 700;
+		border-bottom-color: transparent;
+		color: var(--ec-teal-darker);
+		font-weight: 500;
 	}
 
 	.links .disabled {
@@ -118,6 +121,12 @@
 		.links {
 			gap: 1rem;
 			justify-content: flex-start;
+		}
+
+		.crumb span:first-child,
+		.links a,
+		.links span {
+			font-size: 1rem;
 		}
 	}
 </style>
