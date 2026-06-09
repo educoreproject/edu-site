@@ -1,3 +1,14 @@
+
+@import "./_utilities.css";
+
+@font-face {
+	font-family: "Public Sans Web";
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url("/fonts/public-sans/PublicSans-Light.woff2") format("woff2");
+}
+
 @font-face {
 	font-family: "Public Sans Web";
 	font-style: normal;
@@ -57,6 +68,7 @@
 	--ec-teal-soft: #5fbebf;
 	--ec-teal-muted: #60adaf;
 	--ec-gold: #fbb244;
+	--ec-gold-dark: #b8860b;
 	--ec-violet: #3e4ded;
 	--ec-violet-dark: #2b33b5;
 	--ec-cream: #fff3ea;
@@ -64,6 +76,7 @@
 	--ec-focus: #2491ff;
 	--ec-font-sans: "Public Sans Web", "Public Sans", system-ui, sans-serif;
 }
+
 
 * {
 	box-sizing: border-box;

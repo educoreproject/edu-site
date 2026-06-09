@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Card from '$lib/components/site/Card.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
@@ -41,17 +42,15 @@
 
 			<div class="resource-grid">
 				{#each page.cards as card}
-					{@const isCtaDisabled = !card.cta.href || card.cta.href === '#'}
-					<article class="resource-card">
-						<p class="meta">{card.meta}</p>
-						<h3>{card.title}</h3>
-						<p>{card.description}</p>
-						{#if isCtaDisabled}
-							<span class="card-link disabled" aria-disabled="true">{card.cta.label}</span>
-						{:else}
-							<a class="card-link" href={card.cta.href}>{card.cta.label}</a>
-						{/if}
-					</article>
+					<Card
+						variant="resource"
+						tone="gold"
+						eyebrow={card.meta}
+						title={card.title}
+						body={card.description}
+						linkLabel={card.cta.label}
+						linkHref={card.cta.href}
+					/>
 				{/each}
 			</div>
 		</Container>
@@ -110,20 +109,15 @@
 	}
 
 	.eyebrow,
-	.meta,
 	h2,
-	h3,
 	p,
-	a,
-	span,
 	label,
 	input,
 	button {
 		font-family: var(--ec-font-sans);
 	}
 
-	.eyebrow,
-	.meta {
+	.eyebrow {
 		color: var(--ec-teal-dark);
 		font-size: 0.8125rem;
 		font-weight: 700;
@@ -141,14 +135,6 @@
 		text-wrap: pretty;
 	}
 
-	h3 {
-		color: var(--ec-navy);
-		font-size: 1.25rem;
-		line-height: 1.3;
-		margin: 0;
-		text-wrap: pretty;
-	}
-
 	p {
 		color: var(--ec-ink-soft);
 		font-size: 1rem;
@@ -161,38 +147,6 @@
 		gap: 1.25rem;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		margin-top: 2rem;
-	}
-
-	.resource-card {
-		background: var(--ec-white);
-		border: 2px solid color-mix(in srgb, var(--ec-gold) 72%, var(--ec-border-soft));
-		border-radius: 8px;
-		display: flex;
-		flex-direction: column;
-		gap: 0.875rem;
-		min-width: 0;
-		padding: 1.5rem;
-	}
-
-	.resource-card .meta {
-		margin: 0;
-	}
-
-	.card-link {
-		align-self: flex-start;
-		font-size: 0.9375rem;
-		font-weight: 700;
-		line-height: 1.4;
-		margin-top: auto;
-		text-decoration-thickness: 0.125rem;
-		text-underline-offset: 0.1875rem;
-	}
-
-	.card-link.disabled {
-		color: var(--ec-ink-soft);
-		cursor: not-allowed;
-		opacity: 0.72;
-		text-decoration: none;
 	}
 
 	.newsletter {

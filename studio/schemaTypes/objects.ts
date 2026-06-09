@@ -132,6 +132,49 @@ export const textBlock = defineType({
 	}
 })
 
+export const sectionHeader = defineType({
+	name: 'sectionHeader',
+	title: 'Section header',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string'
+		}),
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string'
+		}),
+		defineField({
+			name: 'body',
+			title: 'Body',
+			type: 'array',
+			of: [
+				{
+					type: 'block',
+					styles: [{title: 'Normal', value: 'normal'}],
+					lists: [],
+					marks: {
+						decorators: [
+							{title: 'Bold', value: 'strong'},
+							{title: 'Italic', value: 'em'}
+						],
+						annotations: []
+					}
+				}
+			]
+		})
+	],
+	preview: {
+		select: {
+			title: 'heading',
+			subtitle: 'eyebrow'
+		}
+	}
+})
+
 export const numberedValue = defineType({
 	name: 'numberedValue',
 	title: 'Numbered value',

@@ -16,7 +16,7 @@
 		<div class="inner">
 			<div class="crumb">
 				<span>{crumb}</span>
-				<span class="chevron">›</span>
+				<i class="ti ti-chevron-right" aria-hidden="true"></i>
 				{#if active}
 					<span class="current">{active}</span>
 				{/if}
@@ -54,6 +54,7 @@
 		gap: 1.5rem;
 		justify-content: space-between;
 		width: 100%;
+		max-width: 1280px;
 	}
 
 	.crumb {
@@ -63,27 +64,26 @@
 		gap: 0.375rem;
 	}
 
-	.crumb span:first-child {
-		color: var(--ec-teal-darker);
+	.crumb span:first-child, .current {
+		color: var(--ec-teal-dark);
 		font-family: var(--ec-font-sans);
 		font-size: .875rem;
-		font-weight: 400;
+		font-weight: 500;
 		line-height: 1.3;
+		cursor: pointer;
 	}
 
-	.chevron {
+	.ti.ti-chevron-right {
 		color: var(--ec-border);
-		font-size: 2rem;
-		font-weight: 400;
+		font-weight: 900;
+		font-size: 1.125rem;
 		line-height: 1;
 	}
 
 	.current {
 		color: var(--ec-ink-soft);
-		font-family: var(--ec-font-sans);
-		font-size: .875rem;
+		cursor: default;
 		font-weight: 400;
-		line-height: 1.3;
 	}
 
 	.links {
@@ -97,10 +97,10 @@
 	.links a,
 	.links span {
 		border-bottom: 2px solid transparent;
-		color: var(--ec-teal-darker);
+		color: var(--ec-teal-dark);
 		font-family: var(--ec-font-sans);
 		font-size: .875rem;
-		font-weight: 400;
+		font-weight: 500;
 		line-height: 1.3;
 		padding-block: 0.125rem;
 		text-decoration: none;
@@ -115,9 +115,8 @@
 	}
 
 	.links .active {
-		border-bottom-color: transparent;
-		color: var(--ec-teal-darker);
-		font-weight: 400;
+		border-bottom-color: var(--ec-teal);
+		color: var(--ec-ink);
 	}
 
 	.links .disabled {
@@ -125,16 +124,13 @@
 		opacity: 0.55;
 	}
 
-	@media (max-width: 720px) {
-		nav {
-			top: 4.5rem;
-		}
+	@media (max-width: 760px) {
+
 
 		.inner {
 			align-items: center;
 			flex-direction: row;
 			gap: 0;
-			min-height: 3rem;
 		}
 
 		.links {

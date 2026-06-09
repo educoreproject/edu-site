@@ -1,15 +1,23 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
+	type ContainerWidth = 'default' | 'narrow' | 'wide' | 'full-bleed';
+
 	type Props = {
 		children: Snippet;
-		size?: 'default' | 'narrow' | 'wide';
+		width?: ContainerWidth;
+		flex?: boolean;
 	};
 
-	let { children, size = 'default' }: Props = $props();
+	let { children, width = 'default', flex = false }: Props = $props();
+
+	const className = $derived([
+		width !== 'default' ? width : '',
+		flex ? 'flex' : ''
+	].filter(Boolean).join(' '));
 </script>
 
-<div class:narrow={size === 'narrow'} class:wide={size === 'wide'}>
+<div class={className}>
 	{@render children()}
 </div>
 
@@ -27,5 +35,19 @@
 
 	.wide {
 		max-width: 1440px;
+	}
+
+	.full-bleed {
+		max-width: none;
+	}
+
+	.flex {
+		display: flex;
+	}
+
+	@media (max-width: 760px) {
+		div {
+			padding-inline: clamp(1.125rem, 4vw, 2rem);
+		}
 	}
 </style>

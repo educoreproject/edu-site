@@ -16,7 +16,7 @@
 </script>
 
 <footer>
-	<Container>
+	<Container width="full-bleed">
 		<div class="footer-layout">
 			<div class="brand">
 				<div class="logo" aria-hidden="true">
@@ -57,13 +57,14 @@
 <style>
 	footer {
 		background: var(--ec-footer-navy);
-		padding-block: 5rem 4.25rem;
+		padding-block: 5rem 1.25rem;
 	}
 
 	.footer-layout {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 3rem;
+		justify-content: space-between;
 	}
 
 	.brand {
@@ -90,7 +91,7 @@
 	p {
 		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--ec-font-sans);
-		font-size: 1.25rem;
+		font-size: .875rem;
 		line-height: 1.55;
 		margin: 0 0 2.25rem;
 	}
@@ -99,19 +100,18 @@
 		border-top: 1px solid rgba(255, 255, 255, 0.36);
 		color: rgba(255, 255, 255, 0.86);
 		font-family: var(--ec-font-sans);
-		font-size: 1.375rem;
+		font-size: .875rem;
 		line-height: 1.7;
 		padding-top: 2.5rem;
 	}
 
 	.legal div {
 		color: var(--ec-white);
-		font-weight: 700;
+		font-weight: 600;
 	}
 
 	.columns {
 		display: flex;
-		flex: 1 1 34rem;
 		flex-wrap: wrap;
 		gap: 2.5rem;
 	}
@@ -123,8 +123,8 @@
 	h2 {
 		color: rgba(255, 255, 255, 0.74);
 		font-family: var(--ec-font-sans);
-		font-size: 1.25rem;
-		font-weight: 700;
+		font-size: 1rem;
+		font-weight: 600;
 		letter-spacing: 0.02em;
 		line-height: 1.25;
 		margin: 0 0 0.875rem;
@@ -142,7 +142,7 @@
 	a,
 	li span {
 		font-family: var(--ec-font-sans);
-		font-size: 1.25rem;
+		font-size: .875rem;
 		line-height: 1.35;
 	}
 
@@ -164,9 +164,16 @@
 	}
 
 	@media (max-width: 620px) {
-		.footer-layout,
+		
 		.columns {
 			gap: 2rem;
+			display:grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.footer-layout {
+			flex-direction: column-reverse;
+			gap:4rem;
 		}
 
 		.brand,

@@ -29,6 +29,20 @@ const eduListGroupProjection = `{
 	"items": coalesce(items, [])
 }`;
 
+const sectionHeaderProjection = `{
+	eyebrow,
+	heading,
+	"body": coalesce(body[]{
+		_type,
+		style,
+		children[]{
+			_type,
+			text,
+			marks
+		}
+	}, [])
+}`;
+
 const platformToolProjection = `{
 	name,
 	tag,
@@ -80,19 +94,24 @@ export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"]
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
+	"pillarsHeader": coalesce(pillarsHeader${sectionHeaderProjection}, {}),
 	"pillars": coalesce(pillars[]{
 		label,
 		text
 	}, []),
+	"valuesHeader": coalesce(valuesHeader${sectionHeaderProjection}, {}),
 	"values": coalesce(values[]{
 		number,
 		title,
 		description
 	}, []),
 	initiative{
-		heading,
+		"header": coalesce(header${sectionHeaderProjection}, {
+			"heading": heading
+		}),
 		"items": coalesce(items, [])
 	},
+	"voicesHeader": coalesce(voicesHeader${sectionHeaderProjection}, {}),
 	"voices": coalesce(voices[]{
 		quote,
 		name,

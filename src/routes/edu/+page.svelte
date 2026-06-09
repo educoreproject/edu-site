@@ -33,7 +33,7 @@
 	<Hero content={page.hero} />
 
 	<section class="section document" aria-labelledby="mission-heading">
-		<Container size="narrow">
+		<Container width="narrow">
 			<article class="text-section">
 				{#if page.mission.eyebrow}
 					<p class="eyebrow">{page.mission.eyebrow}</p>
@@ -57,7 +57,7 @@
 	</section>
 
 	<section class="section list-surface" aria-labelledby="scope-heading">
-		<Container size="narrow">
+		<Container width="narrow">
 			<h2 id="scope-heading" class="sr-only">EDU scope and boundaries</h2>
 			<div class="list-grid">
 				<article class="list-card">
@@ -84,7 +84,7 @@
 	</section>
 
 	<section class="section document closing" aria-labelledby="unification-heading">
-		<Container size="narrow">
+		<Container width="narrow">
 			<article class="text-section">
 				{#if page.unification.eyebrow}
 					<p class="eyebrow">{page.unification.eyebrow}</p>

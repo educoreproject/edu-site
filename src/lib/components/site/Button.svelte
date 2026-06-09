@@ -57,11 +57,11 @@
 	span {
 		align-items: center;
 		border: 2px solid transparent;
-		border-radius: 4px;
+		border-radius: .375rem;
 		display: inline-flex;
 		font-family: var(--ec-font-sans);
-		font-size: 0.9375rem;
-		font-weight: 600;
+		font-size: 1rem;
+		font-weight: 400;
 		justify-content: center;
 		line-height: 1.1;
 		min-height: 2.875rem;
@@ -133,12 +133,12 @@
 	}
 
 	.outline.on-dark {
-		border-color: rgba(255, 255, 255, 0.64);
+		border-color: rgba(255, 255, 255, 0.66);
 		color: var(--ec-white);
 	}
 
 	.outline.on-dark:hover {
-		background: rgba(255, 255, 255, 0.12);
+		background: rgba(0, 0, 0, 0.12);
 		color: var(--ec-white);
 	}
 

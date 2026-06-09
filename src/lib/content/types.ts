@@ -22,6 +22,24 @@ export type TextBlock = {
 	text: string;
 };
 
+export type RichTextSpan = {
+	_type: 'span';
+	text: string;
+	marks?: string[];
+};
+
+export type RichTextBlock = {
+	_type: 'block';
+	style?: 'normal';
+	children?: RichTextSpan[];
+};
+
+export type SectionHeader = {
+	eyebrow?: string;
+	heading?: string;
+	body?: RichTextBlock[];
+};
+
 export type NumberedValue = {
 	number: string;
 	title: string;
@@ -201,12 +219,15 @@ export type DsuHomePage = {
 	activeSection: 'DSU';
 	subNav: LinkItem[];
 	hero: HeroContent;
+	pillarsHeader: SectionHeader;
 	pillars: TextBlock[];
+	valuesHeader: SectionHeader;
 	values: NumberedValue[];
 	initiative: {
-		heading: string;
+		header: SectionHeader;
 		items: string[];
 	};
+	voicesHeader: SectionHeader;
 	voices: Quote[];
 };
 

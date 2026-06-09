@@ -33,7 +33,7 @@
 	<Hero content={page.hero} compact />
 
 	<section class="section section-padded" aria-labelledby="history-heading">
-		<Container size="narrow">
+		<Container width="narrow">
 			<div class="section-header">
 				<p class="eyebrow">{page.hero.chip}</p>
 				<h2 id="history-heading">{page.hero.title}</h2>

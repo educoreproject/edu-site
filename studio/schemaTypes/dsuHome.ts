@@ -41,6 +41,16 @@ export const dsuHome = defineType({
 			of: [{type: 'textBlock'}]
 		}),
 		defineField({
+			name: 'pillarsHeader',
+			title: 'Pillars header',
+			type: 'sectionHeader'
+		}),
+		defineField({
+			name: 'valuesHeader',
+			title: 'Values header',
+			type: 'sectionHeader'
+		}),
+		defineField({
 			name: 'values',
 			title: 'Values',
 			type: 'array',
@@ -52,10 +62,9 @@ export const dsuHome = defineType({
 			type: 'object',
 			fields: [
 				defineField({
-					name: 'heading',
-					title: 'Heading',
-					type: 'string',
-					validation: (rule) => rule.required()
+					name: 'header',
+					title: 'Header',
+					type: 'sectionHeader'
 				}),
 				defineField({
 					name: 'items',
@@ -66,6 +75,11 @@ export const dsuHome = defineType({
 				})
 			],
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'voicesHeader',
+			title: 'Voices header',
+			type: 'sectionHeader'
 		}),
 		defineField({
 			name: 'voices',

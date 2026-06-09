@@ -1,0 +1,59 @@
+.bg-surface {
+    background: var(--ec-surface);
+}
+
+.bg-surface-soft {
+    background: var(--ec-surface-soft);
+}
+
+.bg-ink {
+    background: var(--ec-ink);
+}
+
+.bg-ink-soft {
+    background: var(--ec-ink-soft);
+}
+
+.bg-teal {
+    background: var(--ec-teal);
+}
+
+.bg-teal-dark {
+    background: var(--ec-teal-dark);
+}
+
+.bg-teal-darker {
+    background: var(--ec-teal-darker);
+}
+
+.bg-teal-soft {
+    background: var(--ec-teal-soft);
+}
+
+.bg-teal-muted {
+    background: var(--ec-teal-muted);
+}
+
+.bg-gold {
+    background: var(--ec-gold);
+}
+
+.bg-gold-dark {
+    background: var(--ec-gold-dark);
+}
+
+.bg-violet {
+    background: var(--ec-violet);
+}
+
+.bg-violet-dark {
+    background: var(--ec-violet-dark);
+}
+
+.bg-cream {
+    background: var(--ec-cream);
+}
+
+.bg-white {
+    background: var(--ec-white);
+}
