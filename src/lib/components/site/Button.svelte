@@ -103,23 +103,23 @@
 
 	.outline {
 		background: transparent;
-		border-color: var(--ec-link);
-		color: var(--ec-link);
-	}
-
-	.outline:hover {
-		background: color-mix(in srgb, var(--ec-link) 10%, transparent);
+		border-color: var(--ec-navy);
 		color: var(--ec-navy);
 	}
 
-	.teal {
-		background: var(--ec-teal);
+	.outline:hover {
+		background: color-mix(in srgb, var(--ec-navy) 8%, transparent);
 		color: var(--ec-navy-deep);
 	}
 
+	.teal {
+		background: var(--ec-teal-dark);
+		color: var(--ec-white);
+	}
+
 	.teal:hover {
-		background: var(--ec-teal-soft);
-		color: var(--ec-navy-deep);
+		background: var(--ec-teal-darker);
+		color: var(--ec-white);
 	}
 
 	.gold {
