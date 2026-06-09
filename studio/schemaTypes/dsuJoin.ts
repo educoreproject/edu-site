@@ -43,21 +43,19 @@ export const dsuJoin = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
+			name: 'membershipHeader',
+			title: 'Membership header',
+			type: 'sectionHeader'
+		}),
+		defineField({
 			name: 'process',
 			title: 'Process',
 			type: 'object',
 			fields: [
 				defineField({
-					name: 'eyebrow',
-					title: 'Eyebrow',
-					type: 'string',
-					validation: (rule) => rule.required()
-				}),
-				defineField({
-					name: 'heading',
-					title: 'Heading',
-					type: 'string',
-					validation: (rule) => rule.required()
+					name: 'header',
+					title: 'Header',
+					type: 'sectionHeader'
 				}),
 				defineField({
 					name: 'steps',

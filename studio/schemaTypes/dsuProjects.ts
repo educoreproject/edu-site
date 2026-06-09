@@ -43,6 +43,11 @@ export const dsuProjects = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
+			name: 'projectsHeader',
+			title: 'Projects header',
+			type: 'sectionHeader'
+		}),
+		defineField({
 			name: 'joinCta',
 			title: 'Join CTA',
 			type: 'joinCta',

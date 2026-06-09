@@ -1,11 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/components/site/Button.svelte';
+	import Card from '$lib/components/site/Card.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
-	import type { DsuMembersPage, MemberOrganization, SiteChrome } from '$lib/content/types';
+	import type { DsuMembersPage, MemberOrganization, SectionHeader, SiteChrome } from '$lib/content/types';
 
 	type Props = {
 		data: {
@@ -25,7 +26,90 @@
 	function getLogoLabel(member: MemberOrganization) {
 		return member.logoLabel ?? member.name.slice(0, 2).toUpperCase();
 	}
+
+	function getLogoImage(member: MemberOrganization) {
+		if (!member.logoImage?.url) {
+			return undefined;
+		}
+
+		return {
+			src: member.logoImage.url,
+			alt: member.logoImage.alt || member.name
+		};
+	}
+
+	function getVimeoEmbedSrc(value?: string) {
+		if (!value) {
+			return null;
+		}
+
+		const iframeSrc = value.match(/<iframe[^>]+src=["']([^"']+)["']/i)?.[1];
+		const candidate = iframeSrc ?? value.trim();
+
+		try {
+			const url = new URL(candidate);
+
+			if (url.hostname === 'player.vimeo.com' && url.pathname.startsWith('/video/')) {
+				return url.toString();
+			}
+
+			if (url.hostname === 'vimeo.com') {
+				const videoId = url.pathname.match(/^\/(\d+)/)?.[1];
+
+				if (!videoId) {
+					return null;
+				}
+
+				const embedUrl = new URL(`https://player.vimeo.com/video/${videoId}`);
+				const hash = url.searchParams.get('h');
+
+				if (hash) {
+					embedUrl.searchParams.set('h', hash);
+				}
+
+				return embedUrl.toString();
+			}
+		} catch {
+			return null;
+		}
+
+		return null;
+	}
 </script>
+
+{#snippet richText(blocks: SectionHeader['body'])}
+	{#each blocks ?? [] as block}
+		{#if block._type === 'block'}
+			<p>
+				{#each block.children ?? [] as span}
+					{@const isStrong = span.marks?.includes('strong')}
+					{@const isEm = span.marks?.includes('em')}
+					{#if isStrong && isEm}
+						<strong><em>{span.text}</em></strong>
+					{:else if isStrong}
+						<strong>{span.text}</strong>
+					{:else if isEm}
+						<em>{span.text}</em>
+					{:else}
+						{span.text}
+					{/if}
+				{/each}
+			</p>
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet sectionHeader(header: SectionHeader, headingId: string, dark = false)}
+	<div class="section-header" class:section-header-dark={dark}>
+		{#if header.eyebrow}
+			<p class="eyebrow">{header.eyebrow}</p>
+		{/if}
+		{#if header.heading}
+			<h2 id={headingId}>{header.heading}</h2>
+		{/if}
+		{@render richText(header.body)}
+	</div>
+{/snippet}
 
 <svelte:head>
 	<title>{page.hero.title}</title>
@@ -41,29 +125,31 @@
 <main>
 	<Hero content={page.hero} compact />
 
-	<section class="section section-padded videos" aria-labelledby="video-testimonials-heading">
-		<Container>
-			<div class="section-header section-header-dark">
-				<p class="eyebrow">Video Testimonials</p>
-				<h2 id="video-testimonials-heading">Hear from DSU members</h2>
-			</div>
+	<section class="section section-padded videos" aria-labelledby={page.videosHeader.heading ? 'video-testimonials-heading' : undefined}>
+		<Container width="wide">
+			{@render sectionHeader(page.videosHeader, 'video-testimonials-heading', true)}
 
 			<div class="video-grid">
 				{#each page.videos as video}
+					{@const embedSrc = getVimeoEmbedSrc(video.url)}
 					<article class="video-card">
-						<a
-							class="video-link"
-							class:disabled={!video.url}
-							href={video.url ? getExternalHref(video.url) : undefined}
-							target={video.url ? '_blank' : undefined}
-							rel={video.url ? 'noreferrer' : undefined}
-							aria-label={video.url ? `Watch testimonial from ${video.name}` : undefined}
-						>
-							<span class="play" aria-hidden="true"></span>
-							{#if video.provider}
-								<span class="provider">{video.provider}</span>
+						<div class="video-frame" class:empty={!embedSrc}>
+							{#if embedSrc}
+								<iframe
+									title={`Video testimonial from ${video.name}`}
+									src={embedSrc}
+									loading="lazy"
+									referrerpolicy="strict-origin-when-cross-origin"
+									allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+									allowfullscreen
+								></iframe>
+							{:else}
+								<span class="play" aria-hidden="true"></span>
+								{#if video.provider}
+									<span class="provider">{video.provider}</span>
+								{/if}
 							{/if}
-						</a>
+						</div>
 
 						<div class="video-body">
 							<h3>{video.name}</h3>
@@ -76,52 +162,49 @@
 		</Container>
 	</section>
 
-	<section class="section section-padded members" aria-labelledby="signatory-members-heading">
-		<Container>
-			<div class="section-header">
-				<p class="eyebrow">Signatory Members</p>
-				<h2 id="signatory-members-heading">Organizations committed to DSU's core values</h2>
-			</div>
+	<section class="section section-padded members bg-surface" aria-labelledby={page.signatoryMembersHeader.heading ? 'signatory-members-heading' : undefined}>
+		<Container width="wide">
+			{@render sectionHeader(page.signatoryMembersHeader, 'signatory-members-heading')}
 
 			<div class="member-grid">
 				{#each page.signatoryMembers as member}
-					<a class="member-card" href={getExternalHref(member.url)} target="_blank" rel="noreferrer">
-						<span
-							class="logo-mark"
-							style={`--logo-color: ${member.logoColor ?? 'var(--ec-navy)'}`}
-							aria-hidden="true"
-						>
-							{getLogoLabel(member)}
-						</span>
-						<span class="member-name">{member.name}</span>
-						<span class="member-url">{member.url}</span>
-					</a>
+					<Card
+						as="a"
+						href={getExternalHref(member.url)}
+						target="_blank"
+						rel="noreferrer"
+						variant="plain"
+						tone="gold"
+						title={member.name}
+						linkLabel={member.url}
+						image={getLogoImage(member)}
+						imageFallbackLabel={getLogoLabel(member)}
+						imageFallbackColor={member.logoColor ?? 'var(--ec-navy)'}
+					/>
 				{/each}
 			</div>
 		</Container>
 	</section>
 
-	<section class="section section-padded members affiliates" aria-labelledby="affiliate-members-heading">
-		<Container>
-			<div class="section-header">
-				<p class="eyebrow">Affiliate Members</p>
-				<h2 id="affiliate-members-heading">Supporting organizations</h2>
-				<p>{page.affiliateIntro}</p>
-			</div>
+	<section class="section section-padded members affiliates" aria-labelledby={page.affiliateMembersHeader.heading ? 'affiliate-members-heading' : undefined}>
+		<Container width="wide">
+			{@render sectionHeader(page.affiliateMembersHeader, 'affiliate-members-heading')}
 
 			<div class="member-grid affiliate-grid">
 				{#each page.affiliateMembers as member}
-					<a class="member-card" href={getExternalHref(member.url)} target="_blank" rel="noreferrer">
-						<span
-							class="logo-mark"
-							style={`--logo-color: ${member.logoColor ?? 'var(--ec-violet)'}`}
-							aria-hidden="true"
-						>
-							{getLogoLabel(member)}
-						</span>
-						<span class="member-name">{member.name}</span>
-						<span class="member-url">{member.url}</span>
-					</a>
+					<Card
+						as="a"
+						href={getExternalHref(member.url)}
+						target="_blank"
+						rel="noreferrer"
+						variant="plain"
+						tone="teal"
+						title={member.name}
+						linkLabel={member.url}
+						image={getLogoImage(member)}
+						imageFallbackLabel={getLogoLabel(member)}
+						imageFallbackColor={member.logoColor ?? 'var(--ec-teal)'}
+					/>
 				{/each}
 			</div>
 		</Container>
@@ -131,7 +214,9 @@
 		<Container>
 			<div class="join-panel">
 				<div>
-					<p class="eyebrow">Join DSU</p>
+					{#if page.joinCta.eyebrow}
+						<p class="eyebrow">{page.joinCta.eyebrow}</p>
+					{/if}
 					<h2 id="join-cta-heading">{page.joinCta.heading}</h2>
 					<p>{page.joinCta.description}</p>
 				</div>
@@ -164,7 +249,7 @@
 	}
 
 	.section-header {
-		max-width: 46rem;
+		max-width: 43rem;
 	}
 
 	.section-header p:not(.eyebrow) {
@@ -172,16 +257,16 @@
 		max-width: 43rem;
 	}
 
-	.eyebrow {
-		color: var(--ec-teal-dark);
-		font-family: var(--ec-font-sans);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0 0 0.625rem;
-		text-transform: uppercase;
-	}
+  .eyebrow {
+    color: var(--ec-teal-dark);
+    font-family: var(--ec-font-sans);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin: 0 0 0.625rem;
+    text-transform: uppercase;
+  }
 
 	h2,
 	h3,
@@ -190,13 +275,13 @@
 		font-family: var(--ec-font-sans);
 	}
 
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
-	}
+  h2 {
+    color: var(--ec-navy);
+    font-size: clamp(1.875rem, 4vw, 2.25rem);
+    line-height: 1.16;
+    margin: 0;
+    text-wrap: pretty;
+  }
 
 	h3 {
 		color: var(--ec-navy);
@@ -205,12 +290,17 @@
 		margin: 0;
 	}
 
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.58;
-		margin: 0;
-	}
+  h2 + p {
+    margin-top: 0.625rem;
+  }
+
+  p {
+    color: var(--ec-ink-soft);
+    font-size: 1rem;
+    line-height: 1.58;
+    margin: 0;
+    text-wrap: pretty;
+  }
 
 	.videos {
 		background: var(--ec-navy-deep);
@@ -232,8 +322,12 @@
 		margin-top: 2rem;
 	}
 
+	.member-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
 	.video-card {
-		background: rgba(255, 255, 255, 0.08);
+		background: var(--ec-navy-dark);
 		border: 1px solid rgba(255, 255, 255, 0.16);
 		border-radius: 8px;
 		display: flex;
@@ -242,33 +336,23 @@
 		overflow: hidden;
 	}
 
-	.video-link {
+	.video-frame {
 		align-items: center;
 		aspect-ratio: 16 / 9;
 		background:
 			linear-gradient(135deg, rgba(0, 185, 187, 0.22), rgba(15, 98, 254, 0.16)),
 			#132c3a;
-		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		position: relative;
-		text-decoration: none;
-		transition:
-			background-color 120ms ease,
-			transform 120ms ease;
+		width: 100%;
 	}
 
-	.video-link:hover {
-		transform: translateY(-1px);
-	}
-
-	.video-link:active {
-		transform: translateY(1px);
-	}
-
-	.video-link.disabled {
-		cursor: default;
-		pointer-events: none;
+	.video-frame iframe {
+		border: 0;
+		display: block;
+		height: 100%;
+		width: 100%;
 	}
 
 	.play {
@@ -326,68 +410,6 @@
 		line-height: 1.4;
 	}
 
-	.member-card {
-		background: var(--ec-white);
-		border: 2px solid color-mix(in srgb, var(--ec-gold) 70%, var(--ec-border-soft));
-		border-radius: 8px;
-		color: inherit;
-		display: grid;
-		gap: 0.75rem;
-		grid-template-columns: auto minmax(0, 1fr);
-		min-width: 0;
-		padding: 1.25rem;
-		text-decoration: none;
-		transition:
-			border-color 120ms ease,
-			box-shadow 120ms ease,
-			transform 120ms ease;
-	}
-
-	.member-card:hover {
-		border-color: var(--ec-gold);
-		box-shadow: 0 1rem 2rem rgba(12, 23, 29, 0.08);
-		transform: translateY(-1px);
-	}
-
-	.member-card:active {
-		box-shadow: none;
-		transform: translateY(1px);
-	}
-
-	.logo-mark {
-		align-items: center;
-		background: var(--logo-color);
-		border-radius: 4px;
-		color: var(--ec-white);
-		display: inline-flex;
-		font-size: 0.75rem;
-		font-weight: 700;
-		grid-row: span 2;
-		height: 3rem;
-		justify-content: center;
-		letter-spacing: 0;
-		line-height: 1;
-		padding-inline: 0.25rem;
-		width: 3rem;
-	}
-
-	.member-name {
-		color: var(--ec-navy);
-		font-size: 1rem;
-		font-weight: 700;
-		line-height: 1.35;
-		min-width: 0;
-		overflow-wrap: anywhere;
-	}
-
-	.member-url {
-		color: var(--ec-ink-soft);
-		font-size: 0.875rem;
-		line-height: 1.4;
-		min-width: 0;
-		overflow-wrap: anywhere;
-	}
-
 	.affiliates {
 		background: var(--ec-surface);
 	}
@@ -400,7 +422,8 @@
 	.join-panel {
 		align-items: center;
 		display: grid;
-		gap: 2rem;
+		padding-block: 2rem;
+		gap: 5rem;
 		grid-template-columns: minmax(0, 1fr) auto;
 	}
 
@@ -420,10 +443,7 @@
 	}
 
 	@media (max-width: 760px) {
-		.section-padded,
-		.join-cta {
-			padding-block: 3rem;
-		}
+
 
 		.video-grid,
 		.member-grid,
@@ -438,23 +458,8 @@
 
 		.join-panel {
 			align-items: start;
+			gap:2rem;
 		}
 	}
 
-	@media (max-width: 420px) {
-		.member-card {
-			grid-template-columns: 1fr;
-		}
-
-		.logo-mark {
-			grid-row: auto;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.video-link,
-		.member-card {
-			transition: none;
-		}
-	}
 </style>

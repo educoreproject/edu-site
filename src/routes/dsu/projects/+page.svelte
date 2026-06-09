@@ -5,7 +5,7 @@
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
-	import type { DsuProject, DsuProjectsPage, SiteChrome } from '$lib/content/types';
+	import type { DsuProject, DsuProjectsPage, SectionHeader, SiteChrome } from '$lib/content/types';
 
 	type Props = {
 		data: {
@@ -23,6 +23,40 @@
 	}
 </script>
 
+{#snippet richText(blocks: SectionHeader['body'])}
+	{#each blocks ?? [] as block}
+		{#if block._type === 'block'}
+			<p>
+				{#each block.children ?? [] as span}
+					{@const isStrong = span.marks?.includes('strong')}
+					{@const isEm = span.marks?.includes('em')}
+					{#if isStrong && isEm}
+						<strong><em>{span.text}</em></strong>
+					{:else if isStrong}
+						<strong>{span.text}</strong>
+					{:else if isEm}
+						<em>{span.text}</em>
+					{:else}
+						{span.text}
+					{/if}
+				{/each}
+			</p>
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet sectionHeader(header: SectionHeader, headingId: string)}
+	<div class="section-header">
+		{#if header.eyebrow}
+			<p class="eyebrow">{header.eyebrow}</p>
+		{/if}
+		{#if header.heading}
+			<h2 id={headingId}>{header.heading}</h2>
+		{/if}
+		{@render richText(header.body)}
+	</div>
+{/snippet}
+
 <svelte:head>
 	<title>{page.hero.title}</title>
 	<meta name="description" content={page.hero.description} />
@@ -34,12 +68,9 @@
 <main>
 	<Hero content={page.hero} compact />
 
-	<section class="section section-padded projects" aria-labelledby="projects-heading">
+	<section class="section section-padded projects" aria-labelledby={page.projectsHeader.heading ? 'projects-heading' : undefined}>
 		<Container>
-			<div class="section-header">
-				<p class="eyebrow">Projects</p>
-				<h2 id="projects-heading">DSU supported initiatives</h2>
-			</div>
+			{@render sectionHeader(page.projectsHeader, 'projects-heading')}
 
 			<div class="project-grid">
 				{#each page.projects as project}
@@ -69,7 +100,9 @@
 		<Container>
 			<div class="join-panel">
 				<div>
-					<p class="eyebrow">Join DSU</p>
+					{#if page.joinCta.eyebrow}
+						<p class="eyebrow">{page.joinCta.eyebrow}</p>
+					{/if}
 					<h2 id="join-cta-heading">{page.joinCta.heading}</h2>
 					<p>{page.joinCta.description}</p>
 				</div>

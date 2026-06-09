@@ -60,11 +60,17 @@ export type VideoTestimonial = {
 	url?: string;
 };
 
+export type ImageAsset = {
+	url: string;
+	alt?: string;
+};
+
 export type MemberOrganization = {
 	name: string;
 	url: string;
 	logoLabel?: string;
 	logoColor?: string;
+	logoImage?: ImageAsset;
 };
 
 export type MembershipType = {
@@ -236,11 +242,15 @@ export type DsuMembersPage = {
 	activeSection: 'DSU';
 	subNav: LinkItem[];
 	hero: HeroContent;
+	videosHeader: SectionHeader;
 	videos: VideoTestimonial[];
+	signatoryMembersHeader: SectionHeader;
 	signatoryMembers: MemberOrganization[];
+	affiliateMembersHeader: SectionHeader;
 	affiliateMembers: MemberOrganization[];
 	affiliateIntro: string;
 	joinCta: {
+		eyebrow?: string;
 		heading: string;
 		description: string;
 		cta: Cta;
@@ -252,10 +262,10 @@ export type DsuJoinPage = {
 	activeSection: 'DSU';
 	subNav: LinkItem[];
 	hero: HeroContent;
+	membershipHeader: SectionHeader;
 	membershipTypes: MembershipType[];
 	process: {
-		eyebrow: string;
-		heading: string;
+		header: SectionHeader;
 		steps: ProcessStep[];
 	};
 	contact: ContactPrompt;
@@ -267,8 +277,10 @@ export type DsuProjectsPage = {
 	activeSection: 'DSU';
 	subNav: LinkItem[];
 	hero: HeroContent;
+	projectsHeader: SectionHeader;
 	projects: DsuProject[];
 	joinCta: {
+		eyebrow?: string;
 		heading: string;
 		description: string;
 		cta: Cta;

@@ -42,6 +42,11 @@ export const dsuMembers = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
+			name: 'videosHeader',
+			title: 'Videos header',
+			type: 'sectionHeader'
+		}),
+		defineField({
 			name: 'signatoryMembers',
 			title: 'Signatory members',
 			type: 'array',
@@ -49,11 +54,21 @@ export const dsuMembers = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
+			name: 'signatoryMembersHeader',
+			title: 'Signatory members header',
+			type: 'sectionHeader'
+		}),
+		defineField({
 			name: 'affiliateMembers',
 			title: 'Affiliate members',
 			type: 'array',
 			of: [{type: 'memberOrganization'}],
 			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'affiliateMembersHeader',
+			title: 'Affiliate members header',
+			type: 'sectionHeader'
 		}),
 		defineField({
 			name: 'affiliateIntro',

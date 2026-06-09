@@ -5,7 +5,7 @@
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
-	import type { DsuJoinPage, SiteChrome } from '$lib/content/types';
+	import type { DsuJoinPage, SectionHeader, SiteChrome } from '$lib/content/types';
 
 	type Props = {
 		data: {
@@ -19,6 +19,40 @@
 	let chrome = $derived(data.chrome);
 </script>
 
+{#snippet richText(blocks: SectionHeader['body'])}
+	{#each blocks ?? [] as block}
+		{#if block._type === 'block'}
+			<p>
+				{#each block.children ?? [] as span}
+					{@const isStrong = span.marks?.includes('strong')}
+					{@const isEm = span.marks?.includes('em')}
+					{#if isStrong && isEm}
+						<strong><em>{span.text}</em></strong>
+					{:else if isStrong}
+						<strong>{span.text}</strong>
+					{:else if isEm}
+						<em>{span.text}</em>
+					{:else}
+						{span.text}
+					{/if}
+				{/each}
+			</p>
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet sectionHeader(header: SectionHeader, headingId: string)}
+	<div class="section-header">
+		{#if header.eyebrow}
+			<p class="eyebrow">{header.eyebrow}</p>
+		{/if}
+		{#if header.heading}
+			<h2 id={headingId}>{header.heading}</h2>
+		{/if}
+		{@render richText(header.body)}
+	</div>
+{/snippet}
+
 <svelte:head>
 	<title>{page.hero.title}</title>
 	<meta name="description" content={page.hero.description} />
@@ -30,12 +64,9 @@
 <main>
 	<Hero content={page.hero} compact />
 
-	<section class="section section-padded membership" aria-labelledby="membership-heading">
+	<section class="section section-padded membership" aria-labelledby={page.membershipHeader.heading ? 'membership-heading' : undefined}>
 		<Container>
-			<div class="section-header">
-				<p class="eyebrow">Membership Types</p>
-				<h2 id="membership-heading">Two ways to join</h2>
-			</div>
+			{@render sectionHeader(page.membershipHeader, 'membership-heading')}
 
 			<div class="membership-grid">
 				{#each page.membershipTypes as membership}
@@ -71,12 +102,9 @@
 		</Container>
 	</section>
 
-	<section class="section section-padded process" aria-labelledby="process-heading">
+	<section class="section section-padded process" aria-labelledby={page.process.header.heading ? 'process-heading' : undefined}>
 		<Container>
-			<div class="section-header">
-				<p class="eyebrow">{page.process.eyebrow}</p>
-				<h2 id="process-heading">{page.process.heading}</h2>
-			</div>
+			{@render sectionHeader(page.process.header, 'process-heading')}
 
 			<div class="process-list">
 				{#each page.process.steps as step, index}

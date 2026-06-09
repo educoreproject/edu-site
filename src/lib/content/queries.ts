@@ -89,6 +89,20 @@ const eventItemProjection = `{
 	href
 }`;
 
+const memberOrganizationProjection = `{
+	name,
+	url,
+	logoLabel,
+	logoColor,
+	"logoImage": select(
+		defined(logoImage.asset) => {
+			"url": logoImage.asset->url,
+			"alt": logoImage.alt
+		},
+		null
+	)
+}`;
+
 export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"][0]{
 	"slug": slug.current,
 	activeSection,
@@ -124,6 +138,7 @@ export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
+	"videosHeader": coalesce(videosHeader${sectionHeaderProjection}, {}),
 	"videos": coalesce(videos[]{
 		name,
 		title,
@@ -131,20 +146,13 @@ export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-
 		provider,
 		url
 	}, []),
-	"signatoryMembers": coalesce(signatoryMembers[]{
-		name,
-		url,
-		logoLabel,
-		logoColor
-	}, []),
-	"affiliateMembers": coalesce(affiliateMembers[]{
-		name,
-		url,
-		logoLabel,
-		logoColor
-	}, []),
+	"signatoryMembersHeader": coalesce(signatoryMembersHeader${sectionHeaderProjection}, {}),
+	"signatoryMembers": coalesce(signatoryMembers[]${memberOrganizationProjection}, []),
+	"affiliateMembersHeader": coalesce(affiliateMembersHeader${sectionHeaderProjection}, {}),
+	"affiliateMembers": coalesce(affiliateMembers[]${memberOrganizationProjection}, []),
 	affiliateIntro,
 	joinCta{
+		eyebrow,
 		heading,
 		description,
 		cta${ctaProjection}
@@ -156,6 +164,7 @@ export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joinin
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
+	"membershipHeader": coalesce(membershipHeader${sectionHeaderProjection}, {}),
 	"membershipTypes": coalesce(membershipTypes[]{
 		kind,
 		kindColor,
@@ -166,8 +175,10 @@ export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joinin
 		featured
 	}, []),
 	process{
-		eyebrow,
-		heading,
+		"header": coalesce(header${sectionHeaderProjection}, {
+			"eyebrow": eyebrow,
+			"heading": heading
+		}),
 		"steps": coalesce(steps[]{
 			title,
 			description
@@ -190,6 +201,7 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
+	"projectsHeader": coalesce(projectsHeader${sectionHeaderProjection}, {}),
 	"projects": coalesce(projects[]{
 		tag,
 		title,
@@ -199,6 +211,7 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 		logoColor
 	}, []),
 	joinCta{
+		eyebrow,
 		heading,
 		description,
 		cta${ctaProjection}

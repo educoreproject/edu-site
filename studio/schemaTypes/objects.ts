@@ -271,8 +271,22 @@ export const videoTestimonial = defineType({
 		}),
 		defineField({
 			name: 'url',
-			title: 'URL',
-			type: 'url'
+			title: 'Vimeo URL or embed code',
+			description: 'Paste the Vimeo player URL from the iframe src, a Vimeo page URL, or the full iframe embed code.',
+			type: 'text',
+			rows: 3,
+			validation: (rule) =>
+				rule.custom((value) => {
+					if (!value) {
+						return true
+					}
+
+					return /(?:<iframe[^>]+src=["']https:\/\/player\.vimeo\.com\/video\/[^"']+["']|https:\/\/player\.vimeo\.com\/video\/|https:\/\/vimeo\.com\/)/i.test(
+						value
+					)
+						? true
+						: 'Use a Vimeo player URL, Vimeo page URL, or Vimeo iframe embed code.'
+				})
 		})
 	],
 	preview: {
@@ -299,6 +313,22 @@ export const memberOrganization = defineType({
 			title: 'URL',
 			type: 'string',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'logoImage',
+			title: 'Logo image',
+			type: 'image',
+			options: {
+				hotspot: false
+			},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Defaults to the organization name when left blank.'
+				})
+			]
 		}),
 		defineField({
 			name: 'logoLabel',
@@ -1035,6 +1065,11 @@ export const joinCta = defineType({
 	title: 'Join CTA',
 	type: 'object',
 	fields: [
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string'
+		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
