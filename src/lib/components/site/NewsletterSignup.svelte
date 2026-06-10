@@ -35,15 +35,15 @@
 			</div>
 
 			<form class="newsletter-form" onsubmit={(event) => event.preventDefault()}>
-				<label for={emailId}>Email address</label>
+				<!-- <label for={emailId}>Email address</label> -->
 				<div class="form-row">
-					<input
+					<!-- <input
 						id={emailId}
 						name="email"
 						type="email"
 						autocomplete="email"
 						placeholder={content.emailPlaceholder}
-					/>
+					/> -->
 					<button type="submit">{content.ctaLabel}</button>
 				</div>
 			</form>
