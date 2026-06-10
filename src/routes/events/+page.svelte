@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
+	import NewsletterSignup from '$lib/components/site/NewsletterSignup.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
@@ -30,7 +31,7 @@
 <SubNav crumb="Events" links={page.subNav} active="Upcoming" />
 
 <main>
-	<Hero content={page.hero} background="teal">
+	<Hero content={page.hero} background="teal" icon="event">
 		<div class="event-counter" aria-label="{page.events.length} {page.counterLabel}">
 			<strong>{page.events.length}</strong>
 			<span>{page.counterLabel}</span>
@@ -47,10 +48,12 @@
 			<div class="event-list">
 				{#each page.events as event}
 					{@const isLinkDisabled = !event.href || event.href === '#'}
-					<article class="event-card">
-						<div class="poster" aria-hidden="true">
-							<span>{event.poster}</span>
-						</div>
+					<article class="event-card" class:has-image={event.image?.url}>
+						{#if event.image?.url}
+							<div class="event-image">
+								<img src={event.image.url} alt={event.image.alt ?? ''} loading="lazy" />
+							</div>
+						{/if}
 
 						<div class="event-content">
 							<p class="event-tag">{event.tag}</p>
@@ -69,39 +72,7 @@
 		</Container>
 	</section>
 
-	<section
-		id="newsletter"
-		class:teal={page.newsletter.background === 'teal'}
-		class="newsletter"
-		aria-labelledby="newsletter-heading"
-	>
-		<Container>
-			<div class="newsletter-inner">
-				<div>
-					<p class="eyebrow">Newsletter</p>
-					<h2 id="newsletter-heading">{page.newsletter.heading}</h2>
-					<p>{page.newsletter.description}</p>
-					{#if page.newsletter.note}
-						<p class="newsletter-note">{page.newsletter.note}</p>
-					{/if}
-				</div>
-
-				<form class="newsletter-form" onsubmit={(event) => event.preventDefault()}>
-					<label for="events-newsletter-email">Email address</label>
-					<div class="form-row">
-						<input
-							id="events-newsletter-email"
-							name="email"
-							type="email"
-							autocomplete="email"
-							placeholder={page.newsletter.emailPlaceholder}
-						/>
-						<button type="submit">{page.newsletter.ctaLabel}</button>
-					</div>
-				</form>
-			</div>
-		</Container>
-	</section>
+	<NewsletterSignup content={page.newsletter} emailId="events-newsletter-email" />
 </main>
 
 <PageFooter {chrome} />
@@ -111,10 +82,7 @@
 	.event-date,
 	h3,
 	a,
-	span,
-	label,
-	input,
-	button {
+	span {
 		font-family: var(--ec-font-sans);
 	}
 
@@ -174,51 +142,27 @@
 		border-radius: 8px;
 		display: grid;
 		gap: 1.5rem;
-		grid-template-columns: minmax(12rem, 14.375rem) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr);
 		min-width: 0;
 		padding: 1rem;
 	}
 
-	.poster {
+	.event-card.has-image {
+		grid-template-columns: minmax(12rem, 14.375rem) minmax(0, 1fr);
+	}
+
+	.event-image {
 		aspect-ratio: 23 / 15;
-		background:
-			linear-gradient(180deg, transparent 58%, rgba(176, 84, 58, 0.55)),
-			linear-gradient(160deg, #bfe3f5 0%, #cdd6e0 45%, #e8c9a0 100%);
 		border-radius: 4px;
-		display: flex;
 		min-height: 9.375rem;
 		overflow: hidden;
-		padding: 1rem;
-		position: relative;
 	}
 
-	.poster::before,
-	.poster::after {
-		background: rgba(176, 74, 48, 0.7);
-		bottom: 0;
-		content: '';
-		position: absolute;
-		width: 0.375rem;
-	}
-
-	.poster::before {
-		height: 60%;
-		right: 24%;
-	}
-
-	.poster::after {
-		height: 48%;
-		right: 46%;
-	}
-
-	.poster span {
-		color: var(--ec-navy);
-		font-size: 1.1875rem;
-		font-weight: 700;
-		line-height: 1.12;
-		position: relative;
-		text-wrap: balance;
-		z-index: 1;
+	.event-image img {
+		display: block;
+		height: 100%;
+		object-fit: cover;
+		width: 100%;
 	}
 
 	.event-content {
@@ -263,107 +207,17 @@
 		text-decoration: none;
 	}
 
-	.newsletter {
-		background: var(--ec-navy);
-		padding-block: 3.5rem;
-	}
-
-	.newsletter.teal {
-		background: var(--ec-teal-darker);
-	}
-
-	.newsletter-inner {
-		align-items: center;
-		display: grid;
-		gap: 2rem;
-		grid-template-columns: minmax(0, 1fr) minmax(18rem, 28rem);
-	}
-
-	.newsletter .eyebrow {
-		color: var(--ec-teal-soft);
-	}
-
-	.newsletter h2,
-	.newsletter p,
-	.newsletter label {
-		color: var(--ec-white);
-	}
-
-	.newsletter h2 {
-		margin-bottom: 0.75rem;
-	}
-
-	.newsletter p {
-		color: rgba(255, 255, 255, 0.86);
-		max-width: 43rem;
-	}
-
-	.newsletter .newsletter-note {
-		color: rgba(255, 255, 255, 0.72);
-		font-size: 0.875rem;
-		margin-top: 0.875rem;
-	}
-
-	.newsletter-form {
-		display: grid;
-		gap: 0.625rem;
-		min-width: 0;
-	}
-
-	.newsletter-form label {
-		font-size: 0.875rem;
-		font-weight: 700;
-		line-height: 1.3;
-	}
-
-	.form-row {
-		display: grid;
-		gap: 0.75rem;
-		grid-template-columns: minmax(0, 1fr) auto;
-	}
-
-	input {
-		border: 1px solid transparent;
-		border-radius: 6px;
-		color: var(--ec-ink);
-		min-width: 0;
-		padding: 0.8125rem 0.875rem;
-		width: 100%;
-	}
-
-	button {
-		background: var(--ec-gold);
-		border: 0;
-		border-radius: 6px;
-		color: var(--ec-navy-deep);
-		cursor: pointer;
-		font-weight: 700;
-		line-height: 1.2;
-		padding: 0.8125rem 1rem;
-		white-space: nowrap;
-	}
-
 	@media (max-width: 760px) {
-		.newsletter {
-			padding-block: 3rem;
-		}
-
 		.event-list {
 			margin-top: 1.5rem;
 		}
 
-		.event-card,
-		.newsletter-inner,
-		.form-row {
+		.event-card.has-image {
 			grid-template-columns: 1fr;
 		}
 
 		.event-content {
 			padding: 0;
-		}
-
-		button {
-			width: 100%;
 		}
 	}
 </style>

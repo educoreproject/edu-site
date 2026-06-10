@@ -11,9 +11,9 @@ const dsuPagePaths = [
 ];
 const routePagePaths = [
 	...dsuPagePaths,
+	'src/routes/contact/+page.svelte',
 	'src/routes/edu/+page.svelte',
 	'src/routes/edu/board/+page.svelte',
-	'src/routes/edu/contact/+page.svelte',
 	'src/routes/edu/history/+page.svelte',
 	'src/routes/educore/+page.svelte',
 	'src/routes/events/+page.svelte',
@@ -22,6 +22,12 @@ const routePagePaths = [
 	'src/routes/resources/faq/+page.svelte',
 	'src/routes/resources/glossary/+page.svelte'
 ];
+
+function hasSelector(source, selector) {
+	const normalize = (value) => value.replace(/\s+/g, ' ').replace(/\s*\+\s*/g, '+').trim();
+
+	return normalize(source).includes(`${normalize(selector)} {`);
+}
 
 test('shared section primitives live in the global utilities stylesheet', () => {
 	for (const selector of [
@@ -36,7 +42,7 @@ test('shared section primitives live in the global utilities stylesheet', () => 
 		'.horizontal-layout'
 	]) {
 		assert.equal(
-			utilitiesSource.includes(`${selector} {`),
+			hasSelector(utilitiesSource, selector),
 			true,
 			`expected ${selector} in utilities stylesheet`
 		);
@@ -76,4 +82,14 @@ test('route pages share global page and type primitives', () => {
 			assert.equal(pattern.test(source), false, `${pagePath} still defines ${selector}`);
 		}
 	}
+});
+
+test('contact route is standalone instead of an EDU subsection', () => {
+	const source = readFileSync('src/routes/contact/+page.svelte', 'utf8');
+	const loadSource = readFileSync('src/routes/contact/+page.ts', 'utf8');
+
+	assert.equal(source.includes('EduContactPage'), false);
+	assert.equal(source.includes('crumb="EDU"'), false);
+	assert.equal(source.includes('activeSubSection="Contact"'), false);
+	assert.equal(loadSource.includes('getEduContactPage'), false);
 });

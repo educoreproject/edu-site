@@ -122,7 +122,7 @@ export type NewsletterBandContent = {
 };
 
 export type EventItem = {
-	poster: string;
+	image?: ImageAsset;
 	tag: string;
 	date: string;
 	title: string;
@@ -362,8 +362,8 @@ export type EduHistoryPage = {
 	entries: TimelineEntry[];
 };
 
-export type EduContactPage = {
-	slug: 'edu-contact';
+export type ContactPage = {
+	slug: 'contact' | 'edu-contact';
 	activeSection: 'Contact';
 	subNav: LinkItem[];
 	hero: HeroContent;

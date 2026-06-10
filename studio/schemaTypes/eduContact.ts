@@ -2,16 +2,16 @@ import {defineField, defineType} from 'sanity'
 
 export const eduContact = defineType({
 	name: 'eduContact',
-	title: 'EDU contact',
+	title: 'Contact page',
 	type: 'document',
 	fields: [
 		defineField({
 			name: 'slug',
 			title: 'Slug',
 			type: 'slug',
-			initialValue: {current: 'edu-contact'},
+			initialValue: {current: 'contact'},
 			options: {
-				source: () => 'edu-contact'
+				source: () => 'contact'
 			},
 			validation: (rule) => rule.required()
 		}),
@@ -57,7 +57,7 @@ export const eduContact = defineType({
 	],
 	preview: {
 		prepare: () => ({
-			title: 'EDU contact'
+			title: 'Contact page'
 		})
 	}
 })

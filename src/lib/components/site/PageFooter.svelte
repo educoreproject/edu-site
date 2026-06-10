@@ -62,7 +62,7 @@
 
 	.footer-layout {
 		display: flex;
-		flex-wrap: wrap;
+		/* flex-wrap: wrap; */
 		gap: 3rem;
 		justify-content: space-between;
 	}

@@ -81,7 +81,13 @@ const newsletterBandProjection = `{
 }`;
 
 const eventItemProjection = `{
-	poster,
+	"image": select(
+		defined(image.asset) => {
+			"url": image.asset->url,
+			"alt": image.alt
+		},
+		null
+	),
 	tag,
 	date,
 	title,
@@ -319,7 +325,7 @@ export const eduHistoryQuery = `*[_type == "eduHistory" && slug.current == "edu-
 	}, [])
 }`;
 
-export const eduContactQuery = `*[_type == "eduContact" && slug.current == "edu-contact"][0]{
+export const contactPageQuery = `*[_type == "eduContact" && slug.current in ["contact", "edu-contact"]] | order(slug.current asc)[0]{
 	"slug": slug.current,
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),

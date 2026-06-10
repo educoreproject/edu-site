@@ -18,7 +18,10 @@ test('DSU join CTAs use the shared site component', () => {
 	for (const pagePath of dsuPagePaths) {
 		const pageSource = readFileSync(pagePath, 'utf8');
 
-		assert.equal(pageSource.includes("import JoinCta from '$lib/components/site/JoinCta.svelte';"), true);
+		assert.equal(
+			/import\s+JoinCta\s+from\s+['"]\$lib\/components\/site\/JoinCta\.svelte['"];/.test(pageSource),
+			true
+		);
 		assert.equal(pageSource.includes('<JoinCta content={page.joinCta}'), true);
 		assert.equal(pageSource.includes('class="join-cta"'), false);
 		assert.equal(pageSource.includes('class="join-panel"'), false);

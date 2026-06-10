@@ -80,7 +80,7 @@
 		<Container width="wide">
 			{@render sectionHeader(page.projectsHeader, 'projects-heading')}
 
-			<div class="project-grid">
+			<div class="card-grid">
 				{#each page.projects as project}
 					<Card
 						as="a"
@@ -102,17 +102,4 @@
 
 <PageFooter {chrome} />
 
-<style>
-	.project-grid {
-		display: grid;
-		gap: 1.25rem;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-	}
 
-	@media (max-width: 760px) {
-		.project-grid {
-			grid-template-columns: 1fr;
-		}
-
-	}
-</style>

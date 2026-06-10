@@ -130,7 +130,7 @@
       : undefined}
   >
     <Container width="wide">
-      <div class="process-layout">
+      <div class="horizontal-layout">
         {@render sectionHeader(page.process.header, "process-heading")}
 
         <ul
@@ -208,7 +208,6 @@
     display: grid;
     gap: 1.25rem;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 2rem;
   }
 
   .membership-card {
@@ -291,30 +290,9 @@
     color: var(--kind-color);
   }
 
-  li span {
-    align-items: center;
-    background: var(--ec-teal);
-    border-radius: 999px;
-    color: var(--ec-navy-deep);
-    display: inline-flex;
-    font-size: 0.75rem;
-    font-weight: 700;
-    height: 1.25rem;
-    justify-content: center;
-    line-height: 1;
-    margin-top: 0.125rem;
-    width: 1.25rem;
-  }
-
   .process {
     border-top: 1px solid var(--ec-border);
     border-bottom: 1px solid var(--ec-border);
-  }
-
-  .process-layout {
-    display: grid;
-    gap: 5rem;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
   }
 
   .process-list {
@@ -327,10 +305,14 @@
   }
 
   .questions-layout {
-    display: grid;
+    display: flex;
     gap: 5rem;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: center;
   }
+
+   .questions-layout > * {
+	flex: 1;
+   }
 
   ul.checklist-card {
 	margin-top:.375rem;
@@ -346,18 +328,15 @@
 	display: list-item;
   }
 
-  @media (max-width: 760px) {
-    .membership-grid,
-    .questions-layout, .process-layout {
-      grid-template-columns: 1fr;
-    }
-
-	.questions-layout, .process-layout {
+  @media (max-width: 1024px) {
+	.questions-layout  {
+		flex-direction: column;
 		gap:1.75rem;
 	}
 
-    .membership-grid {
-      margin-top: 1.5rem;
+	   .membership-grid {
+      grid-template-columns: 1fr;
     }
   }
+
 </style>

@@ -6,12 +6,12 @@ import {
 	dsuMembersQuery,
 	dsuProjectsQuery,
 	eduBoardQuery,
-	eduContactQuery,
 	eduHistoryQuery,
 	eduOverviewQuery,
 	educoreOverviewQuery,
 	eventsPastQuery,
 	eventsUpcomingQuery,
+	contactPageQuery,
 	resourcesFaqQuery,
 	resourcesGlossaryQuery,
 	resourcesHubQuery
@@ -22,12 +22,12 @@ import type {
 	DsuMembersPage,
 	DsuProjectsPage,
 	EduBoardPage,
-	EduContactPage,
 	EduHistoryPage,
 	EduOverviewPage,
 	EducoreOverviewPage,
 	EventsPastPage,
 	EventsUpcomingPage,
+	ContactPage,
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
 	ResourcesHubPage,
@@ -110,8 +110,8 @@ export function getEduHistoryPage(): Promise<EduHistoryPage> {
 	return fetchFromSanity<EduHistoryPage>(eduHistoryQuery, 'EDU history page');
 }
 
-export function getEduContactPage(): Promise<EduContactPage> {
-	return fetchFromSanity<EduContactPage>(eduContactQuery, 'EDU contact page');
+export function getContactPage(): Promise<ContactPage> {
+	return fetchFromSanity<ContactPage>(contactPageQuery, 'contact page');
 }
 
 export function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {

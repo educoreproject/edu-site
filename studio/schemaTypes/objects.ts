@@ -635,9 +635,20 @@ export const eventItem = defineType({
 	type: 'object',
 	fields: [
 		defineField({
-			name: 'poster',
-			title: 'Poster',
-			type: 'string',
+			name: 'image',
+			title: 'Image',
+			type: 'image',
+			options: {
+				hotspot: true
+			},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Describe the event image for screen reader users.'
+				})
+			],
 			validation: (rule) => rule.required()
 		}),
 		defineField({

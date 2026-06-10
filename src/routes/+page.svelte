@@ -204,6 +204,13 @@
     margin-top: 2rem;
   }
 
+  @media (max-width: 1024px) {
+    .pillar-grid,
+    .voice-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
   @media (max-width: 760px) {
     .pillar-grid,
     .voice-grid {

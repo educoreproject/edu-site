@@ -7,6 +7,7 @@
   type Props = {
     content: HeroContent;
     background?: "navy" | "teal" | "violet";
+    icon?: "world" | "event" | "resource" | "mail";
     compact?: boolean;
     titleId?: string;
     children?: Snippet;
@@ -16,6 +17,7 @@
   let {
     content,
     background = "navy",
+    icon = "world",
     compact = false,
     titleId = `${uid}-title`,
     children,
@@ -28,7 +30,7 @@
   class:violet={background === "violet"}
   aria-labelledby={titleId}
 >
-  <i class="globe ti ti-world" aria-hidden="true"></i>
+  <i class="background-icon ti" class:ti-world={icon === 'world'} class:ti-calendar={icon === 'event'} class:ti-article={icon === 'resource'} class:ti-mail={icon === 'mail'} aria-hidden="true"></i>
 
   <Container>
     <div class="hero-content">
@@ -86,11 +88,21 @@
   }
 
   section.teal {
-    background: var(--ec-teal-darker);
+    background-color: var(--ec-teal-darker);
+        background-image: linear-gradient(
+    60deg,
+   hsl(180deg 100% 14%) 0%,
+    hsl(180deg 100% 17%) 26%,
+    hsl(181deg 100% 21%) 39%,
+    hsl(180deg 100% 24%) 50%,
+    hsl(181deg 100% 28%) 61%,
+    hsl(180deg 100% 32%) 74%,
+    hsl(181deg 100% 37%) 100%
+  );
   }
 
   section.violet {
-    background: var(--ec-violet);
+    background-color: var(--ec-violet);
   }
 
   section.compact {
@@ -125,6 +137,7 @@
     gap: 0.375rem;
     line-height: 1.2;
     padding: 0.25rem 0.625rem;
+    text-transform: uppercase;
   }
 
   .chip span {
@@ -167,7 +180,7 @@
 	margin-top: 1.5rem;
   }
 
-  .globe {
+  .background-icon {
     right: 0;
     opacity: 0.12;
     pointer-events: none;
@@ -177,6 +190,18 @@
     color: var(--ec-navy);
     font-size: min(50rem, 90vh);
     font-weight: 100;
+  }
+
+  .teal .background-icon {
+    color: var(--ec-teal-darker);
+  }
+
+   @media (max-width: 1024px) {
+    .hero-content {
+      min-height: 16rem;
+      padding-block-start: 2.5rem;
+      padding-block-end: 4rem;
+    }
   }
 
   @media (max-width: 640px) {
