@@ -87,15 +87,6 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
 	.platform {
 		padding-block: 4.5rem;
 	}
@@ -127,27 +118,12 @@
 		text-transform: uppercase;
 	}
 
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
-	}
-
 	h3 {
 		color: var(--ec-navy);
 		font-size: 1.3125rem;
 		line-height: 1.25;
 		margin: 0;
 		text-wrap: pretty;
-	}
-
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.6;
-		margin: 0;
 	}
 
 	.tool-grid {

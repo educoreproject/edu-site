@@ -59,54 +59,6 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
-	.section-padded {
-		padding-block: 4rem;
-	}
-
-	.section-header {
-		max-width: 46rem;
-	}
-
-	.eyebrow,
-	h2,
-	p {
-		font-family: var(--ec-font-sans);
-	}
-
-	.eyebrow {
-		color: var(--ec-teal-dark);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0 0 0.625rem;
-		text-transform: uppercase;
-	}
-
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
-	}
-
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 0.9375rem;
-		line-height: 1.5;
-		margin: 0;
-	}
-
 	.board-grid {
 		display: grid;
 		gap: 1.25rem;
@@ -115,10 +67,6 @@
 	}
 
 	@media (max-width: 760px) {
-		.section-padded {
-			padding-block: 3rem;
-		}
-
 		.board-grid {
 			grid-template-columns: 1fr;
 			margin-top: 1.5rem;

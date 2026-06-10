@@ -92,8 +92,6 @@ const eventItemProjection = `{
 const memberOrganizationProjection = `{
 	name,
 	url,
-	logoLabel,
-	logoColor,
 	"logoImage": select(
 		defined(logoImage.asset) => {
 			"url": logoImage.asset->url,
@@ -203,12 +201,16 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 	hero${heroProjection},
 	"projectsHeader": coalesce(projectsHeader${sectionHeaderProjection}, {}),
 	"projects": coalesce(projects[]{
-		tag,
 		title,
 		category,
 		href,
-		logoLabel,
-		logoColor
+		"logoImage": select(
+			defined(logoImage.asset) => {
+				"url": logoImage.asset->url,
+				"alt": logoImage.alt
+			},
+			null
+		)
 	}, []),
 	joinCta{
 		eyebrow,

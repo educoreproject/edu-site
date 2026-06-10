@@ -68,8 +68,6 @@ export type ImageAsset = {
 export type MemberOrganization = {
 	name: string;
 	url: string;
-	logoLabel?: string;
-	logoColor?: string;
 	logoImage?: ImageAsset;
 };
 
@@ -101,12 +99,10 @@ export type ContactPrompt = {
 };
 
 export type DsuProject = {
-	tag: string;
 	title: string;
-	category: string;
+	category?: string;
 	href: string;
-	logoLabel?: string;
-	logoColor?: string;
+	logoImage?: ImageAsset;
 };
 
 export type ResourceCard = {

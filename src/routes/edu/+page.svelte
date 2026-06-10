@@ -111,15 +111,6 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
 	.document {
 		padding-block: 4rem;
 	}
@@ -139,30 +130,9 @@
 		padding-top: 3rem;
 	}
 
-	.eyebrow {
-		color: var(--ec-teal-dark);
-		font-family: var(--ec-font-sans);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0;
-		text-transform: uppercase;
-	}
-
-	h2,
 	h3,
-	p,
 	li {
 		font-family: var(--ec-font-sans);
-	}
-
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
 	}
 
 	h3 {
@@ -173,7 +143,6 @@
 		text-wrap: pretty;
 	}
 
-	p,
 	li {
 		color: var(--ec-ink-soft);
 		font-size: 1rem;

@@ -122,19 +122,6 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
-	.section-padded {
-		padding-block: 4rem;
-	}
-
 	.contact-layout {
 		align-items: start;
 		display: grid;
@@ -160,33 +147,12 @@
 		max-width: 42rem;
 	}
 
-	.eyebrow,
-	h2,
 	h3,
-	p,
 	a,
 	label,
 	input,
 	textarea {
 		font-family: var(--ec-font-sans);
-	}
-
-	.eyebrow {
-		color: var(--ec-teal-dark);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0 0 0.625rem;
-		text-transform: uppercase;
-	}
-
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
 	}
 
 	h3 {
@@ -195,13 +161,6 @@
 		line-height: 1.3;
 		margin: 0;
 		text-wrap: pretty;
-	}
-
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.58;
-		margin: 0;
 	}
 
 	.field-grid {
@@ -277,10 +236,6 @@
 	}
 
 	@media (max-width: 760px) {
-		.section-padded {
-			padding-block: 3rem;
-		}
-
 		.contact-layout,
 		.field-grid {
 			grid-template-columns: 1fr;

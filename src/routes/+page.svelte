@@ -99,7 +99,7 @@
     aria-labelledby={page.valuesHeader.heading ? "values-heading" : undefined}
   >
     <Container width="wide">
-      <div class="values-layout">
+      <div class="horizontal-layout">
         {@render sectionHeader(page.valuesHeader, "values-heading")}
 
         <ul
@@ -129,7 +129,7 @@
       : undefined}
   >
     <Container width="wide">
-      <div class="initiative-layout">
+      <div class="horizontal-layout">
         {@render sectionHeader(page.initiative.header, "initiative-heading")}
 
         <ul
@@ -172,58 +172,6 @@
 <PageFooter {chrome} />
 
 <style>
-  main {
-    background: var(--ec-white);
-  }
-
-  .section {
-    position: relative;
-  }
-
-  .section-padded {
-    padding-block: 4rem;
-  }
-
-  .section-header {
-    max-width: 43rem;
-  }
-
-  .eyebrow {
-    color: var(--ec-teal-dark);
-    font-family: var(--ec-font-sans);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: 1.2;
-    margin: 0 0 0.625rem;
-    text-transform: uppercase;
-  }
-
-  h2,
-  p {
-    font-family: var(--ec-font-sans);
-  }
-
-  h2 {
-    color: var(--ec-navy);
-    font-size: clamp(1.875rem, 4vw, 2.25rem);
-    line-height: 1.16;
-    margin: 0;
-    text-wrap: pretty;
-  }
-
-  h2 + p {
-    margin-top: 0.625rem;
-  }
-
-  p {
-    color: var(--ec-ink-soft);
-    font-size: 1rem;
-    line-height: 1.58;
-    margin: 0;
-    text-wrap: pretty;
-  }
-
   .pillar-grid {
     display: grid;
     gap: 1.25rem;
@@ -232,13 +180,6 @@
 
   .values {
     border-top: 1px solid var(--ec-border);
-  }
-
-  .values-layout,
-  .initiative-layout {
-    display: grid;
-    gap: 5rem;
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 2fr);
   }
 
   .value-list,
@@ -265,15 +206,8 @@
 
   @media (max-width: 760px) {
     .pillar-grid,
-    .values-layout,
-    .initiative-layout,
     .voice-grid {
       grid-template-columns: 1fr;
-    }
-
-    .values-layout,
-    .initiative-layout {
-      gap: 1.75rem;
     }
   }
 </style>

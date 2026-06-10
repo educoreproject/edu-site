@@ -98,28 +98,8 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
-	.section-padded {
-		padding-block: 4rem;
-	}
-
-	.section-header {
-		max-width: 46rem;
-	}
-
-	.eyebrow,
 	.item-category,
-	h2,
 	h3,
-	p,
 	span,
 	label,
 	input,
@@ -127,7 +107,6 @@
 		font-family: var(--ec-font-sans);
 	}
 
-	.eyebrow,
 	.item-category {
 		color: var(--ec-teal-dark);
 		font-size: 0.8125rem;
@@ -138,27 +117,12 @@
 		text-transform: uppercase;
 	}
 
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
-	}
-
 	h3 {
 		color: var(--ec-navy);
 		font-size: 1.125rem;
 		line-height: 1.3;
 		margin: 0;
 		text-wrap: pretty;
-	}
-
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.58;
-		margin: 0;
 	}
 
 	.content-layout {
@@ -287,7 +251,6 @@
 	}
 
 	@media (max-width: 760px) {
-		.section-padded,
 		.newsletter {
 			padding-block: 3rem;
 		}

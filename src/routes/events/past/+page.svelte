@@ -116,30 +116,10 @@
 <PageFooter {chrome} />
 
 <style>
-	main {
-		background: var(--ec-white);
-		overflow-x: clip;
-	}
-
-	.section {
-		position: relative;
-	}
-
-	.section-padded {
-		padding-block: 3.5rem 4rem;
-	}
-
-	.section-header {
-		max-width: 46rem;
-	}
-
-	.eyebrow,
 	.event-tag,
 	.event-date,
-	h2,
 	h3,
 	h4,
-	p,
 	a,
 	span,
 	label,
@@ -148,7 +128,6 @@
 		font-family: var(--ec-font-sans);
 	}
 
-	.eyebrow,
 	.event-tag {
 		color: var(--ec-teal-dark);
 		font-size: 0.8125rem;
@@ -157,14 +136,6 @@
 		line-height: 1.2;
 		margin: 0 0 0.625rem;
 		text-transform: uppercase;
-	}
-
-	h2 {
-		color: var(--ec-navy);
-		font-size: clamp(1.875rem, 4vw, 2.5rem);
-		line-height: 1.16;
-		margin: 0;
-		text-wrap: pretty;
 	}
 
 	h3 {
@@ -181,13 +152,6 @@
 		line-height: 1.3;
 		margin: 0;
 		text-wrap: pretty;
-	}
-
-	p {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.58;
-		margin: 0;
 	}
 
 	.archive-list {
@@ -402,7 +366,6 @@
 	}
 
 	@media (max-width: 760px) {
-		.section-padded,
 		.newsletter {
 			padding-block: 3rem;
 		}

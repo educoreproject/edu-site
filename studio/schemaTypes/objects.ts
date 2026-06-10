@@ -329,16 +329,6 @@ export const memberOrganization = defineType({
 					description: 'Defaults to the organization name when left blank.'
 				})
 			]
-		}),
-		defineField({
-			name: 'logoLabel',
-			title: 'Logo label',
-			type: 'string'
-		}),
-		defineField({
-			name: 'logoColor',
-			title: 'Logo color',
-			type: 'string'
 		})
 	],
 	preview: {
@@ -504,12 +494,6 @@ export const dsuProject = defineType({
 	type: 'object',
 	fields: [
 		defineField({
-			name: 'tag',
-			title: 'Tag',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
 			name: 'title',
 			title: 'Title',
 			type: 'string',
@@ -518,8 +502,7 @@ export const dsuProject = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
-			type: 'string',
-			validation: (rule) => rule.required()
+			type: 'string'
 		}),
 		defineField({
 			name: 'href',
@@ -528,14 +511,20 @@ export const dsuProject = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'logoLabel',
-			title: 'Logo label',
-			type: 'string'
-		}),
-		defineField({
-			name: 'logoColor',
-			title: 'Logo color',
-			type: 'string'
+			name: 'logoImage',
+			title: 'Logo image',
+			type: 'image',
+			options: {
+				hotspot: false
+			},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Defaults to the project title when left blank.'
+				})
+			]
 		})
 	],
 	preview: {
