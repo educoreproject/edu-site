@@ -2,8 +2,8 @@
 	import Card from '$lib/components/site/Card.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
-	import NewsletterSignup from '$lib/components/site/NewsletterSignup.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
+	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
 	import type { ResourcesHubPage, SiteChrome } from '$lib/content/types';
@@ -58,7 +58,7 @@
 		</Container>
 	</section>
 
-	<NewsletterSignup content={page.newsletter} emailId="resources-newsletter-email" />
+	<PageCtas ctas={page.ctas} />
 </main>
 
 <PageFooter {chrome} />

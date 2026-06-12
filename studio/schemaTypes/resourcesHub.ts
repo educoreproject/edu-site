@@ -55,10 +55,10 @@ export const resourcesHub = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
-			name: 'newsletter',
-			title: 'Newsletter',
-			type: 'newsletterBand',
-			validation: (rule) => rule.required()
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

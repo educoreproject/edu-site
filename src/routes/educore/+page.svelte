@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Button from '$lib/components/site/Button.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
+	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
 	import type { EducoreOverviewPage, PlatformTool, SiteChrome } from '$lib/content/types';
@@ -64,24 +64,7 @@
 		</Container>
 	</section>
 
-	<section class="cta-band" aria-labelledby="educore-cta-heading">
-		<Container>
-			<div class="cta-inner">
-				<div class="cta-copy">
-					<h2 id="educore-cta-heading">{page.ctaBand.heading}</h2>
-					<p>{page.ctaBand.description}</p>
-				</div>
-
-				<Button
-					href={page.ctaBand.cta.href}
-					label={page.ctaBand.cta.label}
-					variant="teal"
-					onDark
-					disabled={!page.ctaBand.cta.href || page.ctaBand.cta.href === '#'}
-				/>
-			</div>
-		</Container>
-	</section>
+	<PageCtas ctas={page.ctas} />
 </main>
 
 <PageFooter {chrome} />
@@ -179,39 +162,6 @@
 		text-decoration: none;
 	}
 
-	.cta-band {
-		background: var(--ec-violet);
-		padding-block: 3.5rem;
-	}
-
-	.cta-inner {
-		align-items: center;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 2.5rem;
-		justify-content: space-between;
-	}
-
-	.cta-copy {
-		display: grid;
-		gap: 0.625rem;
-		max-width: 40rem;
-		min-width: 0;
-	}
-
-	.cta-band h2,
-	.cta-band p {
-		color: var(--ec-white);
-	}
-
-	.cta-band h2 {
-		font-size: clamp(1.75rem, 3vw, 2rem);
-	}
-
-	.cta-band p {
-		color: rgba(255, 255, 255, 0.86);
-	}
-
 	@media (max-width: 760px) {
 		.platform {
 			padding-block: 3rem;
@@ -222,11 +172,6 @@
 			margin-top: 2rem;
 		}
 
-		.cta-inner {
-			align-items: stretch;
-			flex-direction: column;
-			gap: 1.5rem;
-		}
 	}
 
 	@media (max-width: 420px) {

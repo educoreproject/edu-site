@@ -25,21 +25,19 @@ import {
 	glossaryTerm,
 	heroContent,
 	infoCard,
-	joinCta,
 	linkItem,
 	memberOrganization,
 	membershipType,
-	newsletterBand,
 	numberedValue,
 	platformTool,
 	processStep,
 	quote,
 	resourceCard,
 	sectionHeader,
+	sharedCta,
 	textBlock,
 	timelineEntry,
-	videoTestimonial,
-	ctaBand
+	videoTestimonial
 } from './objects'
 import {resourcesFaq} from './resourcesFaq'
 import {resourcesGlossary} from './resourcesGlossary'
@@ -49,6 +47,7 @@ import {siteChrome} from './siteChrome'
 export const schemaTypes = [
 	linkItem,
 	cta,
+	sharedCta,
 	heroContent,
 	textBlock,
 	sectionHeader,
@@ -62,7 +61,6 @@ export const schemaTypes = [
 	contactPrompt,
 	dsuProject,
 	resourceCard,
-	newsletterBand,
 	eventItem,
 	eventArchiveGroup,
 	glossaryTerm,
@@ -74,8 +72,6 @@ export const schemaTypes = [
 	timelineEntry,
 	contactField,
 	infoCard,
-	joinCta,
-	ctaBand,
 	footerColumn,
 	siteChrome,
 	dsuHome,

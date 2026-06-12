@@ -1,5 +1,23 @@
 import {defineField, defineType} from 'sanity'
 
+function requireCtaValue(
+	value: unknown,
+	context: {document?: {_type?: string; type?: string}},
+	fieldLabel: string
+) {
+	const document = context.document
+
+	if (document?._type === 'sharedCta' && document.type !== 'generic') {
+		return true
+	}
+
+	if (typeof value === 'string') {
+		return value.trim() ? true : `${fieldLabel} is required.`
+	}
+
+	return value ? true : `${fieldLabel} is required.`
+}
+
 export const linkItem = defineType({
 	name: 'linkItem',
 	title: 'Link item',
@@ -41,13 +59,13 @@ export const cta = defineType({
 			name: 'label',
 			title: 'Label',
 			type: 'string',
-			validation: (rule) => rule.required()
+			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA label'))
 		}),
 		defineField({
 			name: 'href',
 			title: 'Href',
 			type: 'string',
-			validation: (rule) => rule.required()
+			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA href'))
 		}),
 		defineField({
 			name: 'variant',
@@ -62,13 +80,130 @@ export const cta = defineType({
 				]
 			},
 			initialValue: 'primary',
-			validation: (rule) => rule.required()
+			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA variant'))
 		})
 	],
 	preview: {
 		select: {
 			title: 'label',
 			subtitle: 'href'
+		}
+	}
+})
+
+export const sharedCta = defineType({
+	name: 'sharedCta',
+	title: 'Shared CTA',
+	type: 'document',
+	fields: [
+		defineField({
+			name: 'title',
+			title: 'Internal title',
+			type: 'string',
+			description: 'Editor-facing name used when selecting this CTA from another page.',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'type',
+			title: 'Type',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'Generic', value: 'generic'},
+					{title: 'Newsletter', value: 'newsletter'}
+				],
+				layout: 'radio'
+			},
+			initialValue: 'generic',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'eyebrow',
+			title: 'Eyebrow',
+			type: 'string',
+			hidden: ({parent}) => parent?.type !== 'generic'
+		}),
+		defineField({
+			name: 'heading',
+			title: 'Heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'cta',
+			title: 'CTA',
+			type: 'cta',
+			validation: (rule) =>
+				rule.custom((value, context) => {
+					const parent = context.parent as {type?: string; signupMode?: string}
+					const cta = value as {label?: string; href?: string} | undefined
+
+					if ((parent?.type === 'generic' || parent?.type === 'newsletter') && !cta) {
+						return 'CTAs need button content.'
+					}
+
+					if (parent?.type !== 'newsletter') {
+						return true
+					}
+
+					if (!cta?.label?.trim()) {
+						return 'Newsletter CTAs need a CTA label.'
+					}
+
+					return parent.signupMode !== 'directEmailSignup' && !cta.href?.trim()
+						? 'External newsletter signups need a CTA href.'
+						: true
+				})
+		}),
+		defineField({
+			name: 'signupMode',
+			title: 'Signup mode',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'External link', value: 'externalLink'},
+					{title: 'Direct email signup', value: 'directEmailSignup'}
+				],
+				layout: 'radio'
+			},
+			initialValue: 'externalLink',
+			hidden: ({parent}) => parent?.type !== 'newsletter',
+			validation: (rule) =>
+				rule.custom((value, context) =>
+					(context.parent as {type?: string})?.type === 'newsletter' && !value
+						? 'Newsletter CTAs need a signup mode.'
+						: true
+				)
+		}),
+		defineField({
+			name: 'note',
+			title: 'Note',
+			type: 'string',
+			hidden: ({parent}) => parent?.type !== 'newsletter'
+		}),
+		defineField({
+			name: 'background',
+			title: 'Background',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'Navy', value: 'navy'},
+					{title: 'Teal', value: 'teal'}
+				]
+			}
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'type'
 		}
 	}
 })
@@ -574,61 +709,6 @@ export const resourceCard = defineType({
 	}
 })
 
-export const newsletterBand = defineType({
-	name: 'newsletterBand',
-	title: 'Newsletter band',
-	type: 'object',
-	fields: [
-		defineField({
-			name: 'heading',
-			title: 'Heading',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'description',
-			title: 'Description',
-			type: 'text',
-			rows: 3,
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'emailPlaceholder',
-			title: 'Email placeholder',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'ctaLabel',
-			title: 'CTA label',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'note',
-			title: 'Note',
-			type: 'string'
-		}),
-		defineField({
-			name: 'background',
-			title: 'Background',
-			type: 'string',
-			options: {
-				list: [
-					{title: 'Navy', value: 'navy'},
-					{title: 'Teal', value: 'teal'}
-				]
-			}
-		})
-	],
-	preview: {
-		select: {
-			title: 'heading',
-			subtitle: 'ctaLabel'
-		}
-	}
-})
-
 export const eventItem = defineType({
 	name: 'eventItem',
 	title: 'Event item',
@@ -648,8 +728,7 @@ export const eventItem = defineType({
 					type: 'string',
 					description: 'Describe the event image for screen reader users.'
 				})
-			],
-			validation: (rule) => rule.required()
+			]
 		}),
 		defineField({
 			name: 'tag',
@@ -1056,71 +1135,6 @@ export const infoCard = defineType({
 		select: {
 			title: 'heading',
 			subtitle: 'eyebrow'
-		}
-	}
-})
-
-export const joinCta = defineType({
-	name: 'joinCta',
-	title: 'Join CTA',
-	type: 'object',
-	fields: [
-		defineField({
-			name: 'eyebrow',
-			title: 'Eyebrow',
-			type: 'string'
-		}),
-		defineField({
-			name: 'heading',
-			title: 'Heading',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'description',
-			title: 'Description',
-			type: 'text',
-			rows: 3,
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'cta',
-			title: 'CTA',
-			type: 'cta',
-			validation: (rule) => rule.required()
-		})
-	]
-})
-
-export const ctaBand = defineType({
-	name: 'ctaBand',
-	title: 'CTA band',
-	type: 'object',
-	fields: [
-		defineField({
-			name: 'heading',
-			title: 'Heading',
-			type: 'string',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'description',
-			title: 'Description',
-			type: 'text',
-			rows: 3,
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'cta',
-			title: 'CTA',
-			type: 'cta',
-			validation: (rule) => rule.required()
-		})
-	],
-	preview: {
-		select: {
-			title: 'heading',
-			subtitle: 'cta.label'
 		}
 	}
 })

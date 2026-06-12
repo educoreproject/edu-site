@@ -112,14 +112,30 @@ export type ResourceCard = {
 	cta: Cta;
 };
 
-export type NewsletterBandContent = {
+export type SharedCtaKind = 'generic' | 'newsletter';
+
+export type NewsletterSignupMode = 'externalLink' | 'directEmailSignup';
+
+export type GenericSharedCtaContent = {
+	type: 'generic';
+	eyebrow?: string;
 	heading: string;
 	description: string;
-	emailPlaceholder: string;
-	ctaLabel: string;
+	background?: 'navy' | 'teal';
+	cta: Cta;
+};
+
+export type NewsletterBandContent = {
+	type: 'newsletter';
+	heading: string;
+	description: string;
+	signupMode: NewsletterSignupMode;
+	cta: Cta;
 	note?: string;
 	background?: 'navy' | 'teal';
 };
+
+export type SharedCtaContent = GenericSharedCtaContent | NewsletterBandContent;
 
 export type EventItem = {
 	image?: ImageAsset;
@@ -139,6 +155,14 @@ export type GlossaryTerm = {
 	term: string;
 	definition: string;
 	category: string;
+};
+
+export type GlossaryArtifact = {
+	label: string;
+	url?: string;
+	filename?: string;
+	mimeType?: string;
+	size?: number;
 };
 
 export type FaqItem = {
@@ -168,12 +192,6 @@ export type PlatformTool = {
 	tag: string;
 	description: string;
 	href: string;
-};
-
-export type CtaBand = {
-	heading: string;
-	description: string;
-	cta: Cta;
 };
 
 export type BoardMember = {
@@ -231,6 +249,7 @@ export type DsuHomePage = {
 	};
 	voicesHeader: SectionHeader;
 	voices: Quote[];
+	ctas: SharedCtaContent[];
 };
 
 export type DsuMembersPage = {
@@ -245,12 +264,7 @@ export type DsuMembersPage = {
 	affiliateMembersHeader: SectionHeader;
 	affiliateMembers: MemberOrganization[];
 	affiliateIntro: string;
-	joinCta: {
-		eyebrow?: string;
-		heading: string;
-		description: string;
-		cta: Cta;
-	};
+	ctas: SharedCtaContent[];
 };
 
 export type DsuJoinPage = {
@@ -266,6 +280,7 @@ export type DsuJoinPage = {
 	};
 	contact: ContactPrompt;
 	submissionChecklist: Checklist;
+	ctas: SharedCtaContent[];
 };
 
 export type DsuProjectsPage = {
@@ -275,12 +290,7 @@ export type DsuProjectsPage = {
 	hero: HeroContent;
 	projectsHeader: SectionHeader;
 	projects: DsuProject[];
-	joinCta: {
-		eyebrow?: string;
-		heading: string;
-		description: string;
-		cta: Cta;
-	};
+	ctas: SharedCtaContent[];
 };
 
 export type ResourcesHubPage = {
@@ -291,7 +301,7 @@ export type ResourcesHubPage = {
 	eyebrow: string;
 	heading: string;
 	cards: ResourceCard[];
-	newsletter: NewsletterBandContent;
+	ctas: SharedCtaContent[];
 };
 
 export type ResourcesGlossaryPage = {
@@ -301,7 +311,8 @@ export type ResourcesGlossaryPage = {
 	hero: HeroContent;
 	categories: string[];
 	terms: GlossaryTerm[];
-	newsletter: NewsletterBandContent;
+	artifact?: GlossaryArtifact;
+	ctas: SharedCtaContent[];
 };
 
 export type ResourcesFaqPage = {
@@ -311,7 +322,7 @@ export type ResourcesFaqPage = {
 	hero: HeroContent;
 	categories: string[];
 	items: FaqItem[];
-	newsletter: NewsletterBandContent;
+	ctas: SharedCtaContent[];
 };
 
 export type EventsUpcomingPage = {
@@ -321,7 +332,7 @@ export type EventsUpcomingPage = {
 	hero: HeroContent;
 	events: EventItem[];
 	counterLabel: string;
-	newsletter: NewsletterBandContent;
+	ctas: SharedCtaContent[];
 };
 
 export type EventsPastPage = {
@@ -330,7 +341,7 @@ export type EventsPastPage = {
 	subNav: LinkItem[];
 	hero: HeroContent;
 	archive: EventArchiveGroup[];
-	newsletter: NewsletterBandContent;
+	ctas: SharedCtaContent[];
 };
 
 export type EduOverviewPage = {
@@ -344,6 +355,7 @@ export type EduOverviewPage = {
 	willNotDo: EduListGroup;
 	unification: EduOverviewSection;
 	incorporation: EduOverviewSection;
+	ctas: SharedCtaContent[];
 };
 
 export type EduBoardPage = {
@@ -352,6 +364,7 @@ export type EduBoardPage = {
 	subNav: LinkItem[];
 	hero: HeroContent;
 	members: BoardMember[];
+	ctas: SharedCtaContent[];
 };
 
 export type EduHistoryPage = {
@@ -360,6 +373,7 @@ export type EduHistoryPage = {
 	subNav: LinkItem[];
 	hero: HeroContent;
 	entries: TimelineEntry[];
+	ctas: SharedCtaContent[];
 };
 
 export type ContactPage = {
@@ -370,6 +384,7 @@ export type ContactPage = {
 	fields: ContactField[];
 	directCard: InfoCard;
 	collaborativeCard: InfoCard;
+	ctas: SharedCtaContent[];
 };
 
 export type EducoreOverviewPage = {
@@ -383,5 +398,5 @@ export type EducoreOverviewPage = {
 		description: string;
 		tools: PlatformTool[];
 	};
-	ctaBand: CtaBand;
+	ctas: SharedCtaContent[];
 };

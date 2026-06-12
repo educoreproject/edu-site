@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
-	import NewsletterSignup from '$lib/components/site/NewsletterSignup.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
+	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
 	import type { EventsPastPage, SiteChrome } from '$lib/content/types';
@@ -81,7 +81,7 @@
 		</Container>
 	</section>
 
-	<NewsletterSignup content={page.newsletter} emailId="events-past-newsletter-email" />
+	<PageCtas ctas={page.ctas} />
 </main>
 
 <PageFooter {chrome} />
@@ -171,20 +171,23 @@
 	}
 
 	.event-card.has-image {
-		grid-template-columns: minmax(10rem, 12.5rem) minmax(0, 1fr);
+		align-items: start;
+		gap: 1.75rem;
+		grid-template-columns: minmax(18rem, 20.125rem) minmax(0, 1fr);
 	}
 
 	.event-image {
-		aspect-ratio: 5 / 3;
+		aspect-ratio: 161 / 55;
 		border-radius: 4px;
-		min-height: 7.5rem;
 		overflow: hidden;
+		width: 100%;
 	}
 
 	.event-image img {
 		display: block;
 		height: 100%;
 		object-fit: cover;
+		object-position: center;
 		width: 100%;
 	}
 

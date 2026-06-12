@@ -78,6 +78,12 @@ export const dsuJoin = defineType({
 			title: 'Submission checklist',
 			type: 'checklist',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

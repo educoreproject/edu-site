@@ -140,15 +140,15 @@
       {#if rootIsLink}
         <span class="card-link">
           <i class="ti ti-link" aria-hidden="true"></i>
-          {linkLabel}
+          <span>{linkLabel}</span>
         </span>
       {:else if isLinkDisabled}
         <span class="card-link disabled" aria-disabled="true"
-          ><i class="ti ti-link" aria-hidden="true"></i>{linkLabel}</span
+          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span></span
         >
       {:else}
         <a class="card-link" href={linkHref}
-          ><i class="ti ti-link" aria-hidden="true"></i>{linkLabel}</a
+          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span></a
         >
       {/if}
     {/if}
@@ -459,18 +459,28 @@
     text-underline-offset: 0.1875rem;
   }
 
+
   .card-link {
-    align-self: flex-start;
+  align-self: flex-start;
     color: var(--ec-link);
     font-size: 0.9375rem;
     font-weight: 600;
     line-height: 1.4;
     margin-top: auto;
-    text-decoration-thickness: 0.125rem;
-    text-underline-offset: 0.1875rem;
     display: flex;
     align-items: center;
     gap: 0.375rem;
+	text-decoration: none;
+  }
+
+    .card-link > i {
+	font-size: 1.125rem;
+  }
+
+  .card-link > span {
+	text-decoration: underline;
+  text-decoration-thickness: 0.125rem;
+    text-underline-offset: 0.1875rem;
   }
 
   .plain .card-link {

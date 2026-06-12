@@ -2,28 +2,16 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
-const joinCtaComponentPath = 'src/lib/components/site/JoinCta.svelte';
-const dsuPagePaths = [
-	'src/routes/dsu/members/+page.svelte',
-	'src/routes/dsu/projects/+page.svelte'
-];
+const genericCtaComponentPath = 'src/lib/components/site/GenericCta.svelte';
 
-test('DSU join CTAs use the shared site component', () => {
-	assert.equal(existsSync(joinCtaComponentPath), true);
+test('generic CTAs use the shared site component', () => {
+	assert.equal(existsSync(genericCtaComponentPath), true);
 
-	const componentSource = readFileSync(joinCtaComponentPath, 'utf8');
-	assert.equal(componentSource.includes('class="join-cta"'), true);
-	assert.equal(componentSource.includes('class="join-panel"'), true);
-
-	for (const pagePath of dsuPagePaths) {
-		const pageSource = readFileSync(pagePath, 'utf8');
-
-		assert.equal(
-			/import\s+JoinCta\s+from\s+['"]\$lib\/components\/site\/JoinCta\.svelte['"];/.test(pageSource),
-			true
-		);
-		assert.equal(pageSource.includes('<JoinCta content={page.joinCta}'), true);
-		assert.equal(pageSource.includes('class="join-cta"'), false);
-		assert.equal(pageSource.includes('class="join-panel"'), false);
-	}
+	const componentSource = readFileSync(genericCtaComponentPath, 'utf8');
+	assert.equal(componentSource.includes('class="generic-cta"'), true);
+	assert.equal(componentSource.includes('class="generic-cta-panel"'), true);
+	assert.equal(componentSource.includes("class:teal={content.background === 'teal'}"), true);
+	assert.equal(componentSource.includes("import Button from '$lib/components/site/Button.svelte';"), true);
+	assert.equal(componentSource.includes('href={content.cta.href}'), true);
+	assert.equal(componentSource.includes('<Button'), true);
 });

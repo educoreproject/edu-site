@@ -50,10 +50,32 @@ export const resourcesGlossary = defineType({
 			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
-			name: 'newsletter',
-			title: 'Newsletter',
-			type: 'newsletterBand',
-			validation: (rule) => rule.required()
+			name: 'artifact',
+			title: 'Downloadable artifact',
+			type: 'object',
+			fields: [
+				defineField({
+					name: 'label',
+					title: 'Link label',
+					type: 'string',
+					validation: (rule) => rule.required()
+				}),
+				defineField({
+					name: 'file',
+					title: 'PDF file',
+					type: 'file',
+					options: {
+						accept: 'application/pdf'
+					},
+					validation: (rule) => rule.required()
+				})
+			]
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

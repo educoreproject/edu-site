@@ -53,6 +53,12 @@ export const eduContact = defineType({
 			title: 'Collaborative card',
 			type: 'infoCard',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

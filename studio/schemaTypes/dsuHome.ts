@@ -86,6 +86,12 @@ export const dsuHome = defineType({
 			title: 'Voices',
 			type: 'array',
 			of: [{type: 'quote'}]
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

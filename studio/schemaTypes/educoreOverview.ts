@@ -70,10 +70,10 @@ export const educoreOverview = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'ctaBand',
-			title: 'CTA band',
-			type: 'ctaBand',
-			validation: (rule) => rule.required()
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

@@ -2,6 +2,7 @@
   import Container from "$lib/components/site/Container.svelte";
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
+  import PageCtas from "$lib/components/site/PageCtas.svelte";
   import PrimaryNav from "$lib/components/site/PrimaryNav.svelte";
   import SubNav from "$lib/components/site/SubNav.svelte";
   import Card from "$lib/components/site/Card.svelte";
@@ -167,6 +168,8 @@
       </div>
     </Container>
   </section>
+
+  <PageCtas ctas={page.ctas} />
 </main>
 
 <PageFooter {chrome} />

@@ -41,6 +41,12 @@ export const eduHistory = defineType({
 			type: 'array',
 			of: [{type: 'timelineEntry'}],
 			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

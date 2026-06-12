@@ -49,10 +49,10 @@ export const eventsUpcoming = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'newsletter',
-			title: 'Newsletter',
-			type: 'newsletterBand',
-			validation: (rule) => rule.required()
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

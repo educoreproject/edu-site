@@ -70,6 +70,12 @@ export const eduOverview = defineType({
 			title: 'Incorporation',
 			type: 'eduOverviewSection',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'ctas',
+			title: 'CTAs',
+			type: 'array',
+			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})
 	],
 	preview: {

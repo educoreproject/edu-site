@@ -50,11 +50,18 @@ const platformToolProjection = `{
 	href
 }`;
 
-const ctaBandProjection = `{
+const sharedCtaProjection = `->{
+	"type": type,
+	eyebrow,
 	heading,
 	description,
+	signupMode,
+	note,
+	background,
 	cta${ctaProjection}
 }`;
+
+const pageCtasProjection = `"ctas": coalesce(ctas[]${sharedCtaProjection}, [])`;
 
 const infoCardProjection = `{
 	eyebrow,
@@ -71,13 +78,12 @@ const resourceCardProjection = `{
 	cta${ctaProjection}
 }`;
 
-const newsletterBandProjection = `{
-	heading,
-	description,
-	emailPlaceholder,
-	ctaLabel,
-	note,
-	background
+const fileArtifactProjection = `{
+	label,
+	"url": file.asset->url,
+	"filename": file.asset->originalFilename,
+	"mimeType": file.asset->mimeType,
+	"size": file.asset->size
 }`;
 
 const eventItemProjection = `{
@@ -134,7 +140,8 @@ export const dsuHomeQuery = `*[_type == "dsuHome" && slug.current == "dsu-home"]
 		quote,
 		name,
 		organization
-	}, [])
+	}, []),
+	${pageCtasProjection}
 }`;
 
 export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-members"][0]{
@@ -155,12 +162,7 @@ export const dsuMembersQuery = `*[_type == "dsuMembers" && slug.current == "dsu-
 	"affiliateMembersHeader": coalesce(affiliateMembersHeader${sectionHeaderProjection}, {}),
 	"affiliateMembers": coalesce(affiliateMembers[]${memberOrganizationProjection}, []),
 	affiliateIntro,
-	joinCta{
-		eyebrow,
-		heading,
-		description,
-		cta${ctaProjection}
-	}
+	${pageCtasProjection}
 }`;
 
 export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joining"][0]{
@@ -197,7 +199,8 @@ export const dsuJoinQuery = `*[_type == "dsuJoin" && slug.current == "dsu-joinin
 	submissionChecklist{
 		heading,
 		"items": coalesce(items, [])
-	}
+	},
+	${pageCtasProjection}
 }`;
 
 export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "dsu-projects"][0]{
@@ -218,12 +221,7 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 			null
 		)
 	}, []),
-	joinCta{
-		eyebrow,
-		heading,
-		description,
-		cta${ctaProjection}
-	}
+	${pageCtasProjection}
 }`;
 
 export const resourcesHubQuery = `*[_type == "resourcesHub" && slug.current == "resources-library"][0]{
@@ -234,7 +232,7 @@ export const resourcesHubQuery = `*[_type == "resourcesHub" && slug.current == "
 	eyebrow,
 	heading,
 	"cards": coalesce(cards[]${resourceCardProjection}, []),
-	newsletter${newsletterBandProjection}
+	${pageCtasProjection}
 }`;
 
 export const resourcesGlossaryQuery = `*[_type == "resourcesGlossary" && slug.current == "resources-glossary"][0]{
@@ -248,7 +246,8 @@ export const resourcesGlossaryQuery = `*[_type == "resourcesGlossary" && slug.cu
 		definition,
 		category
 	}, []),
-	newsletter${newsletterBandProjection}
+	artifact${fileArtifactProjection},
+	${pageCtasProjection}
 }`;
 
 export const resourcesFaqQuery = `*[_type == "resourcesFaq" && slug.current == "resources-faq"][0]{
@@ -262,7 +261,7 @@ export const resourcesFaqQuery = `*[_type == "resourcesFaq" && slug.current == "
 		answer,
 		category
 	}, []),
-	newsletter${newsletterBandProjection}
+	${pageCtasProjection}
 }`;
 
 export const eventsUpcomingQuery = `*[_type == "eventsUpcoming" && slug.current == "events-upcoming"][0]{
@@ -272,7 +271,7 @@ export const eventsUpcomingQuery = `*[_type == "eventsUpcoming" && slug.current 
 	hero${heroProjection},
 	"events": coalesce(events[]${eventItemProjection}, []),
 	counterLabel,
-	newsletter${newsletterBandProjection}
+	${pageCtasProjection}
 }`;
 
 export const eventsPastQuery = `*[_type == "eventsPast" && slug.current == "events-past"][0]{
@@ -284,7 +283,7 @@ export const eventsPastQuery = `*[_type == "eventsPast" && slug.current == "even
 		year,
 		"events": coalesce(events[]${eventItemProjection}, [])
 	}, []),
-	newsletter${newsletterBandProjection}
+	${pageCtasProjection}
 }`;
 
 export const eduOverviewQuery = `*[_type == "eduOverview" && slug.current == "edu-overview"][0]{
@@ -297,7 +296,8 @@ export const eduOverviewQuery = `*[_type == "eduOverview" && slug.current == "ed
 	willDo${eduListGroupProjection},
 	willNotDo${eduListGroupProjection},
 	unification${eduOverviewSectionProjection},
-	incorporation${eduOverviewSectionProjection}
+	incorporation${eduOverviewSectionProjection},
+	${pageCtasProjection}
 }`;
 
 export const eduBoardQuery = `*[_type == "eduBoard" && slug.current == "edu-board"][0]{
@@ -310,7 +310,8 @@ export const eduBoardQuery = `*[_type == "eduBoard" && slug.current == "edu-boar
 		name,
 		organization,
 		email
-	}, [])
+	}, []),
+	${pageCtasProjection}
 }`;
 
 export const eduHistoryQuery = `*[_type == "eduHistory" && slug.current == "edu-history"][0]{
@@ -322,7 +323,8 @@ export const eduHistoryQuery = `*[_type == "eduHistory" && slug.current == "edu-
 		year,
 		title,
 		text
-	}, [])
+	}, []),
+	${pageCtasProjection}
 }`;
 
 export const contactPageQuery = `*[_type == "eduContact" && slug.current in ["contact", "edu-contact"]] | order(slug.current asc)[0]{
@@ -339,7 +341,8 @@ export const contactPageQuery = `*[_type == "eduContact" && slug.current in ["co
 		full
 	}, []),
 	directCard${infoCardProjection},
-	collaborativeCard${infoCardProjection}
+	collaborativeCard${infoCardProjection},
+	${pageCtasProjection}
 }`;
 
 export const educoreOverviewQuery = `*[_type == "educoreOverview" && slug.current == "educore-overview"][0]{
@@ -353,7 +356,7 @@ export const educoreOverviewQuery = `*[_type == "educoreOverview" && slug.curren
 		description,
 		"tools": coalesce(tools[]${platformToolProjection}, [])
 	},
-	ctaBand${ctaBandProjection}
+	${pageCtasProjection}
 }`;
 
 export const chromeQuery = `*[_type == "siteChrome"][0]{
