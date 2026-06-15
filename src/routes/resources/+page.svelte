@@ -6,6 +6,7 @@
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
+	import { isExternalLink } from '$lib/content/links';
 	import type { ResourcesHubPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -28,8 +29,8 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Library" />
-<SubNav crumb="Resources" links={page.subNav} active="Library" />
+<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Hub" />
+<SubNav crumb="Resources" links={page.subNav} active="Hub" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />
@@ -43,15 +44,18 @@
 
 			<div class="card-grid">
 				{#each page.cards as card}
+					{@const isExternal = isExternalLink(card.cta.href)}
 					<Card
 						as="a"
 						variant="resource"
-						tone="gold"
+						tone="navy"
 						eyebrow={card.meta}
 						title={card.title}
 						body={card.description}
 						linkLabel={card.cta.label}
 						href={card.cta.href}
+						target={isExternal ? '_blank' : undefined}
+						rel={isExternal ? 'noopener noreferrer' : undefined}
 					/>
 				{/each}
 			</div>

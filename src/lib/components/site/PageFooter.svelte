@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isExternalLink } from '$lib/content/links';
 	import type { SiteChrome } from '$lib/content/types';
 	import Container from './Container.svelte';
 
@@ -38,11 +39,22 @@
 
 						<ul>
 							{#each column.links as link}
+								{@const isExternal = isExternalLink(link.href)}
 								<li>
 									{#if link.disabled}
 										<span aria-disabled="true">{link.label}</span>
 									{:else}
-										<a href={link.href}>{link.label}</a>
+										<a
+											href={link.href}
+											target={isExternal ? '_blank' : undefined}
+											rel={isExternal ? 'noopener noreferrer' : undefined}
+										>
+											<span>{link.label}</span>
+											{#if isExternal}
+												<i class="ti ti-external-link" aria-hidden="true"></i>
+												<span class="sr-only">Opens in a new tab</span>
+											{/if}
+										</a>
 									{/if}
 								</li>
 							{/each}
@@ -140,15 +152,23 @@
 	}
 
 	a,
-	li span {
+	li > span[aria-disabled="true"] {
 		font-family: var(--ec-font-sans);
 		font-size: .875rem;
 		line-height: 1.35;
 	}
 
 	a {
+		align-items: center;
 		color: var(--ec-teal-muted);
+		display: inline-flex;
+		gap: 0.25rem;
 		text-decoration: none;
+	}
+
+	a i {
+		font-size: 0.875rem;
+		color: currentColor;
 	}
 
 	a:hover {
@@ -157,7 +177,7 @@
 		text-underline-offset: 0.1875rem;
 	}
 
-	li span {
+	li > span[aria-disabled="true"] {
 		color: rgba(255, 255, 255, 0.48);
 		cursor: not-allowed;
 		opacity: 0.65;

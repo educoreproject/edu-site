@@ -709,6 +709,189 @@ export const resourceCard = defineType({
 	}
 })
 
+export const resourceDocument = defineType({
+	name: 'resourceDocument',
+	title: 'Resource document',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'category',
+			title: 'Category',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'White paper', value: 'White papers'},
+					{title: 'Report', value: 'Reports'}
+				],
+				layout: 'radio'
+			},
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'documentType',
+			title: 'Type',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'PDF', value: 'PDF'},
+					{title: 'Word doc', value: 'Word doc'},
+					{title: 'Other', value: 'Other'}
+				]
+			},
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3
+		}),
+		defineField({
+			name: 'document',
+			title: 'Document',
+			type: 'file',
+			options: {
+				accept:
+					'.pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			},
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'category',
+			media: 'document'
+		}
+	}
+})
+
+export const pressDocument = defineType({
+	name: 'pressDocument',
+	title: 'Press document',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'category',
+			title: 'Category',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'Press release', value: 'Press releases'},
+					{title: 'Charter', value: 'Charters'}
+				],
+				layout: 'radio'
+			},
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'documentType',
+			title: 'Type',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'PDF', value: 'PDF'},
+					{title: 'Word doc', value: 'Word doc'},
+					{title: 'Other', value: 'Other'}
+				]
+			},
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3
+		}),
+		defineField({
+			name: 'document',
+			title: 'Document',
+			type: 'file',
+			options: {
+				accept:
+					'.pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			},
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'category',
+			media: 'document'
+		}
+	}
+})
+
+export const newsletterDocument = defineType({
+	name: 'newsletterDocument',
+	title: 'Newsletter document',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'category',
+			title: 'Category',
+			description: 'Month and year label, such as January 2026.',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'documentType',
+			title: 'Type',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'PDF', value: 'PDF'},
+					{title: 'Word doc', value: 'Word doc'},
+					{title: 'Other', value: 'Other'}
+				]
+			},
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 3
+		}),
+		defineField({
+			name: 'document',
+			title: 'Document',
+			type: 'file',
+			options: {
+				accept:
+					'.pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			},
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'category',
+			media: 'document'
+		}
+	}
+})
+
 export const eventItem = defineType({
 	name: 'eventItem',
 	title: 'Event item',

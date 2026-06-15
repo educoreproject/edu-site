@@ -112,6 +112,45 @@ export type ResourceCard = {
 	cta: Cta;
 };
 
+export type ResourceDocumentItem = {
+	category: 'White papers' | 'Reports';
+	title: string;
+	documentType: string;
+	description?: string;
+	document: {
+		url: string;
+		filename?: string;
+		mimeType?: string;
+		size?: number;
+	};
+};
+
+export type PressDocumentItem = {
+	category: 'Press releases' | 'Charters';
+	title: string;
+	documentType: string;
+	description?: string;
+	document: {
+		url: string;
+		filename?: string;
+		mimeType?: string;
+		size?: number;
+	};
+};
+
+export type NewsletterDocumentItem = {
+	category: string;
+	title: string;
+	documentType: string;
+	description?: string;
+	document: {
+		url: string;
+		filename?: string;
+		mimeType?: string;
+		size?: number;
+	};
+};
+
 export type SharedCtaKind = 'generic' | 'newsletter';
 
 export type NewsletterSignupMode = 'externalLink' | 'directEmailSignup';
@@ -301,6 +340,36 @@ export type ResourcesHubPage = {
 	eyebrow: string;
 	heading: string;
 	cards: ResourceCard[];
+	ctas: SharedCtaContent[];
+};
+
+export type ResourcesLibraryPage = {
+	slug: 'resources-library';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	categories: ResourceDocumentItem['category'][];
+	items: ResourceDocumentItem[];
+	ctas: SharedCtaContent[];
+};
+
+export type ResourcesPressPage = {
+	slug: 'resources-press';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	categories: PressDocumentItem['category'][];
+	items: PressDocumentItem[];
+	ctas: SharedCtaContent[];
+};
+
+export type ResourcesNewsletterPage = {
+	slug: 'resources-newsletter';
+	activeSection: 'Resources';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	categories: NewsletterDocumentItem['category'][];
+	items: NewsletterDocumentItem[];
 	ctas: SharedCtaContent[];
 };
 

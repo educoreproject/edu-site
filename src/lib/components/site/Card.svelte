@@ -41,6 +41,7 @@
     image?: CardImage;
     imageFallbackLabel?: string;
     imageFallbackColor?: string;
+    bulletListItem?: boolean;
     href?: string;
     target?: "_blank" | "_self" | "_parent" | "_top";
     rel?: string;
@@ -78,6 +79,7 @@
     children,
     prefix,
     actions,
+    bulletListItem,
   }: Props = $props();
 
   const cardClass = $derived(
@@ -97,8 +99,11 @@
 </script>
 
 <svelte:element this={as} class={cardClass} {href} {target} {rel}>
-  {#if variant === "count"}
+  {#if variant === "count" && !bulletListItem}
     <span class="count-number" aria-hidden="true"></span>
+  {/if}
+  {#if variant === "count" && bulletListItem}
+    <span class="bullet" aria-hidden="true">•</span>
   {/if}
 
   <div class="card-main">
@@ -144,11 +149,13 @@
         </span>
       {:else if isLinkDisabled}
         <span class="card-link disabled" aria-disabled="true"
-          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span></span
+          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span
+          ></span
         >
       {:else}
         <a class="card-link" href={linkHref}
-          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span></a
+          ><i class="ti ti-link" aria-hidden="true"></i><span>{linkLabel}</span
+          ></a
         >
       {/if}
     {/if}
@@ -280,6 +287,15 @@
   .quote .card-main {
     gap: 0;
     height: 100%;
+  }
+
+  .bullet {
+    color: var(--card-accent);
+    font-family: var(--ec-font-sans);
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1;
+    text-align: left;
   }
 
   .count-number {
@@ -459,9 +475,8 @@
     text-underline-offset: 0.1875rem;
   }
 
-
   .card-link {
-  align-self: flex-start;
+    align-self: flex-start;
     color: var(--ec-link);
     font-size: 0.9375rem;
     font-weight: 600;
@@ -470,16 +485,16 @@
     display: flex;
     align-items: center;
     gap: 0.375rem;
-	text-decoration: none;
+    text-decoration: none;
   }
 
-    .card-link > i {
-	font-size: 1.125rem;
+  .card-link > i {
+    font-size: 1.125rem;
   }
 
   .card-link > span {
-	text-decoration: underline;
-  text-decoration-thickness: 0.125rem;
+    text-decoration: underline;
+    text-decoration-thickness: 0.125rem;
     text-underline-offset: 0.1875rem;
   }
 
@@ -514,7 +529,7 @@
   .card-image img {
     display: block;
     height: auto;
-	max-height:100%;
+    max-height: 100%;
     max-width: 100%;
     object-fit: cover;
   }

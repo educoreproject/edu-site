@@ -46,7 +46,7 @@
     display: flex;
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 1024px) {
     div {
       padding-inline: clamp(1.125rem, 4vw, 2rem);
     }

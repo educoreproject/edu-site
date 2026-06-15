@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { isExternalLink } from "$lib/content/links";
   import type { FooterColumn, LinkItem } from "$lib/content/types";
   import Container from "./Container.svelte";
 
@@ -59,7 +60,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <nav aria-label="Primary navigation">
-  <Container flex={true}>
+  <Container flex={true} width="wide">
     <a class="logo" href={logoHref} aria-label="DSU home">
       <img src="/assets/educore-logo.png" alt="DSU" />
     </a>
@@ -67,6 +68,7 @@
     <div class="links">
       {#each links as link}
         {@const active = link.label === activeSection}
+        {@const isExternal = isExternalLink(link.href)}
         {#if link.disabled}
           <span class:active class="disabled" aria-disabled="true"
             >{link.label}</span
@@ -75,7 +77,13 @@
           <a
             class:active
             href={link.href}
-            aria-current={active ? "page" : undefined}>{link.label}</a
+            aria-current={active ? "page" : undefined}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            ><span>{link.label}</span>{#if isExternal}<i
+                class="ti ti-external-link"
+                aria-hidden="true"
+              ></i><span class="sr-only">Opens in a new tab</span>{/if}</a
           >
         {/if}
       {/each}
@@ -135,6 +143,7 @@
       <div class="drawer-links">
         {#each navSections as section}
           {@const sectionActive = section.link.label === activeSection}
+          {@const sectionExternal = isExternalLink(section.link.href)}
           <section class:active-section={sectionActive}>
             {#if section.link.disabled}
               <span class="section-label disabled" aria-disabled="true"
@@ -147,7 +156,13 @@
                 aria-current={sectionActive && !activeSubSection
                   ? "page"
                   : undefined}
-                onclick={closeMenu}>{section.link.label}</a
+                target={sectionExternal ? "_blank" : undefined}
+                rel={sectionExternal ? "noopener noreferrer" : undefined}
+                onclick={closeMenu}
+                ><span>{section.link.label}</span>{#if sectionExternal}<i
+                    class="ti ti-external-link"
+                    aria-hidden="true"
+                  ></i><span class="sr-only">Opens in a new tab</span>{/if}</a
               >
             {/if}
 
@@ -156,6 +171,7 @@
                 {#each section.children as child}
                   {@const childActive =
                     sectionActive && child.label === activeSubSection}
+                  {@const childExternal = isExternalLink(child.href)}
                   <li>
                     {#if child.disabled}
                       <span
@@ -168,7 +184,13 @@
                         class:active={childActive}
                         href={child.href}
                         aria-current={childActive ? "page" : undefined}
-                        onclick={closeMenu}>{child.label}</a
+                        target={childExternal ? "_blank" : undefined}
+                        rel={childExternal ? "noopener noreferrer" : undefined}
+                        onclick={closeMenu}
+                        ><span>{child.label}</span>{#if childExternal}<i
+                            class="ti ti-external-link"
+                            aria-hidden="true"
+                          ></i><span class="sr-only">Opens in a new tab</span>{/if}</a
                       >
                     {/if}
                   </li>
@@ -225,7 +247,7 @@
   }
 
   .links a,
-  .links span {
+  .links > span {
     border-bottom: 3px solid transparent;
     color: rgba(255, 255, 255, 0.88);
     display: inline-flex;
@@ -233,7 +255,7 @@
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.2;
-    padding: 0.25rem 0 0.5rem;
+    padding: 0.25rem 0 0.325rem;
     text-decoration: none;
     transition:
       border-color 120ms ease,
@@ -242,7 +264,14 @@
   }
 
   .links a {
+    align-items: center;
     cursor: pointer;
+    gap: 0.25rem;
+  }
+
+  .links a i,
+  .drawer a i {
+    font-size: 0.875rem;
   }
 
   .links a:hover {
@@ -411,10 +440,12 @@
   }
 
   .section-label {
+    align-items: center;
     color: var(--ec-navy);
     display: inline-flex;
     font-family: var(--ec-font-sans);
     font-size: 1.125rem;
+    gap: 0.25rem;
     font-weight: 700;
     line-height: 1.3;
     text-decoration: none;
@@ -436,10 +467,12 @@
 
   .drawer li a,
   .drawer li span {
+    align-items: center;
     color: var(--ec-ink);
     display: inline-flex;
     font-family: var(--ec-font-sans);
     font-size: 1rem;
+    gap: 0.25rem;
     line-height: 1.35;
     text-decoration: none;
   }

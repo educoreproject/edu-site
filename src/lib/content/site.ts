@@ -14,7 +14,10 @@ import {
 	contactPageQuery,
 	resourcesFaqQuery,
 	resourcesGlossaryQuery,
-	resourcesHubQuery
+	resourcesHubQuery,
+	resourcesLibraryQuery,
+	resourcesNewsletterQuery,
+	resourcesPressQuery
 } from './queries';
 import type {
 	DsuHomePage,
@@ -31,6 +34,9 @@ import type {
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
 	ResourcesHubPage,
+	ResourcesLibraryPage,
+	ResourcesNewsletterPage,
+	ResourcesPressPage,
 	SiteChrome
 } from './types';
 
@@ -80,6 +86,21 @@ export function getDsuProjectsPage(): Promise<DsuProjectsPage> {
 
 export function getResourcesHubPage(): Promise<ResourcesHubPage> {
 	return fetchFromSanity<ResourcesHubPage>(resourcesHubQuery, 'Resources hub page');
+}
+
+export function getResourcesLibraryPage(): Promise<ResourcesLibraryPage> {
+	return fetchFromSanity<ResourcesLibraryPage>(resourcesLibraryQuery, 'Resources library page');
+}
+
+export function getResourcesPressPage(): Promise<ResourcesPressPage> {
+	return fetchFromSanity<ResourcesPressPage>(resourcesPressQuery, 'Resources press page');
+}
+
+export function getResourcesNewsletterPage(): Promise<ResourcesNewsletterPage> {
+	return fetchFromSanity<ResourcesNewsletterPage>(
+		resourcesNewsletterQuery,
+		'Resources newsletter page'
+	);
 }
 
 export function getResourcesGlossaryPage(): Promise<ResourcesGlossaryPage> {

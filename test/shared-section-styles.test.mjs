@@ -93,3 +93,23 @@ test('contact route is standalone instead of an EDU subsection', () => {
 	assert.equal(source.includes('activeSubSection="Contact"'), false);
 	assert.equal(loadSource.includes('getEduContactPage'), false);
 });
+
+test('EDU overview renders text sections through the shared section header helper', () => {
+	const source = readFileSync('src/routes/edu/+page.svelte', 'utf8');
+
+	assert.equal(source.includes('SectionHeader'), true);
+	assert.match(source, /\{#snippet sectionHeader\(header: .*SectionHeader/);
+
+	for (const [section, headingId] of [
+		['page.mission', 'mission-heading'],
+		['page.organization', 'organization-heading'],
+		['page.unification', 'unification-heading'],
+		['page.incorporation', 'incorporation-heading']
+	]) {
+		assert.equal(
+			source.includes(`{@render sectionHeader(${section}, '${headingId}')}`),
+			true,
+			`expected ${section} to render through sectionHeader`
+		);
+	}
+});

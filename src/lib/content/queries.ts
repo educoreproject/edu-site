@@ -235,6 +235,69 @@ export const resourcesHubQuery = `*[_type == "resourcesHub" && slug.current == "
 	${pageCtasProjection}
 }`;
 
+export const resourcesLibraryQuery = `*[_type == "resourcesLibrary" && slug.current == "resources-library"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"items": coalesce(items[]{
+		category,
+		title,
+		documentType,
+		description,
+		"document": {
+			"url": document.asset->url,
+			"filename": document.asset->originalFilename,
+			"mimeType": document.asset->mimeType,
+			"size": document.asset->size
+		}
+	}, []),
+	${pageCtasProjection}
+}`;
+
+export const resourcesPressQuery = `*[_type == "resourcesPress" && slug.current == "resources-press"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"items": coalesce(items[]{
+		category,
+		title,
+		documentType,
+		description,
+		"document": {
+			"url": document.asset->url,
+			"filename": document.asset->originalFilename,
+			"mimeType": document.asset->mimeType,
+			"size": document.asset->size
+		}
+	}, []),
+	${pageCtasProjection}
+}`;
+
+export const resourcesNewsletterQuery = `*[_type == "resourcesNewsletter" && slug.current == "resources-newsletter"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"items": coalesce(items[]{
+		category,
+		title,
+		documentType,
+		description,
+		"document": {
+			"url": document.asset->url,
+			"filename": document.asset->originalFilename,
+			"mimeType": document.asset->mimeType,
+			"size": document.asset->size
+		}
+	}, []),
+	${pageCtasProjection}
+}`;
+
 export const resourcesGlossaryQuery = `*[_type == "resourcesGlossary" && slug.current == "resources-glossary"][0]{
 	"slug": slug.current,
 	activeSection,

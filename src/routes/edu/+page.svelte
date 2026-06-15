@@ -1,217 +1,205 @@
 <script lang="ts">
-	import Container from '$lib/components/site/Container.svelte';
-	import Hero from '$lib/components/site/Hero.svelte';
-	import PageFooter from '$lib/components/site/PageFooter.svelte';
-	import PageCtas from '$lib/components/site/PageCtas.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
-	import SubNav from '$lib/components/site/SubNav.svelte';
-	import type { EduOverviewPage, SiteChrome } from '$lib/content/types';
+  import Container from "$lib/components/site/Container.svelte";
+  import Hero from "$lib/components/site/Hero.svelte";
+  import PageFooter from "$lib/components/site/PageFooter.svelte";
+  import PageCtas from "$lib/components/site/PageCtas.svelte";
+  import PrimaryNav from "$lib/components/site/PrimaryNav.svelte";
+  import SubNav from "$lib/components/site/SubNav.svelte";
+  import Card from "$lib/components/site/Card.svelte";
+  import type {
+    EduOverviewPage,
+    SectionHeader,
+    SiteChrome,
+  } from "$lib/content/types";
 
-	type Props = {
-		data: {
-			page: EduOverviewPage;
-			chrome: SiteChrome;
-		};
-	};
+  type EduSectionHeader = SectionHeader & {
+    paragraphs?: string[];
+	description?: string;
+  };
 
-	let { data }: Props = $props();
-	let page = $derived(data.page);
-	let chrome = $derived(data.chrome);
+  type Props = {
+    data: {
+      page: EduOverviewPage;
+      chrome: SiteChrome;
+    };
+  };
+
+  let { data }: Props = $props();
+  let page = $derived(data.page);
+  let chrome = $derived(data.chrome);
 </script>
 
+{#snippet richText(blocks: SectionHeader["body"])}
+  {#each blocks ?? [] as block}
+    {#if block._type === "block"}
+      <p>
+        {#each block.children ?? [] as span}
+          {@const isStrong = span.marks?.includes("strong")}
+          {@const isEm = span.marks?.includes("em")}
+          {#if isStrong && isEm}
+            <strong><em>{span.text}</em></strong>
+          {:else if isStrong}
+            <strong>{span.text}</strong>
+          {:else if isEm}
+            <em>{span.text}</em>
+          {:else}
+            {span.text}
+          {/if}
+        {/each}
+      </p>
+    {/if}
+  {/each}
+{/snippet}
+
+{#snippet sectionHeader(header: EduSectionHeader, headingId: string)}
+  <div class="section-header">
+    {#if header.eyebrow}
+      <p class="eyebrow">{header.eyebrow}</p>
+    {/if}
+    {#if header.heading}
+      <h2 id={headingId}>{header.heading}</h2>
+    {/if}
+    {#if header.description}
+      <p>{header.description}</p>
+    {:else}
+      {#each header.paragraphs ?? [] as paragraph}
+        <p>{paragraph}</p>
+      {/each}
+    {/if}
+  </div>
+{/snippet}
+
 <svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'Education Data Unlimited overview and mission.'}
-	/>
+  <title>{page.hero.title}</title>
+  <meta
+    name="description"
+    content={page.hero.description ??
+      "Education Data Unlimited overview and mission."}
+  />
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Overview" />
+<PrimaryNav
+  links={chrome.primaryNav}
+  footerColumns={chrome.footerColumns}
+  activeSection={page.activeSection}
+  activeSubSection="Overview"
+/>
 <SubNav crumb="EDU" links={page.subNav} active="Overview" />
 
 <main>
-	<Hero content={page.hero} />
+  <Hero content={page.hero} />
 
-	<section class="section document" aria-labelledby="mission-heading">
-		<Container width="narrow">
-			<article class="text-section">
-				{#if page.mission.eyebrow}
-					<p class="eyebrow">{page.mission.eyebrow}</p>
-				{/if}
-				<h2 id="mission-heading">{page.mission.heading}</h2>
-				{#each page.mission.paragraphs as paragraph}
-					<p>{paragraph}</p>
-				{/each}
-			</article>
+  <section class="section section-padded" aria-labelledby="mission-heading">
+    <Container width="narrow">
+      <article class="text-section">
+        {@render sectionHeader(page.mission, "mission-heading")}
+      </article>
 
-			<article class="text-section" aria-labelledby="organization-heading">
-				{#if page.organization.eyebrow}
-					<p class="eyebrow">{page.organization.eyebrow}</p>
-				{/if}
-				<h2 id="organization-heading">{page.organization.heading}</h2>
-				{#each page.organization.paragraphs as paragraph}
-					<p>{paragraph}</p>
-				{/each}
-			</article>
-		</Container>
-	</section>
+      <article class="text-section" aria-labelledby="organization-heading">
+        {@render sectionHeader(page.organization, "organization-heading")}
+      </article>
+    </Container>
+  </section>
 
-	<section class="section list-surface" aria-labelledby="scope-heading">
-		<Container width="narrow">
-			<h2 id="scope-heading" class="sr-only">EDU scope and boundaries</h2>
-			<div class="list-grid">
-				<article class="list-card">
-					<h3>{page.willDo.heading}</h3>
-					<p>{page.willDo.description}</p>
-					<ul>
-						{#each page.willDo.items as item}
-							<li>{item}</li>
-						{/each}
-					</ul>
-				</article>
+  <section
+    class="section section-padded will-do bg-surface"
+    aria-labelledby="scope-heading"
+  >
+    <Container width="wide">
+      <div class="horizontal-layout">
+        {@render sectionHeader(page.willDo, "scope-heading")}
 
-				<article class="list-card">
-					<h3>{page.willNotDo.heading}</h3>
-					<p>{page.willNotDo.description}</p>
-					<ul>
-						{#each page.willNotDo.items as item}
-							<li>{item}</li>
-						{/each}
-					</ul>
-				</article>
-			</div>
-		</Container>
-	</section>
+        <ul class="item-list" aria-labelledby="scope-heading">
+          {#each page.willDo.items as item}
+            <Card
+              variant="count"
+              as="li"
+              tone="teal"
+              body={item}
+			  bulletListItem={true}
+            ></Card>
+          {/each}
+        </ul>
+      </div>
+    </Container>
+  </section>
+  <section
+    class="section will-not-do bg-surface"
+    aria-labelledby="scope-heading"
+  >
+    <Container width="wide">
+      <div class="horizontal-layout">
+        {@render sectionHeader(page.willNotDo, "scope-heading")}
 
-	<section class="section document closing" aria-labelledby="unification-heading">
-		<Container width="narrow">
-			<article class="text-section">
-				{#if page.unification.eyebrow}
-					<p class="eyebrow">{page.unification.eyebrow}</p>
-				{/if}
-				<h2 id="unification-heading">{page.unification.heading}</h2>
-				{#each page.unification.paragraphs as paragraph}
-					<p>{paragraph}</p>
-				{/each}
-			</article>
+        <ul class="item-list" aria-labelledby="scope-heading">
+          {#each page.willNotDo.items as item}
+            <Card
+              variant="count"
+              as="li"
+              tone="teal"
+              body={item}
+			  bulletListItem={true}
+            ></Card>
+          {/each}
+        </ul>
+      </div>
+    </Container>
+  </section>
+  <section
+    class="section section-padded"
+    aria-labelledby="unification-heading"
+  >
+    <Container width="narrow">
+      <article class="text-section">
+        {@render sectionHeader(page.unification, "unification-heading")}
+      </article>
 
-			<article class="text-section" aria-labelledby="incorporation-heading">
-				{#if page.incorporation.eyebrow}
-					<p class="eyebrow">{page.incorporation.eyebrow}</p>
-				{/if}
-				<h2 id="incorporation-heading">{page.incorporation.heading}</h2>
-				{#each page.incorporation.paragraphs as paragraph}
-					<p>{paragraph}</p>
-				{/each}
-			</article>
-		</Container>
-	</section>
+      <article class="text-section" aria-labelledby="incorporation-heading">
+        {@render sectionHeader(page.incorporation, "incorporation-heading")}
+      </article>
+    </Container>
+  </section>
 
-	<PageCtas ctas={page.ctas} />
+  <PageCtas ctas={page.ctas} />
 </main>
 
 <PageFooter {chrome} />
 
 <style>
-	.document {
-		padding-block: 4rem;
-	}
 
-	.closing {
-		padding-top: 0;
-	}
 
-	.text-section {
-		display: grid;
-		gap: 1rem;
-	}
+  .text-section + .text-section {
+    border-top: 1px solid var(--ec-border-soft);
+    margin-top: 3rem;
+    padding-top: 3rem;
+  }
 
-	.text-section + .text-section {
-		border-top: 1px solid var(--ec-border-soft);
-		margin-top: 3rem;
-		padding-top: 3rem;
-	}
+  .text-section .section-header>*:last-child {
+	margin-bottom:0;
+  }
 
-	h3,
-	li {
-		font-family: var(--ec-font-sans);
-	}
+  .will-do {
+    border-top: 1px solid var(--ec-border);
+  }
 
-	h3 {
-		color: var(--ec-navy);
-		font-size: 1.25rem;
-		line-height: 1.3;
-		margin: 0;
-		text-wrap: pretty;
-	}
+  .will-not-do {
+	border-bottom: 1px solid var(--ec-border);
+	padding-block-end: 4rem;
+  }
 
-	li {
-		color: var(--ec-ink-soft);
-		font-size: 1rem;
-		line-height: 1.68;
-		margin: 0;
-	}
+  .item-list {
+    counter-reset: card-count;
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 
-	.list-surface {
-		background: var(--ec-surface);
-		padding-block: 3.5rem;
-	}
-
-	.list-grid {
-		display: grid;
-		gap: 1.25rem;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.list-card {
-		background: var(--ec-white);
-		border: 1px solid var(--ec-border-soft);
-		border-radius: 8px;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		min-width: 0;
-		padding: 1.5rem;
-	}
-
-	.list-card ul {
-		display: grid;
-		gap: 0.75rem;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	.list-card li {
-		border-left: 4px solid var(--ec-teal);
-		color: var(--ec-ink);
-		padding-left: 0.875rem;
-	}
-
-	@media (max-width: 760px) {
-		.document,
-		.list-surface {
-			padding-block: 3rem;
-		}
-
-		.closing {
-			padding-top: 0;
-		}
-
-		.text-section + .text-section {
-			margin-top: 2.25rem;
-			padding-top: 2.25rem;
-		}
-
-		.list-grid {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	@media (max-width: 420px) {
-		.list-card {
-			padding: 1.125rem;
-		}
-	}
+  @media (max-width: 760px) {
+    .text-section + .text-section {
+      margin-top: 2.25rem;
+      padding-top: 2.25rem;
+    }
+  }
 </style>

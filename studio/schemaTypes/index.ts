@@ -28,11 +28,14 @@ import {
 	linkItem,
 	memberOrganization,
 	membershipType,
+	newsletterDocument,
 	numberedValue,
 	platformTool,
+	pressDocument,
 	processStep,
 	quote,
 	resourceCard,
+	resourceDocument,
 	sectionHeader,
 	sharedCta,
 	textBlock,
@@ -42,6 +45,9 @@ import {
 import {resourcesFaq} from './resourcesFaq'
 import {resourcesGlossary} from './resourcesGlossary'
 import {resourcesHub} from './resourcesHub'
+import {resourcesLibrary} from './resourcesLibrary'
+import {resourcesNewsletter} from './resourcesNewsletter'
+import {resourcesPress} from './resourcesPress'
 import {siteChrome} from './siteChrome'
 
 export const schemaTypes = [
@@ -61,6 +67,9 @@ export const schemaTypes = [
 	contactPrompt,
 	dsuProject,
 	resourceCard,
+	resourceDocument,
+	pressDocument,
+	newsletterDocument,
 	eventItem,
 	eventArchiveGroup,
 	glossaryTerm,
@@ -79,6 +88,9 @@ export const schemaTypes = [
 	dsuJoin,
 	dsuProjects,
 	resourcesHub,
+	resourcesLibrary,
+	resourcesPress,
+	resourcesNewsletter,
 	resourcesGlossary,
 	resourcesFaq,
 	eventsUpcoming,
