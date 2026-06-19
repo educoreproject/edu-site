@@ -229,6 +229,13 @@ export const cedsOverviewQuery = `*[_type == "cedsOverview" && slug.current == "
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
+	"logoImage": select(
+		defined(logoImage.asset) => {
+			"url": logoImage.asset->url,
+			"alt": logoImage.alt
+		},
+		null
+	),
 	overview${sectionHeaderProjection},
 	"reasons": coalesce(reasons[]{
 		label,

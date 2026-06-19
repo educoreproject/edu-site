@@ -1,6 +1,11 @@
+import {createReadStream, existsSync} from 'node:fs'
+import {dirname, join} from 'node:path'
+import {fileURLToPath} from 'node:url'
 import {getCliClient} from 'sanity/cli'
 
 const client = getCliClient({apiVersion: '2026-06-01'})
+const CEDS_LOGO_PATH = join(dirname(fileURLToPath(import.meta.url)), '..', 'assets', 'ceds-logo.png')
+const CEDS_LOGO_FILENAME = 'ceds-logo.png'
 
 function paragraph(key: string, text: string) {
 	return {
@@ -62,6 +67,35 @@ function linkItem(key: string, label: string, href: string, disabled = false) {
 	}
 }
 
+async function getOrUploadCedsLogoImage() {
+	if (!existsSync(CEDS_LOGO_PATH)) {
+		throw new Error(`Missing CEDS logo image at ${CEDS_LOGO_PATH}`)
+	}
+
+	const existingAssetId = await client.fetch<string | null>(
+		'*[_type == "sanity.imageAsset" && originalFilename == $filename][0]._id',
+		{filename: CEDS_LOGO_FILENAME}
+	)
+
+	const assetId =
+		existingAssetId ??
+		(
+			await client.assets.upload('image', createReadStream(CEDS_LOGO_PATH), {
+				filename: CEDS_LOGO_FILENAME,
+				contentType: 'image/png'
+			})
+		)._id
+
+	return {
+		_type: 'image',
+		asset: {
+			_type: 'reference',
+			_ref: assetId
+		},
+		alt: 'Common Education Data Standards'
+	}
+}
+
 const cedsSubNav = [
 	linkItem('overview', 'Overview', '/ceds'),
 	linkItem('gitbook', 'CEDS GitBook', 'https://cedstandards.gitbook.io/ceds-gitbook'),
@@ -85,6 +119,8 @@ const cedsGithubAssetsCta = {
 		variant: 'gold'
 	}
 }
+
+const cedsLogoImage = await getOrUploadCedsLogoImage()
 
 const cedsOverview = {
 	_id: 'cedsOverview',
@@ -118,6 +154,7 @@ const cedsOverview = {
 			}
 		]
 	},
+	logoImage: cedsLogoImage,
 	overview: {
 		_type: 'sectionHeader',
 		eyebrow: 'Overview',

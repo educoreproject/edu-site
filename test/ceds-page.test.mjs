@@ -27,6 +27,7 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.match(schemaSource, /name:\s*'activeSection'[\s\S]*initialValue:\s*'CEDS'/);
 	assert.match(schemaSource, /name:\s*'subNav'[\s\S]*type:\s*'linkItem'/);
 	assert.match(schemaSource, /name:\s*'hero'[\s\S]*type:\s*'heroContent'/);
+	assert.match(schemaSource, /name:\s*'logoImage'[\s\S]*type:\s*'image'/);
 	assert.match(schemaSource, /name:\s*'overview'[\s\S]*type:\s*'sectionHeader'/);
 	assert.match(schemaSource, /name:\s*'reasons'[\s\S]*type:\s*'textBlock'/);
 	assert.match(schemaSource, /name:\s*'dataModels'[\s\S]*type:\s*'textBlock'/);
@@ -37,6 +38,9 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.match(indexSource, /cedsOverview/);
 
 	assert.match(querySource, /export const cedsOverviewQuery = `\*\[_type == "cedsOverview" && slug\.current == "ceds"\]\[0\]\{/);
+	assert.match(querySource, /"logoImage":\s*select\(\s*defined\(logoImage\.asset\)\s*=>\s*\{/);
+	assert.match(querySource, /"url":\s*logoImage\.asset->url/);
+	assert.match(querySource, /"alt":\s*logoImage\.alt/);
 	assert.match(querySource, /overview\$\{sectionHeaderProjection\}/);
 	assert.match(querySource, /"reasons":\s*coalesce\(reasons\[\]\{/);
 	assert.match(querySource, /"dataModels":\s*coalesce\(dataModels\[\]\{/);
@@ -44,6 +48,7 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.doesNotMatch(querySource, /repositories/);
 
 	assert.match(typesSource, /export type CedsOverviewPage = \{/);
+	assert.match(typesSource, /logoImage\?:\s*ImageAsset;/);
 	assert.match(typesSource, /overview:\s*SectionHeader;/);
 	assert.match(typesSource, /reasons:\s*TextBlock\[\];/);
 	assert.match(typesSource, /dataModels:\s*TextBlock\[\];/);
@@ -62,7 +67,9 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.match(pageSource, /<PrimaryNav[\s\S]*activeSection=\{page\.activeSection\}/);
 	assert.match(pageSource, /<SubNav crumb=\{page\.activeSection\} links=\{page\.subNav\} active="Overview"/);
 	assert.match(pageSource, /<Hero content=\{page\.hero\} background="teal"/);
-	assert.match(pageSource, /Common Education Data Standards overview/);
+	assert.match(pageSource, /page\.logoImage\?\.url/);
+	assert.match(pageSource, /class="ceds-logo"/);
+	assert.doesNotMatch(pageSource, /<p class="fact-kicker">Common Education Data Standards overview<\/p>/);
 	assert.match(pageSource, /What CEDS makes possible/);
 	assert.match(pageSource, /Data models/);
 	assert.match(pageSource, /Webinars and resources/);
@@ -75,6 +82,10 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 
 	assert.match(migrationSource, /_id:\s*'cedsOverview'/);
 	assert.match(migrationSource, /_type:\s*'cedsOverview'/);
+	assert.match(migrationSource, /CEDS_LOGO_PATH/);
+	assert.match(migrationSource, /client\.assets\.upload\('image'/);
+	assert.match(migrationSource, /logoImage:\s*cedsLogoImage/);
+	assert.match(migrationSource, /alt:\s*'Common Education Data Standards'/);
 	assert.match(migrationSource, /_id:\s*'sharedCtaCedsGithubAssets'/);
 	assert.match(migrationSource, /_type:\s*'sharedCta'/);
 	assert.match(migrationSource, /title:\s*'CEDS GitHub assets CTA'/);

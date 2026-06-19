@@ -102,7 +102,13 @@
 				</article>
 
 				<aside class="fact-panel" aria-label="Common Education Data Standards overview">
-					<p class="fact-kicker">Common Education Data Standards overview</p>
+					{#if page.logoImage?.url}
+						<img
+							class="ceds-logo"
+							src={page.logoImage.url}
+							alt={page.logoImage.alt || 'Common Education Data Standards'}
+						/>
+					{/if}
 					<dl>
 						<div>
 							<dt>Scope</dt>
@@ -225,19 +231,16 @@
 		padding: 1.5rem;
 	}
 
-	.fact-kicker,
 	dt,
 	dd {
 		font-family: var(--ec-font-sans);
 	}
 
-	.fact-kicker {
-		color: var(--ec-teal-dark);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		line-height: 1.2;
-		margin: 0;
-		text-transform: uppercase;
+	.ceds-logo {
+		display: block;
+		height: auto;
+		max-width: 100%;
+		width: min(100%, 18.5rem);
 	}
 
 	dl {

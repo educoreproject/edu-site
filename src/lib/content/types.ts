@@ -337,6 +337,7 @@ export type CedsOverviewPage = {
 	activeSection: 'CEDS';
 	subNav: LinkItem[];
 	hero: HeroContent;
+	logoImage?: ImageAsset;
 	overview: SectionHeader;
 	reasons: TextBlock[];
 	dataModels: TextBlock[];

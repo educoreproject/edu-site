@@ -36,6 +36,22 @@ export const cedsOverview = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
+			name: 'logoImage',
+			title: 'Logo image',
+			type: 'image',
+			options: {
+				hotspot: false
+			},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Defaults to Common Education Data Standards when left blank.'
+				})
+			]
+		}),
+		defineField({
 			name: 'overview',
 			title: 'Overview',
 			type: 'sectionHeader',
