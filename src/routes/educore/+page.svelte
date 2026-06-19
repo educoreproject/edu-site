@@ -123,7 +123,7 @@
 
 			<div class="card-grid deliverable-grid">
 				{#each page.phaseOneDeliverables as deliverable}
-					<Card variant="standard" tone="navy" title={deliverable.label} body={deliverable.text} />
+					<Card variant="plain" tone="violet" title={deliverable.label} body={deliverable.text} />
 				{/each}
 			</div>
 		</Container>
@@ -263,6 +263,10 @@
 	.standards {
 		border-bottom: 1px solid var(--ec-border-soft);
 		border-top: 1px solid var(--ec-border-soft);
+	}
+
+	.bg-surface{
+		border-bottom: 1px solid var(--ec-border-soft);
 	}
 
 	.use-case-grid {

@@ -144,7 +144,7 @@
 
 			<div class="card-grid three-up">
 				{#each page.reasons as reason}
-					<Card variant="standard" tone="teal" title={reason.label} body={reason.text} />
+					<Card variant="plain" tone="teal" title={reason.label} body={reason.text} />
 				{/each}
 			</div>
 		</Container>
@@ -230,6 +230,10 @@
 		gap: 1.25rem;
 		padding: 1.5rem;
 	}
+
+	.bg-surface {
+		border-top: 1px solid var(--ec-border-soft);
+		border-bottom: 1px solid var(--ec-border-soft);}
 
 	dt,
 	dd {
