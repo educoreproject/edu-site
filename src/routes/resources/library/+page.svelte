@@ -87,6 +87,8 @@
 								<a
 									class="download-link"
 									href={item.document.url}
+									target="_blank"
+									rel="noopener noreferrer"
 									download={item.document.filename ?? true}
 								>
 									<i class="ti ti-download" aria-hidden="true"></i>

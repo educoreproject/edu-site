@@ -224,6 +224,26 @@ export const dsuProjectsQuery = `*[_type == "dsuProjects" && slug.current == "ds
 	${pageCtasProjection}
 }`;
 
+export const cedsOverviewQuery = `*[_type == "cedsOverview" && slug.current == "ceds"][0]{
+	"slug": slug.current,
+	activeSection,
+	"subNav": coalesce(subNav[]${linkItemProjection}, []),
+	hero${heroProjection},
+	overview${sectionHeaderProjection},
+	"reasons": coalesce(reasons[]{
+		label,
+		text
+	}, []),
+	"dataModels": coalesce(dataModels[]{
+		label,
+		text
+	}, []),
+	community${sectionHeaderProjection},
+	"learningLinks": coalesce(learningLinks[]${resourceCardProjection}, []),
+	exchange${sectionHeaderProjection},
+	${pageCtasProjection}
+}`;
+
 export const resourcesHubQuery = `*[_type == "resourcesHub" && slug.current == "resources-library"][0]{
 	"slug": slug.current,
 	activeSection,

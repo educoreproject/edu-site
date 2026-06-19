@@ -1,3 +1,4 @@
+import {cedsOverview} from './cedsOverview'
 import {dsuHome} from './dsuHome'
 import {dsuJoin} from './dsuJoin'
 import {dsuMembers} from './dsuMembers'
@@ -83,6 +84,7 @@ export const schemaTypes = [
 	infoCard,
 	footerColumn,
 	siteChrome,
+	cedsOverview,
 	dsuHome,
 	dsuMembers,
 	dsuJoin,

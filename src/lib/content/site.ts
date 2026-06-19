@@ -1,6 +1,7 @@
 import { hasSanityConfig, sanityClient } from '$lib/sanity/client';
 import {
 	chromeQuery,
+	cedsOverviewQuery,
 	dsuHomeQuery,
 	dsuJoinQuery,
 	dsuMembersQuery,
@@ -31,6 +32,7 @@ import type {
 	EventsPastPage,
 	EventsUpcomingPage,
 	ContactPage,
+	CedsOverviewPage,
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
 	ResourcesHubPage,
@@ -82,6 +84,10 @@ export function getDsuJoinPage(): Promise<DsuJoinPage> {
 
 export function getDsuProjectsPage(): Promise<DsuProjectsPage> {
 	return fetchFromSanity<DsuProjectsPage>(dsuProjectsQuery, 'DSU projects page');
+}
+
+export function getCedsOverviewPage(): Promise<CedsOverviewPage> {
+	return fetchFromSanity<CedsOverviewPage>(cedsOverviewQuery, 'CEDS overview page');
 }
 
 export function getResourcesHubPage(): Promise<ResourcesHubPage> {

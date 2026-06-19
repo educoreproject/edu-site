@@ -332,6 +332,20 @@ export type DsuProjectsPage = {
 	ctas: SharedCtaContent[];
 };
 
+export type CedsOverviewPage = {
+	slug: 'ceds';
+	activeSection: 'CEDS';
+	subNav: LinkItem[];
+	hero: HeroContent;
+	overview: SectionHeader;
+	reasons: TextBlock[];
+	dataModels: TextBlock[];
+	community: SectionHeader;
+	learningLinks: ResourceCard[];
+	exchange: SectionHeader;
+	ctas: SharedCtaContent[];
+};
+
 export type ResourcesHubPage = {
 	slug: 'resources-library';
 	activeSection: 'Resources';

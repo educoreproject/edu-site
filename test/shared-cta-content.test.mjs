@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 const pageSchemaPaths = [
+	'studio/schemaTypes/cedsOverview.ts',
 	'studio/schemaTypes/dsuHome.ts',
 	'studio/schemaTypes/dsuMembers.ts',
 	'studio/schemaTypes/dsuJoin.ts',
@@ -20,6 +21,7 @@ const pageSchemaPaths = [
 ];
 
 const routePagePaths = [
+	'src/routes/ceds/+page.svelte',
 	'src/routes/+page.svelte',
 	'src/routes/dsu/members/+page.svelte',
 	'src/routes/dsu/joining/+page.svelte',
