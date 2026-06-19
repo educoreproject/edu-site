@@ -65,7 +65,10 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.match(pageSource, /import Hero from '\$lib\/components\/site\/Hero\.svelte';/);
 	assert.match(pageSource, /import PageCtas from '\$lib\/components\/site\/PageCtas\.svelte';/);
 	assert.match(pageSource, /<PrimaryNav[\s\S]*activeSection=\{page\.activeSection\}/);
-	assert.match(pageSource, /<SubNav crumb=\{page\.activeSection\} links=\{page\.subNav\} active="Overview"/);
+	assert.match(
+		pageSource,
+		/<SubNav crumb=\{page\.activeSection\} crumbHref="\/ceds" links=\{page\.subNav\} active="Overview"/
+	);
 	assert.match(pageSource, /<Hero content=\{page\.hero\} background="teal"/);
 	assert.match(pageSource, /page\.logoImage\?\.url/);
 	assert.match(pageSource, /class="ceds-logo"/);

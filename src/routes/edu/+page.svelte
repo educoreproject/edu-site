@@ -84,7 +84,7 @@
   activeSection={page.activeSection}
   activeSubSection="Overview"
 />
-<SubNav crumb="EDU" links={page.subNav} active="Overview" />
+<SubNav crumb="EDU" crumbHref="/edu" links={page.subNav} active="Overview" />
 
 <main>
   <Hero content={page.hero} />
@@ -92,11 +92,11 @@
   <section class="section section-padded" aria-labelledby="mission-heading">
     <Container width="narrow">
       <article class="text-section">
-        {@render sectionHeader(page.mission, "mission-heading")}
+        {@render sectionHeader(page.mission, 'mission-heading')}
       </article>
 
       <article class="text-section" aria-labelledby="organization-heading">
-        {@render sectionHeader(page.organization, "organization-heading")}
+        {@render sectionHeader(page.organization, 'organization-heading')}
       </article>
     </Container>
   </section>
@@ -151,11 +151,11 @@
   >
     <Container width="narrow">
       <article class="text-section">
-        {@render sectionHeader(page.unification, "unification-heading")}
+        {@render sectionHeader(page.unification, 'unification-heading')}
       </article>
 
       <article class="text-section" aria-labelledby="incorporation-heading">
-        {@render sectionHeader(page.incorporation, "incorporation-heading")}
+        {@render sectionHeader(page.incorporation, 'incorporation-heading')}
       </article>
     </Container>
   </section>

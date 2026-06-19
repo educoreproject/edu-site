@@ -47,7 +47,7 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Press & charter" />
-<SubNav crumb="Resources" links={page.subNav} active="Press & charter" />
+<SubNav crumb="Resources" crumbHref="/resources" links={page.subNav} active="Press & charter" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

@@ -1,11 +1,13 @@
 <script lang="ts">
+	import Card from '$lib/components/site/Card.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
 	import SubNav from '$lib/components/site/SubNav.svelte';
-	import type { EducoreOverviewPage, PlatformTool, SiteChrome } from '$lib/content/types';
+	import { isExternalLink } from '$lib/content/links';
+	import type { EducoreOverviewPage, SectionHeader, SiteChrome } from '$lib/content/types';
 
 	type Props = {
 		data: {
@@ -17,11 +19,47 @@
 	let { data }: Props = $props();
 	let page = $derived(data.page);
 	let chrome = $derived(data.chrome);
-
-	function getToolInitial(tool: PlatformTool) {
-		return tool.name.slice(0, 1).toUpperCase();
-	}
 </script>
+
+{#snippet richText(blocks: SectionHeader['body'])}
+	{#each blocks ?? [] as block}
+		{#if block._type === 'block'}
+			<p>
+				{#each block.children ?? [] as span}
+					{@const isStrong = span.marks?.includes('strong')}
+					{@const isEm = span.marks?.includes('em')}
+					{#if isStrong && isEm}
+						<strong><em>{span.text}</em></strong>
+					{:else if isStrong}
+						<strong>{span.text}</strong>
+					{:else if isEm}
+						<em>{span.text}</em>
+					{:else}
+						{span.text}
+					{/if}
+				{/each}
+			</p>
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet sectionHeader(header: SectionHeader, headingId: string)}
+	<div class="section-header">
+		{#if header.eyebrow}
+			<p class="eyebrow violet">{header.eyebrow}</p>
+		{/if}
+		{#if header.heading}
+			<h2 id={headingId}>{header.heading}</h2>
+		{/if}
+		{@render richText(header.body)}
+	</div>
+{/snippet}
+
+{#snippet iconPrefix(icon: string)}
+	<span class="icon-chip" aria-hidden="true">
+		<i class={`ti ti-${icon || 'sparkles'}`}></i>
+	</span>
+{/snippet}
 
 <svelte:head>
 	<title>{page.hero.title}</title>
@@ -32,32 +70,133 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Overview" />
-<SubNav crumb="EDUcore" links={page.subNav} active="Overview" />
+<SubNav crumb="EDUcore" crumbHref="/educore" links={page.subNav} active="Overview" />
 
 <main>
-	<Hero content={page.hero} background="violet" />
+	<Hero content={page.hero} icon="affiliate" background="violet" />
 
-	<section class="section platform" aria-labelledby="platform-heading">
-		<Container>
-			<div class="section-header">
-				<p class="eyebrow">{page.platform.eyebrow}</p>
-				<h2 id="platform-heading">{page.platform.heading}</h2>
-				<p>{page.platform.description}</p>
+	<section class="section section-padded bg-surface" aria-labelledby="use-cases-heading">
+		<Container width="wide">
+			{@render sectionHeader(page.useCasesHeader, 'use-cases-heading')}
+
+			<div class="card-grid use-case-grid">
+				{#each page.useCases as useCase}
+					<Card variant="plain" tone="violet" title={useCase.title} body={useCase.description}>
+						{#snippet prefix()}
+							{@render iconPrefix(useCase.icon)}
+						{/snippet}
+					</Card>
+				{/each}
 			</div>
+		</Container>
+	</section>
 
-			<div class="tool-grid">
-				{#each page.platform.tools as tool}
-					{@const isExploreDisabled = !tool.href || tool.href === '#'}
-					<article class="tool-card">
-						<div class="icon-chip" aria-hidden="true">{getToolInitial(tool)}</div>
-						<p class="tool-tag">{tool.tag}</p>
-						<h3>{tool.name}</h3>
-						<p>{tool.description}</p>
-						{#if isExploreDisabled}
-							<span class="tool-link disabled" aria-disabled="true">Explore {tool.name}</span>
+	<section class="section section-padded" aria-labelledby="why-heading">
+		<Container width="wide">
+			<div class="horizontal-layout why-layout">
+				<article class="text-section">
+					{@render sectionHeader(page.why, 'why-heading')}
+				</article>
+
+				<aside class="working-panel" aria-labelledby="working-toward-heading">
+					<h3 id="working-toward-heading" class="panel-heading">{page.workingTowardHeading}</h3>
+					<ul class="working-list" aria-labelledby="working-toward-heading">
+						{#each page.workingTowardItems as item}
+							<Card
+								variant="count"
+								as="li"
+								tone="violet"
+								title={item.label}
+								body={item.text}
+								bulletListItem
+							/>
+						{/each}
+					</ul>
+				</aside>
+			</div>
+		</Container>
+	</section>
+
+	<section class="section section-padded bg-surface" aria-labelledby="phase-one-heading">
+		<Container width="wide">
+			{@render sectionHeader(page.phaseOneHeader, 'phase-one-heading')}
+
+			<div class="card-grid deliverable-grid">
+				{#each page.phaseOneDeliverables as deliverable}
+					<Card variant="standard" tone="navy" title={deliverable.label} body={deliverable.text} />
+				{/each}
+			</div>
+		</Container>
+	</section>
+
+	<section class="section section-padded standards" aria-labelledby="standards-heading">
+		<Container width="narrow">
+			<article class="text-section">
+				{@render sectionHeader(page.standardsAlignment, 'standards-heading')}
+			</article>
+		</Container>
+	</section>
+
+	<section class="section section-padded bg-surface bakeoff" aria-labelledby="bakeoff-heading">
+		<Container width="wide">
+			{@render sectionHeader(page.aiBakeoffHeader, 'bakeoff-heading')}
+
+			<div class="demo-grid">
+				{#each page.aiBakeoffDemos as demo}
+					{@const isDemoDisabled = !demo.videoUrl || demo.videoUrl === '#'}
+					<article class="demo-card">
+						{#if demo.thumbnailImage?.url}
+							{#if isDemoDisabled}
+								<div class="demo-media disabled" aria-hidden="true">
+									<img src={demo.thumbnailImage.url} alt="" loading="lazy" />
+								</div>
+							{:else}
+								<a
+									class="demo-media"
+									href={demo.videoUrl}
+									target={isExternalLink(demo.videoUrl) ? '_blank' : undefined}
+									rel={isExternalLink(demo.videoUrl) ? 'noopener noreferrer' : undefined}
+									aria-label={`${demo.linkLabel}: ${demo.title}`}
+								>
+									<img
+										src={demo.thumbnailImage.url}
+										alt={demo.thumbnailImage.alt ?? ''}
+										loading="lazy"
+									/>
+								</a>
+							{/if}
 						{:else}
-							<a class="tool-link" href={tool.href}>Explore {tool.name}</a>
+							<div class="demo-media demo-media-fallback" aria-hidden="true">
+								<i class="ti ti-player-play"></i>
+							</div>
 						{/if}
+
+						<div class="demo-content">
+							<p class="demo-meta">
+								{demo.presenter}
+								{#if demo.organization}
+									<span aria-hidden="true">-</span>
+									{demo.organization}
+								{/if}
+							</p>
+							<h3 class="demo-title">{demo.title}</h3>
+							<p class="demo-description">{demo.description}</p>
+							{#if isDemoDisabled}
+								<span class="demo-link disabled" aria-disabled="true">
+									<span>{demo.linkLabel}</span>
+								</span>
+							{:else}
+								<a
+									class="demo-link"
+									href={demo.videoUrl}
+									target={isExternalLink(demo.videoUrl) ? '_blank' : undefined}
+									rel={isExternalLink(demo.videoUrl) ? 'noopener noreferrer' : undefined}
+								>
+									<span>{demo.linkLabel}</span>
+									<i class="ti ti-external-link" aria-hidden="true"></i>
+								</a>
+							{/if}
+						</div>
 					</article>
 				{/each}
 			</div>
@@ -70,63 +209,8 @@
 <PageFooter {chrome} />
 
 <style>
-	.platform {
-		padding-block: 4.5rem;
-	}
-
-	.section-header {
-		display: grid;
-		gap: 0.875rem;
-		max-width: 45rem;
-	}
-
-	.eyebrow,
-	.tool-tag,
-	h2,
-	h3,
-	p,
-	a,
-	span {
-		font-family: var(--ec-font-sans);
-	}
-
-	.eyebrow,
-	.tool-tag {
+	.violet {
 		color: var(--ec-violet);
-		font-size: 0.8125rem;
-		font-weight: 700;
-		letter-spacing: 0;
-		line-height: 1.2;
-		margin: 0;
-		text-transform: uppercase;
-	}
-
-	h3 {
-		color: var(--ec-navy);
-		font-size: 1.3125rem;
-		line-height: 1.25;
-		margin: 0;
-		text-wrap: pretty;
-	}
-
-	.tool-grid {
-		display: grid;
-		gap: 1.25rem;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		margin-top: 2.75rem;
-	}
-
-	.tool-card {
-		background: var(--ec-white);
-		border: 1px solid var(--ec-border-soft);
-		border-radius: 8px;
-		box-shadow: 0 8px 28px rgba(43, 51, 181, 0.06);
-		display: flex;
-		flex-direction: column;
-		gap: 0.875rem;
-		min-height: 18rem;
-		min-width: 0;
-		padding: 1.75rem;
 	}
 
 	.icon-chip {
@@ -135,47 +219,163 @@
 		border-radius: 8px;
 		color: var(--ec-violet);
 		display: inline-flex;
-		font-size: 1.25rem;
-		font-weight: 700;
 		height: 2.75rem;
 		justify-content: center;
-		line-height: 1;
-		margin-bottom: 0.25rem;
 		width: 2.75rem;
 	}
 
-	.tool-link {
-		align-self: flex-start;
-		color: var(--ec-link);
-		font-size: 0.9375rem;
+	.icon-chip i {
+		font-size: 1.45rem;
+		line-height: 1;
+	}
+
+	.why-layout {
+		align-items: start;
+	}
+
+	.text-section :global(strong) {
+		color: var(--ec-navy);
+	}
+
+	.working-panel {
+		display: grid;
+		gap: 1.25rem;
+		min-width: 0;
+	}
+
+	.panel-heading {
+		color: var(--ec-navy);
+		font-family: var(--ec-font-sans);
+		font-size: 1.375rem;
+		line-height: 1.3;
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	.working-list {
+		display: grid;
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.standards {
+		border-bottom: 1px solid var(--ec-border-soft);
+		border-top: 1px solid var(--ec-border-soft);
+	}
+
+	.use-case-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.demo-grid {
+		display: grid;
+		gap: 1.25rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.demo-card {
+		background: var(--ec-white);
+		border: 1px solid var(--ec-border-soft);
+		border-radius: 8px;
+		box-shadow: 0 10px 28px rgba(20, 43, 69, 0.06);
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.demo-media {
+		align-items: center;
+		aspect-ratio: 16 / 9;
+		background: var(--ec-navy-deep);
+		display: flex;
+		justify-content: center;
+		overflow: hidden;
+		text-decoration: none;
+	}
+
+	.demo-media img {
+		height: 100%;
+		object-fit: cover;
+		width: 100%;
+	}
+
+	.demo-media-fallback {
+		color: var(--ec-violet);
+		font-size: 2.75rem;
+	}
+
+	.demo-content {
+		display: flex;
+		flex: 1 1 auto;
+		flex-direction: column;
+		gap: 0.675rem;
+		padding: 1.5rem;
+	}
+
+	.demo-meta,
+	.demo-title,
+	.demo-description,
+	.demo-link {
+		font-family: var(--ec-font-sans);
+	}
+
+	.demo-meta {
+		color: var(--ec-violet);
+		font-size: 0.8125rem;
 		font-weight: 700;
-		line-height: 1.4;
+		line-height: 1.35;
+		margin: 0;
+		text-transform: uppercase;
+	}
+
+	.demo-title {
+		color: var(--ec-navy);
+		font-size: 1.25rem;
+		line-height: 1.3;
+		margin: 0;
+		text-wrap: pretty;
+	}
+
+	.demo-description {
+		color: var(--ec-ink-soft);
+		font-size: 1rem;
+		line-height: 1.58;
+		margin: 0;
+	}
+
+	.demo-link {
+		align-items: center;
+		align-self: flex-start;
+		display: inline-flex;
+		gap: 0.375rem;
 		margin-top: auto;
+		text-decoration: none;
+	}
+
+	.demo-link span {
+		text-decoration: underline;
 		text-decoration-thickness: 0.125rem;
 		text-underline-offset: 0.1875rem;
 	}
 
-	.tool-link.disabled {
+	.demo-link.disabled {
 		color: var(--ec-ink-soft);
 		cursor: not-allowed;
 		opacity: 0.72;
-		text-decoration: none;
 	}
 
-	@media (max-width: 760px) {
-		.platform {
-			padding-block: 3rem;
-		}
-
-		.tool-grid {
+	@media (max-width: 860px) {
+		.use-case-grid,
+		.demo-grid {
 			grid-template-columns: 1fr;
-			margin-top: 2rem;
 		}
-
 	}
 
 	@media (max-width: 420px) {
-		.tool-card {
+		.demo-content {
 			padding: 1.125rem;
 		}
 	}

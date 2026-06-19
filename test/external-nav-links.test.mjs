@@ -23,6 +23,37 @@ test('subnav external links open in a new tab and show an icon', () => {
 	assert.match(source, /<span class="sr-only">Opens in a new tab<\/span>/);
 });
 
+test('subnav parent breadcrumb is a real link', () => {
+	const source = readFileSync('src/lib/components/site/SubNav.svelte', 'utf8');
+	const routeSources = [
+		'src/routes/+page.svelte',
+		'src/routes/ceds/+page.svelte',
+		'src/routes/dsu/joining/+page.svelte',
+		'src/routes/dsu/members/+page.svelte',
+		'src/routes/dsu/projects/+page.svelte',
+		'src/routes/edu/+page.svelte',
+		'src/routes/edu/board/+page.svelte',
+		'src/routes/edu/history/+page.svelte',
+		'src/routes/educore/+page.svelte',
+		'src/routes/events/+page.svelte',
+		'src/routes/events/past/+page.svelte',
+		'src/routes/resources/+page.svelte',
+		'src/routes/resources/faq/+page.svelte',
+		'src/routes/resources/glossary/+page.svelte',
+		'src/routes/resources/library/+page.svelte',
+		'src/routes/resources/newsletter/+page.svelte',
+		'src/routes/resources/press/+page.svelte'
+	].map((path) => [path, readFileSync(path, 'utf8')]);
+
+	assert.match(source, /crumbHref: string/);
+	assert.match(source, /<a class="crumb-link" href=\{crumbHref\}>\s*\{crumb\}\s*<\/a>/);
+	assert.doesNotMatch(source, /<span>\{crumb\}<\/span>/);
+
+	for (const [path, routeSource] of routeSources) {
+		assert.match(routeSource, /<SubNav[\s\S]*?crumbHref=/, `${path} must pass a parent href`);
+	}
+});
+
 test('footer and mobile drawer use the same external-link behavior', () => {
 	const footerSource = readFileSync('src/lib/components/site/PageFooter.svelte', 'utf8');
 	const primaryNavSource = readFileSync('src/lib/components/site/PrimaryNav.svelte', 'utf8');

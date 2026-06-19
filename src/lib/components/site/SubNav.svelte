@@ -5,18 +5,19 @@
 
   type Props = {
     crumb: string;
+    crumbHref: string;
     links: LinkItem[];
     active?: LinkItem["label"];
   };
 
-  let { crumb, links, active }: Props = $props();
+  let { crumb, crumbHref, links, active }: Props = $props();
 </script>
 
 <nav aria-label="{crumb} navigation">
   <Container width="wide">
     <div class="inner">
       <div class="crumb">
-        <span>{crumb}</span>
+        <a class="crumb-link" href={crumbHref}>{crumb}</a>
         <i class="ti ti-chevron-right" aria-hidden="true"></i>
         {#if active}
           <span class="current">{active}</span>
@@ -80,7 +81,7 @@
     gap: 0.375rem;
   }
 
-  .crumb span:first-child,
+  .crumb-link,
   .current {
     color: var(--ec-teal-dark);
     font-family: var(--ec-font-sans);
@@ -88,6 +89,19 @@
     font-weight: 500;
     line-height: 1.3;
     cursor: pointer;
+  }
+
+  .crumb-link {
+    text-decoration: none;
+  }
+
+  .crumb-link:hover {
+    color: var(--ec-navy);
+  }
+
+  .crumb-link:focus-visible {
+    outline: 3px solid var(--ec-focus);
+    outline-offset: 2px;
   }
 
   .ti.ti-chevron-right {
@@ -160,7 +174,7 @@
       display: none;
     }
 
-    .crumb span:first-child,
+    .crumb-link,
     .current {
       font-size: 1rem;
     }

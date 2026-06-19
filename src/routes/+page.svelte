@@ -71,7 +71,7 @@
   activeSection={page.activeSection}
   activeSubSection="Home"
 />
-<SubNav crumb={page.activeSection} links={page.subNav} active="Home" />
+<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Home" />
 
 <main>
   <Hero content={page.hero} />

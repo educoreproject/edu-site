@@ -70,7 +70,7 @@
   activeSection={page.activeSection}
   activeSubSection="Joining DSU"
 />
-<SubNav crumb={page.activeSection} links={page.subNav} active="Joining DSU" />
+<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Joining DSU" />
 
 <main>
   <Hero content={page.hero} compact />

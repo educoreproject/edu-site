@@ -71,7 +71,7 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Projects" />
-<SubNav crumb={page.activeSection} links={page.subNav} active="Projects" />
+<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Projects" />
 
 <main>
 	<Hero content={page.hero} compact />
@@ -101,4 +101,3 @@
 </main>
 
 <PageFooter {chrome} />
-

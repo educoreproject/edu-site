@@ -36,38 +36,68 @@ export const educoreOverview = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'platform',
-			title: 'Platform',
-			type: 'object',
-			fields: [
-				defineField({
-					name: 'eyebrow',
-					title: 'Eyebrow',
-					type: 'string',
-					validation: (rule) => rule.required()
-				}),
-				defineField({
-					name: 'heading',
-					title: 'Heading',
-					type: 'string',
-					validation: (rule) => rule.required()
-				}),
-				defineField({
-					name: 'description',
-					title: 'Description',
-					type: 'text',
-					rows: 3,
-					validation: (rule) => rule.required()
-				}),
-				defineField({
-					name: 'tools',
-					title: 'Tools',
-					type: 'array',
-					of: [{type: 'platformTool'}],
-					validation: (rule) => rule.required().min(4)
-				})
-			],
+			name: 'useCasesHeader',
+			title: 'Use cases header',
+			type: 'sectionHeader',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'useCases',
+			title: 'Use cases',
+			type: 'array',
+			of: [{type: 'educoreFeatureCard'}],
+			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'why',
+			title: 'Why EDUcore',
+			type: 'sectionHeader',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'workingTowardHeading',
+			title: 'Working toward heading',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'workingTowardItems',
+			title: 'Working toward items',
+			type: 'array',
+			of: [{type: 'textBlock'}],
+			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'phaseOneHeader',
+			title: 'Phase 1 header',
+			type: 'sectionHeader',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'phaseOneDeliverables',
+			title: 'Phase 1 deliverables',
+			type: 'array',
+			of: [{type: 'textBlock'}],
+			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'standardsAlignment',
+			title: 'Standards alignment',
+			type: 'sectionHeader',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'aiBakeoffHeader',
+			title: 'AI bakeoff header',
+			type: 'sectionHeader',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'aiBakeoffDemos',
+			title: 'AI bakeoff demos',
+			type: 'array',
+			of: [{type: 'educoreDemo'}],
+			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
 			name: 'ctas',

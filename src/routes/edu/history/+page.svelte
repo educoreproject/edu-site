@@ -28,7 +28,7 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="History" />
-<SubNav crumb="EDU" links={page.subNav} active="History" />
+<SubNav crumb="EDU" crumbHref="/edu" links={page.subNav} active="History" />
 
 <main>
 	<Hero content={page.hero} compact />

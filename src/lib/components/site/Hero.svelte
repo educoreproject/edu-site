@@ -7,7 +7,7 @@
   type Props = {
     content: HeroContent;
     background?: "navy" | "teal" | "violet";
-    icon?: "world" | "event" | "resource" | "mail";
+    icon?: "world" | "affiliate" | "event" | "resource" | "mail";
     compact?: boolean;
     layout?: "default" | "event";
     titleId?: string;
@@ -33,7 +33,7 @@
   class:eventHero={layout === "event"}
   aria-labelledby={titleId}
 >
-  <i class="background-icon ti" class:ti-world={icon === 'world'} class:ti-calendar={icon === 'event'} class:ti-article={icon === 'resource'} class:ti-mail={icon === 'mail'} aria-hidden="true"></i>
+  <i class="background-icon ti" class:ti-world={icon === 'world'} class:ti-affiliate={icon === 'affiliate'} class:ti-calendar={icon === 'event'} class:ti-article={icon === 'resource'} class:ti-mail={icon === 'mail'} aria-hidden="true"></i>
 
   <Container>
     <div class="hero-content">
@@ -105,7 +105,17 @@
   }
 
   section.violet {
-    background-color: var(--ec-violet);
+        background-color: var(--ec-violet-dark);
+        background-image: linear-gradient(
+    60deg,
+   hsl(235deg 100% 37%) 0%,
+    hsl(235deg 100% 32%) 26%,
+    hsl(235deg 100% 28%) 39%,
+    hsl(235deg 100% 24%) 50%,
+    hsl(235deg 100% 21%) 61%,
+    hsl(235deg 100% 17%) 74%,
+    hsl(235deg 100% 14%) 100%
+  );
   }
 
   section.compact {
@@ -224,6 +234,10 @@
 
   .teal .background-icon {
     color: var(--ec-teal-darker);
+  }
+
+  .violet .background-icon {
+    color: var(--ec-violet);
   }
 
    @media (max-width: 1024px) {

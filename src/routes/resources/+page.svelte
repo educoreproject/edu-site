@@ -30,7 +30,7 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Hub" />
-<SubNav crumb="Resources" links={page.subNav} active="Hub" />
+<SubNav crumb="Resources" crumbHref="/resources" links={page.subNav} active="Hub" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

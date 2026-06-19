@@ -29,7 +29,7 @@
 </svelte:head>
 
 <PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Board" />
-<SubNav crumb="EDU" links={page.subNav} active="Board" />
+<SubNav crumb="EDU" crumbHref="/edu" links={page.subNav} active="Board" />
 
 <main>
 	<Hero content={page.hero} compact />

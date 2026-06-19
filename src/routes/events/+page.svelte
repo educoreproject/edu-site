@@ -35,7 +35,7 @@
   activeSection={page.activeSection}
   activeSubSection="Upcoming"
 />
-<SubNav crumb="Events" links={page.subNav} active="Upcoming" />
+<SubNav crumb="Events" crumbHref="/events" links={page.subNav} active="Upcoming" />
 
 <main>
   <Hero content={page.hero} background="teal" icon="event" layout="event">

@@ -130,7 +130,7 @@
   activeSection={page.activeSection}
   activeSubSection="Members"
 />
-<SubNav crumb={page.activeSection} links={page.subNav} active="Members" />
+<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Members" />
 
 <main>
   <Hero content={page.hero} compact />

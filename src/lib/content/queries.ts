@@ -43,11 +43,26 @@ const sectionHeaderProjection = `{
 	}, [])
 }`;
 
-const platformToolProjection = `{
-	name,
-	tag,
+const educoreFeatureCardProjection = `{
+	icon,
+	title,
+	description
+}`;
+
+const educoreDemoProjection = `{
+	title,
+	presenter,
+	organization,
 	description,
-	href
+	"thumbnailImage": select(
+		defined(thumbnailImage.asset) => {
+			"url": thumbnailImage.asset->url,
+			"alt": thumbnailImage.alt
+		},
+		null
+	),
+	videoUrl,
+	linkLabel
 }`;
 
 const sharedCtaProjection = `->{
@@ -440,12 +455,22 @@ export const educoreOverviewQuery = `*[_type == "educoreOverview" && slug.curren
 	activeSection,
 	"subNav": coalesce(subNav[]${linkItemProjection}, []),
 	hero${heroProjection},
-	platform{
-		eyebrow,
-		heading,
-		description,
-		"tools": coalesce(tools[]${platformToolProjection}, [])
-	},
+	useCasesHeader${sectionHeaderProjection},
+	"useCases": coalesce(useCases[]${educoreFeatureCardProjection}, []),
+	why${sectionHeaderProjection},
+	workingTowardHeading,
+	"workingTowardItems": coalesce(workingTowardItems[]{
+		label,
+		text
+	}, []),
+	phaseOneHeader${sectionHeaderProjection},
+	"phaseOneDeliverables": coalesce(phaseOneDeliverables[]{
+		label,
+		text
+	}, []),
+	standardsAlignment${sectionHeaderProjection},
+	aiBakeoffHeader${sectionHeaderProjection},
+	"aiBakeoffDemos": coalesce(aiBakeoffDemos[]${educoreDemoProjection}, []),
 	${pageCtasProjection}
 }`;
 

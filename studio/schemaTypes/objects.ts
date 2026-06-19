@@ -1115,20 +1115,35 @@ export const eduListGroup = defineType({
 	}
 })
 
-export const platformTool = defineType({
-	name: 'platformTool',
-	title: 'Platform tool',
+export const educoreFeatureCard = defineType({
+	name: 'educoreFeatureCard',
+	title: 'EDUcore feature card',
 	type: 'object',
 	fields: [
 		defineField({
-			name: 'name',
-			title: 'Name',
+			name: 'icon',
+			title: 'Icon',
+			description: 'Tabler icon name used by the site, such as robot or building-community.',
 			type: 'string',
+			options: {
+				list: [
+					{title: 'Robot', value: 'robot'},
+					{title: 'School', value: 'school'},
+					{title: 'Lock', value: 'lock'},
+					{title: 'Building community', value: 'building-community'},
+					{title: 'Network', value: 'network'},
+					{title: 'Book', value: 'book'},
+					{title: 'Checklist', value: 'list-check'},
+					{title: 'Shield check', value: 'shield-check'},
+					{title: 'Sparkles', value: 'sparkles'}
+				]
+			},
+			initialValue: 'sparkles',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'tag',
-			title: 'Tag',
+			name: 'title',
+			title: 'Title',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
@@ -1138,18 +1153,82 @@ export const platformTool = defineType({
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'title',
+			subtitle: 'description'
+		}
+	}
+})
+
+export const educoreDemo = defineType({
+	name: 'educoreDemo',
+	title: 'EDUcore demo',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'title',
+			title: 'Title',
+			type: 'string',
+			validation: (rule) => rule.required()
 		}),
 		defineField({
-			name: 'href',
-			title: 'Href',
+			name: 'presenter',
+			title: 'Presenter',
 			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'organization',
+			title: 'Organization',
+			type: 'string'
+		}),
+		defineField({
+			name: 'description',
+			title: 'Description',
+			type: 'text',
+			rows: 4,
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'thumbnailImage',
+			title: 'Thumbnail image',
+			type: 'image',
+			options: {
+				hotspot: false
+			},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Describe the demo thumbnail for screen reader users.',
+					validation: (rule) => rule.required()
+				})
+			],
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'videoUrl',
+			title: 'Video URL',
+			type: 'url',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'linkLabel',
+			title: 'Link label',
+			type: 'string',
+			initialValue: 'Watch on Drive',
 			validation: (rule) => rule.required()
 		})
 	],
 	preview: {
 		select: {
-			title: 'name',
-			subtitle: 'tag'
+			title: 'title',
+			subtitle: 'presenter',
+			media: 'thumbnailImage'
 		}
 	}
 })

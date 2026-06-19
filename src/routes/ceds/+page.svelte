@@ -89,7 +89,7 @@
 	activeSection={page.activeSection}
 	activeSubSection="Overview"
 />
-<SubNav crumb={page.activeSection} links={page.subNav} active="Overview" />
+<SubNav crumb={page.activeSection} crumbHref="/ceds" links={page.subNav} active="Overview" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="world" />

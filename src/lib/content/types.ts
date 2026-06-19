@@ -226,11 +226,20 @@ export type EduListGroup = {
 	items: string[];
 };
 
-export type PlatformTool = {
-	name: string;
-	tag: string;
+export type EducoreFeatureCard = {
+	icon: string;
+	title: string;
 	description: string;
-	href: string;
+};
+
+export type EducoreDemo = {
+	title: string;
+	presenter: string;
+	organization?: string;
+	description: string;
+	thumbnailImage?: ImageAsset;
+	videoUrl: string;
+	linkLabel: string;
 };
 
 export type BoardMember = {
@@ -476,11 +485,15 @@ export type EducoreOverviewPage = {
 	activeSection: EducoreSection;
 	subNav: LinkItem[];
 	hero: HeroContent;
-	platform: {
-		eyebrow: string;
-		heading: string;
-		description: string;
-		tools: PlatformTool[];
-	};
+	useCasesHeader: SectionHeader;
+	useCases: EducoreFeatureCard[];
+	why: SectionHeader;
+	workingTowardHeading: string;
+	workingTowardItems: TextBlock[];
+	phaseOneHeader: SectionHeader;
+	phaseOneDeliverables: TextBlock[];
+	standardsAlignment: SectionHeader;
+	aiBakeoffHeader: SectionHeader;
+	aiBakeoffDemos: EducoreDemo[];
 	ctas: SharedCtaContent[];
 };
