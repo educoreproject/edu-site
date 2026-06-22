@@ -93,7 +93,7 @@ test('resources library content contract projects downloadable file metadata', (
 
 	assert.match(siteSource, /resourcesLibraryQuery/);
 	assert.match(siteSource, /ResourcesLibraryPage/);
-	assert.match(siteSource, /export function getResourcesLibraryPage\(\): Promise<ResourcesLibraryPage>/);
+	assert.match(siteSource, /export (?:async )?function getResourcesLibraryPage\(\): Promise<ResourcesLibraryPage>/);
 });
 
 test('resources press content contract projects downloadable file metadata', () => {
@@ -113,7 +113,7 @@ test('resources press content contract projects downloadable file metadata', () 
 
 	assert.match(siteSource, /resourcesPressQuery/);
 	assert.match(siteSource, /ResourcesPressPage/);
-	assert.match(siteSource, /export function getResourcesPressPage\(\): Promise<ResourcesPressPage>/);
+	assert.match(siteSource, /export (?:async )?function getResourcesPressPage\(\): Promise<ResourcesPressPage>/);
 });
 
 test('resources newsletter content contract projects downloadable file metadata', () => {
@@ -137,7 +137,7 @@ test('resources newsletter content contract projects downloadable file metadata'
 
 	assert.match(siteSource, /resourcesNewsletterQuery/);
 	assert.match(siteSource, /ResourcesNewsletterPage/);
-	assert.match(siteSource, /export function getResourcesNewsletterPage\(\): Promise<ResourcesNewsletterPage>/);
+	assert.match(siteSource, /export (?:async )?function getResourcesNewsletterPage\(\): Promise<ResourcesNewsletterPage>/);
 });
 
 test('resources library route mirrors FAQ and glossary category layout', () => {

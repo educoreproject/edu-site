@@ -4,10 +4,26 @@ const linkItemProjection = `{
 	disabled
 }`;
 
+const linkDestinationProjection = `{
+	type,
+	pageKey,
+	href,
+	anchorId,
+	"file": select(
+		defined(file.asset) => {
+			"url": file.asset->url,
+			"filename": file.asset->originalFilename,
+			"mimeType": file.asset->mimeType,
+			"size": file.asset->size
+		},
+		null
+	)
+}`;
+
 const ctaProjection = `{
 	label,
-	href,
-	variant
+	variant,
+	destination${linkDestinationProjection}
 }`;
 
 const heroProjection = `{

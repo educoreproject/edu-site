@@ -62,10 +62,11 @@ export const cta = defineType({
 			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA label'))
 		}),
 		defineField({
-			name: 'href',
-			title: 'Href',
-			type: 'string',
-			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA href'))
+			name: 'destination',
+			title: 'Destination',
+			type: 'linkDestination',
+			validation: (rule) =>
+				rule.custom((value, context) => requireCtaValue(value, context, 'CTA destination'))
 		}),
 		defineField({
 			name: 'variant',
@@ -86,7 +87,7 @@ export const cta = defineType({
 	preview: {
 		select: {
 			title: 'label',
-			subtitle: 'href'
+			subtitle: 'destination.type'
 		}
 	}
 })
@@ -143,7 +144,7 @@ export const sharedCta = defineType({
 			validation: (rule) =>
 				rule.custom((value, context) => {
 					const parent = context.parent as {type?: string; signupMode?: string}
-					const cta = value as {label?: string; href?: string} | undefined
+					const cta = value as {label?: string; destination?: unknown} | undefined
 
 					if ((parent?.type === 'generic' || parent?.type === 'newsletter') && !cta) {
 						return 'CTAs need button content.'
@@ -157,8 +158,8 @@ export const sharedCta = defineType({
 						return 'Newsletter CTAs need a CTA label.'
 					}
 
-					return parent.signupMode !== 'directEmailSignup' && !cta.href?.trim()
-						? 'External newsletter signups need a CTA href.'
+					return parent.signupMode !== 'directEmailSignup' && !cta.destination
+						? 'External newsletter signups need a CTA destination.'
 						: true
 				})
 		}),

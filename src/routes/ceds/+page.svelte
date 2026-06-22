@@ -64,8 +64,9 @@
 	<Card
 		as="a"
 		href={card.cta.href}
-		target="_blank"
-		rel="noopener noreferrer"
+		target={card.cta.target}
+		rel={card.cta.rel}
+		download={card.cta.download}
 		variant="plain"
 		{tone}
 		eyebrow={card.meta}

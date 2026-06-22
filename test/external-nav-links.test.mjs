@@ -77,10 +77,11 @@ test('footer disabled styles only target disabled link placeholders', () => {
 test('resources hub cards open external CTA destinations in a new tab', () => {
 	const source = readFileSync('src/routes/resources/+page.svelte', 'utf8');
 
-	assert.match(source, /import \{ isExternalLink \} from '\$lib\/content\/links';/);
-	assert.match(source, /const isExternal = isExternalLink\(card\.cta\.href\)/);
-	assert.match(source, /target=\{isExternal \? '_blank' : undefined\}/);
-	assert.match(source, /rel=\{isExternal \? 'noopener noreferrer' : undefined\}/);
+	assert.doesNotMatch(source, /import \{ isExternalLink \} from '\$lib\/content\/links';/);
+	assert.doesNotMatch(source, /const isExternal = isExternalLink\(card\.cta\.href\)/);
+	assert.match(source, /target=\{card\.cta\.target\}/);
+	assert.match(source, /rel=\{card\.cta\.rel\}/);
+	assert.match(source, /download=\{card\.cta\.download\}/);
 });
 
 test('resources demo seed preserves edited external EdMatrix links', () => {
@@ -95,5 +96,8 @@ test('resources demo seed preserves edited external EdMatrix links', () => {
 	assert.match(source, /disabled:\s*existingStandardsMatrix\?\.disabled \?\? true/);
 	assert.match(source, /const standardsMatrixLink = resourcesSubNav\.find/);
 	assert.match(source, /card\.title\?\.toLowerCase\(\)\.includes\('standards matrix'\)/);
-	assert.match(source, /href:\s*standardsMatrixLink\?\.href \?\? card\.cta\?\.href/);
+	assert.match(source, /function destinationFromHref\(href\?: string\)/);
+	assert.match(source, /ctaWithDestination\(card\.cta, destinationFromHref\('\/resources\/library'\)\)/);
+	assert.match(source, /destinationFromHref\(standardsMatrixLink\?\.href\) \?\? card\.cta\?\.destination/);
+	assert.doesNotMatch(source, /card\.cta\?\.href/);
 });

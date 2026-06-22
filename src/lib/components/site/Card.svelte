@@ -45,6 +45,7 @@
     href?: string;
     target?: "_blank" | "_self" | "_parent" | "_top";
     rel?: string;
+    download?: string | boolean;
     email?: string;
     cta?: Cta;
     linkLabel?: string;
@@ -72,6 +73,7 @@
     href,
     target,
     rel,
+    download,
     email,
     cta,
     linkLabel,
@@ -98,7 +100,7 @@
   );
 </script>
 
-<svelte:element this={as} class={cardClass} {href} {target} {rel}>
+<svelte:element this={as} class={cardClass} {href} {target} {rel} {download}>
   {#if variant === "count" && !bulletListItem}
     <span class="count-number" aria-hidden="true"></span>
   {/if}
@@ -179,6 +181,9 @@
       <div class="cta">
         <Button
           href={cta.href}
+          target={cta.target}
+          rel={cta.rel}
+          download={cta.download}
           label={cta.label}
           variant={cta.variant}
           disabled={isCtaDisabled}

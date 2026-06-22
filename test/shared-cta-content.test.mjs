@@ -77,6 +77,8 @@ test('page queries dereference shared CTAs into an ordered render list', () => {
 
 	assert.match(queriesSource, /const sharedCtaProjection = `->\{/);
 	assert.match(queriesSource, /cta\$\{ctaProjection\}/);
+	assert.match(queriesSource, /destination\$\{linkDestinationProjection\}/);
+	assert.doesNotMatch(queriesSource, /href,\s*\n\s*variant/);
 	assert.doesNotMatch(queriesSource, /\bctaLabel,/);
 	assert.doesNotMatch(queriesSource, /\bctaVariant,/);
 	assert.doesNotMatch(queriesSource, /\bsignupUrl,/);

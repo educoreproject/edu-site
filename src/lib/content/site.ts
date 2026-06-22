@@ -20,7 +20,9 @@ import {
 	resourcesNewsletterQuery,
 	resourcesPressQuery
 } from './queries';
+import { resolveDestination } from './destinations';
 import type {
+	Cta,
 	DsuHomePage,
 	DsuJoinPage,
 	DsuMembersPage,
@@ -33,12 +35,17 @@ import type {
 	EventsUpcomingPage,
 	ContactPage,
 	CedsOverviewPage,
+	HeroContent,
+	InfoCard,
+	MembershipType,
+	ResourceCard,
 	ResourcesFaqPage,
 	ResourcesGlossaryPage,
 	ResourcesHubPage,
 	ResourcesLibraryPage,
 	ResourcesNewsletterPage,
 	ResourcesPressPage,
+	SharedCtaContent,
 	SiteChrome
 } from './types';
 
@@ -66,81 +73,262 @@ async function fetchFromSanity<T>(query: string, label: string): Promise<T> {
 	return result;
 }
 
+type RawCta = Omit<Cta, keyof ReturnType<typeof resolveDestination>> & {
+	destination?: Parameters<typeof resolveDestination>[0];
+};
+
+type RawHeroContent = Omit<HeroContent, 'ctas'> & {
+	ctas?: RawCta[];
+};
+
+type RawResourceCard = Omit<ResourceCard, 'cta'> & {
+	cta: RawCta;
+};
+
+type RawSharedCtaContent = Omit<SharedCtaContent, 'cta'> & {
+	cta: RawCta;
+};
+
+type RawMembershipType = Omit<MembershipType, 'cta'> & {
+	cta: RawCta;
+};
+
+type RawInfoCard = Omit<InfoCard, 'cta'> & {
+	cta?: RawCta;
+};
+
+type RawPageContent<T extends { hero: HeroContent; ctas: SharedCtaContent[] }> = Omit<
+	T,
+	'hero' | 'ctas'
+> & {
+	hero: RawHeroContent;
+	ctas: RawSharedCtaContent[];
+};
+
+function resolveCta(cta: RawCta): Cta {
+	return {
+		label: cta.label,
+		variant: cta.variant,
+		...resolveDestination(cta.destination)
+	};
+}
+
+function resolveHero(hero: RawHeroContent): HeroContent {
+	return {
+		...hero,
+		ctas: hero.ctas?.map(resolveCta) ?? []
+	};
+}
+
+function resolveResourceCard(card: RawResourceCard): ResourceCard {
+	return {
+		...card,
+		cta: resolveCta(card.cta)
+	};
+}
+
+function resolveSharedCta(cta: RawSharedCtaContent): SharedCtaContent {
+	return {
+		...cta,
+		cta: resolveCta(cta.cta)
+	} as SharedCtaContent;
+}
+
+function resolveMembershipType(membershipType: RawMembershipType): MembershipType {
+	return {
+		...membershipType,
+		cta: resolveCta(membershipType.cta)
+	};
+}
+
+function resolveInfoCard(card: RawInfoCard): InfoCard {
+	return {
+		...card,
+		cta: card.cta ? resolveCta(card.cta) : undefined
+	};
+}
+
+function resolvePageContent<T extends { hero: HeroContent; ctas: SharedCtaContent[] }>(
+	page: RawPageContent<T>
+): T {
+	return {
+		...page,
+		hero: resolveHero(page.hero),
+		ctas: page.ctas.map(resolveSharedCta)
+	} as T;
+}
+
 export function getSiteChrome(): Promise<SiteChrome> {
 	return fetchFromSanity<SiteChrome>(chromeQuery, 'site chrome');
 }
 
-export function getDsuHomePage(): Promise<DsuHomePage> {
-	return fetchFromSanity<DsuHomePage>(dsuHomeQuery, 'DSU home page');
+export async function getDsuHomePage(): Promise<DsuHomePage> {
+	const page = await fetchFromSanity<RawPageContent<DsuHomePage>>(dsuHomeQuery, 'DSU home page');
+
+	return resolvePageContent<DsuHomePage>(page);
 }
 
-export function getDsuMembersPage(): Promise<DsuMembersPage> {
-	return fetchFromSanity<DsuMembersPage>(dsuMembersQuery, 'DSU members page');
+export async function getDsuMembersPage(): Promise<DsuMembersPage> {
+	const page = await fetchFromSanity<RawPageContent<DsuMembersPage>>(
+		dsuMembersQuery,
+		'DSU members page'
+	);
+
+	return resolvePageContent<DsuMembersPage>(page);
 }
 
-export function getDsuJoinPage(): Promise<DsuJoinPage> {
-	return fetchFromSanity<DsuJoinPage>(dsuJoinQuery, 'DSU join page');
+export async function getDsuJoinPage(): Promise<DsuJoinPage> {
+	const page = await fetchFromSanity<
+		RawPageContent<DsuJoinPage> & { membershipTypes: RawMembershipType[] }
+	>(dsuJoinQuery, 'DSU join page');
+
+	return {
+		...resolvePageContent<DsuJoinPage>(page),
+		membershipTypes: page.membershipTypes.map(resolveMembershipType)
+	};
 }
 
-export function getDsuProjectsPage(): Promise<DsuProjectsPage> {
-	return fetchFromSanity<DsuProjectsPage>(dsuProjectsQuery, 'DSU projects page');
+export async function getDsuProjectsPage(): Promise<DsuProjectsPage> {
+	const page = await fetchFromSanity<RawPageContent<DsuProjectsPage>>(
+		dsuProjectsQuery,
+		'DSU projects page'
+	);
+
+	return resolvePageContent<DsuProjectsPage>(page);
 }
 
-export function getCedsOverviewPage(): Promise<CedsOverviewPage> {
-	return fetchFromSanity<CedsOverviewPage>(cedsOverviewQuery, 'CEDS overview page');
+export async function getCedsOverviewPage(): Promise<CedsOverviewPage> {
+	const page = await fetchFromSanity<
+		RawPageContent<CedsOverviewPage> & { learningLinks: RawResourceCard[] }
+	>(cedsOverviewQuery, 'CEDS overview page');
+
+	return {
+		...resolvePageContent<CedsOverviewPage>(page),
+		learningLinks: page.learningLinks.map(resolveResourceCard)
+	};
 }
 
-export function getResourcesHubPage(): Promise<ResourcesHubPage> {
-	return fetchFromSanity<ResourcesHubPage>(resourcesHubQuery, 'Resources hub page');
+export async function getResourcesHubPage(): Promise<ResourcesHubPage> {
+	const page = await fetchFromSanity<
+		RawPageContent<ResourcesHubPage> & { cards: RawResourceCard[] }
+	>(resourcesHubQuery, 'Resources hub page');
+
+	return {
+		...resolvePageContent<ResourcesHubPage>(page),
+		cards: page.cards.map(resolveResourceCard)
+	};
 }
 
-export function getResourcesLibraryPage(): Promise<ResourcesLibraryPage> {
-	return fetchFromSanity<ResourcesLibraryPage>(resourcesLibraryQuery, 'Resources library page');
+export async function getResourcesLibraryPage(): Promise<ResourcesLibraryPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesLibraryPage>>(
+		resourcesLibraryQuery,
+		'Resources library page'
+	);
+
+	return resolvePageContent<ResourcesLibraryPage>(page);
 }
 
-export function getResourcesPressPage(): Promise<ResourcesPressPage> {
-	return fetchFromSanity<ResourcesPressPage>(resourcesPressQuery, 'Resources press page');
+export async function getResourcesPressPage(): Promise<ResourcesPressPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesPressPage>>(
+		resourcesPressQuery,
+		'Resources press page'
+	);
+
+	return resolvePageContent<ResourcesPressPage>(page);
 }
 
-export function getResourcesNewsletterPage(): Promise<ResourcesNewsletterPage> {
-	return fetchFromSanity<ResourcesNewsletterPage>(
+export async function getResourcesNewsletterPage(): Promise<ResourcesNewsletterPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesNewsletterPage>>(
 		resourcesNewsletterQuery,
 		'Resources newsletter page'
 	);
+
+	return resolvePageContent<ResourcesNewsletterPage>(page);
 }
 
-export function getResourcesGlossaryPage(): Promise<ResourcesGlossaryPage> {
-	return fetchFromSanity<ResourcesGlossaryPage>(resourcesGlossaryQuery, 'Resources glossary page');
+export async function getResourcesGlossaryPage(): Promise<ResourcesGlossaryPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesGlossaryPage>>(
+		resourcesGlossaryQuery,
+		'Resources glossary page'
+	);
+
+	return resolvePageContent<ResourcesGlossaryPage>(page);
 }
 
-export function getResourcesFaqPage(): Promise<ResourcesFaqPage> {
-	return fetchFromSanity<ResourcesFaqPage>(resourcesFaqQuery, 'Resources FAQ page');
+export async function getResourcesFaqPage(): Promise<ResourcesFaqPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesFaqPage>>(
+		resourcesFaqQuery,
+		'Resources FAQ page'
+	);
+
+	return resolvePageContent<ResourcesFaqPage>(page);
 }
 
-export function getEventsUpcomingPage(): Promise<EventsUpcomingPage> {
-	return fetchFromSanity<EventsUpcomingPage>(eventsUpcomingQuery, 'Events upcoming page');
+export async function getEventsUpcomingPage(): Promise<EventsUpcomingPage> {
+	const page = await fetchFromSanity<RawPageContent<EventsUpcomingPage>>(
+		eventsUpcomingQuery,
+		'Events upcoming page'
+	);
+
+	return resolvePageContent<EventsUpcomingPage>(page);
 }
 
-export function getEventsPastPage(): Promise<EventsPastPage> {
-	return fetchFromSanity<EventsPastPage>(eventsPastQuery, 'Events past page');
+export async function getEventsPastPage(): Promise<EventsPastPage> {
+	const page = await fetchFromSanity<RawPageContent<EventsPastPage>>(
+		eventsPastQuery,
+		'Events past page'
+	);
+
+	return resolvePageContent<EventsPastPage>(page);
 }
 
-export function getEduOverviewPage(): Promise<EduOverviewPage> {
-	return fetchFromSanity<EduOverviewPage>(eduOverviewQuery, 'EDU overview page');
+export async function getEduOverviewPage(): Promise<EduOverviewPage> {
+	const page = await fetchFromSanity<RawPageContent<EduOverviewPage>>(
+		eduOverviewQuery,
+		'EDU overview page'
+	);
+
+	return resolvePageContent<EduOverviewPage>(page);
 }
 
-export function getEduBoardPage(): Promise<EduBoardPage> {
-	return fetchFromSanity<EduBoardPage>(eduBoardQuery, 'EDU board page');
+export async function getEduBoardPage(): Promise<EduBoardPage> {
+	const page = await fetchFromSanity<RawPageContent<EduBoardPage>>(
+		eduBoardQuery,
+		'EDU board page'
+	);
+
+	return resolvePageContent<EduBoardPage>(page);
 }
 
-export function getEduHistoryPage(): Promise<EduHistoryPage> {
-	return fetchFromSanity<EduHistoryPage>(eduHistoryQuery, 'EDU history page');
+export async function getEduHistoryPage(): Promise<EduHistoryPage> {
+	const page = await fetchFromSanity<RawPageContent<EduHistoryPage>>(
+		eduHistoryQuery,
+		'EDU history page'
+	);
+
+	return resolvePageContent<EduHistoryPage>(page);
 }
 
-export function getContactPage(): Promise<ContactPage> {
-	return fetchFromSanity<ContactPage>(contactPageQuery, 'contact page');
+export async function getContactPage(): Promise<ContactPage> {
+	const page = await fetchFromSanity<
+		RawPageContent<ContactPage> & {
+			directCard: RawInfoCard;
+			collaborativeCard: RawInfoCard;
+		}
+	>(contactPageQuery, 'contact page');
+
+	return {
+		...resolvePageContent<ContactPage>(page),
+		directCard: resolveInfoCard(page.directCard),
+		collaborativeCard: resolveInfoCard(page.collaborativeCard)
+	};
 }
 
-export function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {
-	return fetchFromSanity<EducoreOverviewPage>(educoreOverviewQuery, 'EDUcore overview page');
+export async function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {
+	const page = await fetchFromSanity<RawPageContent<EducoreOverviewPage>>(
+		educoreOverviewQuery,
+		'EDUcore overview page'
+	);
+
+	return resolvePageContent<EducoreOverviewPage>(page);
 }

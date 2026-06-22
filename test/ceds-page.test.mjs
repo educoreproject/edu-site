@@ -57,7 +57,7 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 
 	assert.match(siteSource, /cedsOverviewQuery/);
 	assert.match(siteSource, /CedsOverviewPage/);
-	assert.match(siteSource, /export function getCedsOverviewPage\(\): Promise<CedsOverviewPage>/);
+	assert.match(siteSource, /export (?:async )?function getCedsOverviewPage\(\): Promise<CedsOverviewPage>/);
 
 	assert.match(loadSource, /getCedsOverviewPage/);
 	assert.match(loadSource, /getSiteChrome/);

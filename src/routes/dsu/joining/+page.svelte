@@ -115,6 +115,9 @@
 
             <Button
               href={membership.cta.href}
+              target={membership.cta.target}
+              rel={membership.cta.rel}
+              download={membership.cta.download}
               label={membership.cta.label}
               variant={membership.cta.variant}
             />

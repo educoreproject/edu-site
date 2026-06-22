@@ -7,6 +7,9 @@
 	type Props = {
 		label?: Cta['label'];
 		href?: Cta['href'];
+		target?: Cta['target'];
+		rel?: Cta['rel'];
+		download?: Cta['download'];
 		variant?: ButtonVariant;
 		onDark?: boolean;
 		disabled?: boolean;
@@ -17,6 +20,9 @@
 	let {
 		label,
 		href,
+		target,
+		rel,
+		download,
 		variant = 'primary',
 		onDark = false,
 		disabled = false,
@@ -26,7 +32,7 @@
 </script>
 
 {#if href && !disabled}
-	<a class:primary={variant === 'primary'} class:outline={variant === 'outline'} class:teal={variant === 'teal'} class:gold={variant === 'gold'} class:on-dark={onDark} href={href}>
+	<a class:primary={variant === 'primary'} class:outline={variant === 'outline'} class:teal={variant === 'teal'} class:gold={variant === 'gold'} class:on-dark={onDark} href={href} {target} {rel} {download}>
 		{#if children}
 			{@render children()}
 		{:else}
