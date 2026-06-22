@@ -9,6 +9,7 @@ node_modules
 /build
 /studio/.sanity
 /studio/dist
+.worktrees/
 
 # OS
 .DS_Store
