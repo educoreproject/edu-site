@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from 'svelte';
   import { isExternalLink } from "$lib/content/links";
   import { getRoutePage } from "$lib/content/route-metadata";
   import type { RoutePageKey, SiteSectionKey } from "$lib/content/route-metadata";
@@ -35,7 +36,12 @@
   }: Props = $props();
 
   let menuOpen = $state(false);
+  let searchOpen = $state(false);
+  let searchInput: HTMLInputElement | undefined = $state();
   const panelId = `${uid}-mobile-menu`;
+  const searchDialogId = `${uid}-search-dialog`;
+  const searchTitleId = `${uid}-search-title`;
+  const searchInputId = `${uid}-search-input`;
   let activePage = $derived(activePageKey ? getRoutePage(activePageKey) : undefined);
 
   const normalizeLabel = (value: string) =>
@@ -67,8 +73,24 @@
     menuOpen = false;
   }
 
+  async function openSearch() {
+    closeMenu();
+    searchOpen = true;
+    await tick();
+    searchInput?.focus();
+  }
+
+  function closeSearch() {
+    searchOpen = false;
+  }
+
   function handleKeydown(event: KeyboardEvent) {
     if (event.key === "Escape") {
+      if (searchOpen) {
+        closeSearch();
+        return;
+      }
+
       closeMenu();
     }
   }
@@ -111,7 +133,26 @@
         {/if}
       {/each}
     </div>
+
+    <button
+      class="search-toggle desktop-search"
+      type="button"
+      aria-label="Open search"
+      aria-haspopup="dialog"
+      onclick={openSearch}
+    >
+      <i class="ti ti-search" aria-hidden="true"></i>
+    </button>
   </Container>
+  <button
+    class="search-toggle mobile-search"
+    type="button"
+    aria-label="Open search"
+    aria-haspopup="dialog"
+    onclick={openSearch}
+  >
+    <i class="ti ti-search" aria-hidden="true"></i>
+  </button>
   <button
     class="menu-toggle"
     type="button"
@@ -125,6 +166,53 @@
     <span aria-hidden="true"></span>
   </button>
 </nav>
+
+{#if searchOpen}
+  <div class="search-layer">
+    <button
+      class="search-scrim"
+      type="button"
+      aria-label="Close search"
+      onclick={closeSearch}
+    ></button>
+
+    <div
+      id={searchDialogId}
+      class="search-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={searchTitleId}
+    >
+      <div class="search-dialog-header">
+        <h2 id={searchTitleId}>Search</h2>
+        <button
+          class="search-close"
+          type="button"
+          aria-label="Close search"
+          onclick={closeSearch}
+        >
+          <i class="ti ti-x" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <form class="modal-search-form" action="/search" method="GET" role="search">
+        <label for={searchInputId}>Search by keyword</label>
+        <input
+          id={searchInputId}
+          bind:this={searchInput}
+          name="keyword"
+          type="search"
+          placeholder="Search resources and events"
+          autocomplete="off"
+        />
+        <button type="submit">
+          <i class="ti ti-search" aria-hidden="true"></i>
+          <span>Search</span>
+        </button>
+      </form>
+    </div>
+  </div>
+{/if}
 
 {#if menuOpen}
   <div class="drawer-layer">
@@ -330,6 +418,39 @@
     opacity: 0.58;
   }
 
+  .search-toggle {
+    align-items: center;
+    align-self: center;
+    background: transparent;
+    border: 0;
+    color: var(--ec-white);
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 2.75rem;
+    justify-content: center;
+    margin-left: 1rem;
+    padding: 0;
+    width: 2.75rem;
+  }
+
+  .search-toggle i {
+    font-size: 1.375rem;
+  }
+
+  .search-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .search-toggle:active {
+    transform: translateY(1px);
+  }
+
+  .mobile-search {
+    display: none;
+    margin-left: auto;
+    margin-right: 0.25rem;
+  }
+
   .menu-toggle {
     align-items: center;
     align-self: center;
@@ -358,6 +479,113 @@
   }
 
   .menu-toggle:active {
+    transform: translateY(1px);
+  }
+
+  .search-layer {
+    inset: 0;
+    position: fixed;
+    z-index: 100;
+  }
+
+  .search-scrim {
+    background: rgba(12, 23, 29, 0.56);
+    border: 0;
+    inset: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+  .search-dialog {
+    background: var(--ec-white);
+    border-radius: 8px;
+    box-shadow: 0 1.5rem 4rem rgba(12, 23, 29, 0.28);
+    display: grid;
+    gap: 1.25rem;
+    left: 50%;
+    max-width: min(92vw, 34rem);
+    padding: 1.25rem;
+    position: absolute;
+    top: 18vh;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+
+  .search-dialog-header {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .search-dialog h2 {
+    color: var(--ec-navy);
+    font-family: var(--ec-font-sans);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .search-close {
+    align-items: center;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    color: var(--ec-navy);
+    display: inline-flex;
+    height: 2.5rem;
+    justify-content: center;
+    width: 2.5rem;
+  }
+
+  .search-close:hover {
+    background: var(--ec-surface);
+  }
+
+  .search-close:active {
+    transform: translateY(1px);
+  }
+
+  .modal-search-form {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .modal-search-form label {
+    color: var(--ec-navy);
+    font-family: var(--ec-font-sans);
+    font-weight: 700;
+  }
+
+  .modal-search-form input {
+    border: 1px solid var(--ec-border);
+    border-radius: 6px;
+    color: var(--ec-ink);
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+  }
+
+  .modal-search-form button {
+    align-items: center;
+    background: var(--ec-link);
+    border: 2px solid transparent;
+    border-radius: 6px;
+    color: var(--ec-white);
+    display: inline-flex;
+    font-weight: 600;
+    gap: 0.5rem;
+    justify-content: center;
+    justify-self: start;
+    min-height: 2.875rem;
+    padding: 0.75rem 1.125rem;
+  }
+
+  .modal-search-form button:hover {
+    background: var(--ec-violet-dark);
+  }
+
+  .modal-search-form button:active {
     transform: translateY(1px);
   }
 
@@ -543,6 +771,14 @@
       display: none;
     }
 
+    .desktop-search {
+      display: none;
+    }
+
+    .mobile-search {
+      display: inline-flex;
+    }
+
     .menu-toggle {
       display: flex;
     }
@@ -551,6 +787,9 @@
   @media (prefers-reduced-motion: reduce) {
     .links a,
     .links span,
+    .search-toggle,
+    .search-close,
+    .modal-search-form button,
     .menu-toggle,
     .close-toggle,
     .drawer {
