@@ -4,7 +4,7 @@
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import type { ContactPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -31,7 +31,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} />
+<SectionChrome {chrome} routeKey="contact" />
 
 <main>
 	<Hero content={page.hero} icon="mail" />

@@ -6,29 +6,6 @@ export const dsuHome = defineType({
 	type: 'document',
 	fields: [
 		defineField({
-			name: 'slug',
-			title: 'Slug',
-			type: 'slug',
-			initialValue: {current: 'dsu-home'},
-			options: {
-				source: () => 'dsu-home'
-			},
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'activeSection',
-			title: 'Active section',
-			type: 'string',
-			initialValue: 'DSU',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'subNav',
-			title: 'Sub navigation',
-			type: 'array',
-			of: [{type: 'linkItem'}]
-		}),
-		defineField({
 			name: 'hero',
 			title: 'Hero',
 			type: 'heroContent',

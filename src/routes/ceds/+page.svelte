@@ -5,8 +5,7 @@
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
-	import SubNav from '$lib/components/site/SubNav.svelte';
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import type {
 		CedsOverviewPage,
 		ResourceCard,
@@ -84,13 +83,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav
-	links={chrome.primaryNav}
-	footerColumns={chrome.footerColumns}
-	activeSection={page.activeSection}
-	activeSubSection="Overview"
-/>
-<SubNav crumb={page.activeSection} crumbHref="/ceds" links={page.subNav} active="Overview" />
+<SectionChrome {chrome} routeKey="cedsOverview" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="world" />

@@ -4,8 +4,7 @@
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
-	import SubNav from '$lib/components/site/SubNav.svelte';
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import type { ResourcesHubPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -28,8 +27,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Hub" />
-<SubNav crumb="Resources" crumbHref="/resources" links={page.subNav} active="Hub" />
+<SectionChrome {chrome} routeKey="resourcesHub" />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

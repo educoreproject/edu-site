@@ -288,3 +288,46 @@ test('shared chrome components consume normalized SiteChrome sections', () => {
 	assert.match(footer, /chrome\.sections/);
 	assert.doesNotMatch(footer, /chrome\.footerColumns/);
 });
+
+test('page schemas and content queries no longer expose legacy nav fields', () => {
+	const pageSchemas = [
+		'studio/schemaTypes/cedsOverview.ts',
+		'studio/schemaTypes/dsuHome.ts',
+		'studio/schemaTypes/dsuMembers.ts',
+		'studio/schemaTypes/dsuJoin.ts',
+		'studio/schemaTypes/dsuProjects.ts',
+		'studio/schemaTypes/eduOverview.ts',
+		'studio/schemaTypes/eduBoard.ts',
+		'studio/schemaTypes/eduHistory.ts',
+		'studio/schemaTypes/eduContact.ts',
+		'studio/schemaTypes/educoreOverview.ts',
+		'studio/schemaTypes/eventsUpcoming.ts',
+		'studio/schemaTypes/eventsPast.ts',
+		'studio/schemaTypes/resourcesHub.ts',
+		'studio/schemaTypes/resourcesLibrary.ts',
+		'studio/schemaTypes/resourcesNewsletter.ts',
+		'studio/schemaTypes/resourcesGlossary.ts',
+		'studio/schemaTypes/resourcesFaq.ts',
+		'studio/schemaTypes/resourcesPress.ts'
+	];
+
+	for (const schemaPath of pageSchemas) {
+		const source = readFileSync(schemaPath, 'utf8');
+		assert.doesNotMatch(source, /name:\s*'slug'/, `${schemaPath} does not expose slug`);
+		assert.doesNotMatch(
+			source,
+			/name:\s*'activeSection'/,
+			`${schemaPath} does not expose activeSection`
+		);
+		assert.doesNotMatch(source, /name:\s*'subNav'/, `${schemaPath} does not expose subNav`);
+	}
+
+	const queriesSource = readFileSync('src/lib/content/queries.ts', 'utf8');
+	const typesSource = readFileSync('src/lib/content/types.ts', 'utf8');
+	assert.doesNotMatch(queriesSource, /"slug":\s*slug\.current/);
+	assert.doesNotMatch(queriesSource, /\bactiveSection,/);
+	assert.doesNotMatch(queriesSource, /"subNav":\s*coalesce/);
+	assert.doesNotMatch(typesSource, /slug:\s*'/);
+	assert.doesNotMatch(typesSource, /activeSection:/);
+	assert.doesNotMatch(typesSource, /subNav:\s*LinkItem\[\]/);
+});

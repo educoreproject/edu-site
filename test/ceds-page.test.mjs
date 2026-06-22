@@ -23,9 +23,9 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	const migrationSource = readFileSync(migrationPath, 'utf8');
 
 	assert.match(schemaSource, /name:\s*'cedsOverview'/);
-	assert.match(schemaSource, /initialValue:\s*\{current:\s*'ceds'\}/);
-	assert.match(schemaSource, /name:\s*'activeSection'[\s\S]*initialValue:\s*'CEDS'/);
-	assert.match(schemaSource, /name:\s*'subNav'[\s\S]*type:\s*'linkItem'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'slug'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'activeSection'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'subNav'/);
 	assert.match(schemaSource, /name:\s*'hero'[\s\S]*type:\s*'heroContent'/);
 	assert.match(schemaSource, /name:\s*'logoImage'[\s\S]*type:\s*'image'/);
 	assert.match(schemaSource, /name:\s*'overview'[\s\S]*type:\s*'sectionHeader'/);
@@ -37,7 +37,8 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.match(schemaSource, /of:\s*\[\{type:\s*'reference',\s*to:\s*\[\{type:\s*'sharedCta'\}\]\}\]/);
 	assert.match(indexSource, /cedsOverview/);
 
-	assert.match(querySource, /export const cedsOverviewQuery = `\*\[_type == "cedsOverview" && slug\.current == "ceds"\]\[0\]\{/);
+	assert.match(querySource, /export const cedsOverviewQuery = `\*\[_id == "cedsOverview"\]\[0\]\{/);
+	assert.doesNotMatch(querySource, /slug\.current/);
 	assert.match(querySource, /"logoImage":\s*select\(\s*defined\(logoImage\.asset\)\s*=>\s*\{/);
 	assert.match(querySource, /"url":\s*logoImage\.asset->url/);
 	assert.match(querySource, /"alt":\s*logoImage\.alt/);
@@ -48,6 +49,9 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 	assert.doesNotMatch(querySource, /repositories/);
 
 	assert.match(typesSource, /export type CedsOverviewPage = \{/);
+	assert.doesNotMatch(typesSource, /slug:\s*'ceds'/);
+	assert.doesNotMatch(typesSource, /activeSection:\s*'CEDS'/);
+	assert.doesNotMatch(typesSource, /subNav:\s*LinkItem\[\]/);
 	assert.match(typesSource, /logoImage\?:\s*ImageAsset;/);
 	assert.match(typesSource, /overview:\s*SectionHeader;/);
 	assert.match(typesSource, /reasons:\s*TextBlock\[\];/);
@@ -61,14 +65,13 @@ test('CEDS page has a Sanity-backed content contract and route', () => {
 
 	assert.match(loadSource, /getCedsOverviewPage/);
 	assert.match(loadSource, /getSiteChrome/);
+	assert.match(loadSource, /routeKey:\s*'cedsOverview'\s+as const/);
 
 	assert.match(pageSource, /import Hero from '\$lib\/components\/site\/Hero\.svelte';/);
 	assert.match(pageSource, /import PageCtas from '\$lib\/components\/site\/PageCtas\.svelte';/);
-	assert.match(pageSource, /<PrimaryNav[\s\S]*activeSection=\{page\.activeSection\}/);
-	assert.match(
-		pageSource,
-		/<SubNav crumb=\{page\.activeSection\} crumbHref="\/ceds" links=\{page\.subNav\} active="Overview"/
-	);
+	assert.match(pageSource, /import SectionChrome from '\$lib\/components\/site\/SectionChrome\.svelte';/);
+	assert.match(pageSource, /<SectionChrome \{chrome\} routeKey="cedsOverview" \/>/);
+	assert.doesNotMatch(pageSource, /<PrimaryNav|<SubNav/);
 	assert.match(pageSource, /<Hero content=\{page\.hero\} background="teal"/);
 	assert.match(pageSource, /page\.logoImage\?\.url/);
 	assert.match(pageSource, /class="ceds-logo"/);

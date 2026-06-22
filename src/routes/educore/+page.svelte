@@ -4,8 +4,7 @@
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
-	import SubNav from '$lib/components/site/SubNav.svelte';
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import { isExternalLink } from '$lib/content/links';
 	import type { EducoreOverviewPage, SectionHeader, SiteChrome } from '$lib/content/types';
 
@@ -69,8 +68,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} activeSubSection="Overview" />
-<SubNav crumb="EDUcore" crumbHref="/educore" links={page.subNav} active="Overview" />
+<SectionChrome {chrome} routeKey="educoreOverview" />
 
 <main>
 	<Hero content={page.hero} icon="affiliate" background="violet" />

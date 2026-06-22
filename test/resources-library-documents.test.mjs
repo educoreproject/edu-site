@@ -8,7 +8,9 @@ test('resources library schema registers downloadable white papers and reports',
 	const indexSource = readFileSync('studio/schemaTypes/index.ts', 'utf8');
 
 	assert.match(schemaSource, /name:\s*'resourcesLibrary'/);
-	assert.match(schemaSource, /initialValue:\s*\{current:\s*'resources-library'\}/);
+	assert.doesNotMatch(schemaSource, /name:\s*'slug'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'activeSection'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'subNav'/);
 	assert.match(schemaSource, /name:\s*'categories'[\s\S]*?\{title:\s*'White papers',\s*value:\s*'White papers'\}/);
 	assert.match(schemaSource, /name:\s*'categories'[\s\S]*?\{title:\s*'Reports',\s*value:\s*'Reports'\}/);
 	assert.match(schemaSource, /name:\s*'items'[\s\S]*?type:\s*'resourceDocument'/);
@@ -34,7 +36,9 @@ test('resources press schema registers downloadable press releases and charters'
 	const indexSource = readFileSync('studio/schemaTypes/index.ts', 'utf8');
 
 	assert.match(schemaSource, /name:\s*'resourcesPress'/);
-	assert.match(schemaSource, /initialValue:\s*\{current:\s*'resources-press'\}/);
+	assert.doesNotMatch(schemaSource, /name:\s*'slug'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'activeSection'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'subNav'/);
 	assert.match(schemaSource, /name:\s*'categories'[\s\S]*?\{title:\s*'Press releases',\s*value:\s*'Press releases'\}/);
 	assert.match(schemaSource, /name:\s*'categories'[\s\S]*?\{title:\s*'Charters',\s*value:\s*'Charters'\}/);
 	assert.match(schemaSource, /name:\s*'items'[\s\S]*?type:\s*'pressDocument'/);
@@ -56,7 +60,9 @@ test('resources newsletter schema registers downloadable newsletters grouped by 
 	const indexSource = readFileSync('studio/schemaTypes/index.ts', 'utf8');
 
 	assert.match(schemaSource, /name:\s*'resourcesNewsletter'/);
-	assert.match(schemaSource, /initialValue:\s*\{current:\s*'resources-newsletter'\}/);
+	assert.doesNotMatch(schemaSource, /name:\s*'slug'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'activeSection'/);
+	assert.doesNotMatch(schemaSource, /name:\s*'subNav'/);
 	assert.match(schemaSource, /name:\s*'categories'[\s\S]*?description:\s*'Use month and year labels such as January 2026 or December 2025\.'/);
 	assert.match(schemaSource, /name:\s*'items'[\s\S]*?type:\s*'newsletterDocument'/);
 
@@ -78,7 +84,7 @@ test('resources library content contract projects downloadable file metadata', (
 	const typesSource = readFileSync('src/lib/content/types.ts', 'utf8');
 	const siteSource = readFileSync('src/lib/content/site.ts', 'utf8');
 
-	assert.match(querySource, /export const resourcesLibraryQuery = `\*\[_type == "resourcesLibrary" && slug\.current == "resources-library"\]\[0\]\{/);
+	assert.match(querySource, /export const resourcesLibraryQuery = `\*\[_id == "resourcesLibrary"\]\[0\]\{/);
 	assert.match(querySource, /"categories":\s*coalesce\(categories,\s*\[\]\)/);
 	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
 	assert.match(querySource, /"document":\s*\{[\s\S]*?"url":\s*document\.asset->url[\s\S]*?"filename":\s*document\.asset->originalFilename[\s\S]*?"mimeType":\s*document\.asset->mimeType[\s\S]*?"size":\s*document\.asset->size/);
@@ -89,6 +95,9 @@ test('resources library content contract projects downloadable file metadata', (
 	assert.match(typesSource, /description\?:\s*string/);
 	assert.match(typesSource, /document:\s*\{[\s\S]*?url:\s*string;[\s\S]*?filename\?:\s*string;[\s\S]*?mimeType\?:\s*string;[\s\S]*?size\?:\s*number;/);
 	assert.match(typesSource, /export type ResourcesLibraryPage = \{/);
+	assert.doesNotMatch(typesSource, /slug:\s*'resources-library'/);
+	assert.doesNotMatch(typesSource, /activeSection:\s*'Resources'/);
+	assert.doesNotMatch(typesSource, /subNav:\s*LinkItem\[\]/);
 	assert.match(typesSource, /items:\s*ResourceDocumentItem\[\]/);
 
 	assert.match(siteSource, /resourcesLibraryQuery/);
@@ -101,7 +110,7 @@ test('resources press content contract projects downloadable file metadata', () 
 	const typesSource = readFileSync('src/lib/content/types.ts', 'utf8');
 	const siteSource = readFileSync('src/lib/content/site.ts', 'utf8');
 
-	assert.match(querySource, /export const resourcesPressQuery = `\*\[_type == "resourcesPress" && slug\.current == "resources-press"\]\[0\]\{/);
+	assert.match(querySource, /export const resourcesPressQuery = `\*\[_id == "resourcesPress"\]\[0\]\{/);
 	assert.match(querySource, /"categories":\s*coalesce\(categories,\s*\[\]\)/);
 	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
 	assert.match(querySource, /"document":\s*\{[\s\S]*?"url":\s*document\.asset->url[\s\S]*?"filename":\s*document\.asset->originalFilename[\s\S]*?"mimeType":\s*document\.asset->mimeType[\s\S]*?"size":\s*document\.asset->size/);
@@ -109,6 +118,9 @@ test('resources press content contract projects downloadable file metadata', () 
 	assert.match(typesSource, /export type PressDocumentItem = \{/);
 	assert.match(typesSource, /category:\s*'Press releases' \| 'Charters'/);
 	assert.match(typesSource, /export type ResourcesPressPage = \{/);
+	assert.doesNotMatch(typesSource, /slug:\s*'resources-press'/);
+	assert.doesNotMatch(typesSource, /activeSection:\s*'Resources'/);
+	assert.doesNotMatch(typesSource, /subNav:\s*LinkItem\[\]/);
 	assert.match(typesSource, /items:\s*PressDocumentItem\[\]/);
 
 	assert.match(siteSource, /resourcesPressQuery/);
@@ -121,7 +133,7 @@ test('resources newsletter content contract projects downloadable file metadata'
 	const typesSource = readFileSync('src/lib/content/types.ts', 'utf8');
 	const siteSource = readFileSync('src/lib/content/site.ts', 'utf8');
 
-	assert.match(querySource, /export const resourcesNewsletterQuery = `\*\[_type == "resourcesNewsletter" && slug\.current == "resources-newsletter"\]\[0\]\{/);
+	assert.match(querySource, /export const resourcesNewsletterQuery = `\*\[_id == "resourcesNewsletter"\]\[0\]\{/);
 	assert.match(querySource, /"categories":\s*coalesce\(categories,\s*\[\]\)/);
 	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
 	assert.match(querySource, /"document":\s*\{[\s\S]*?"url":\s*document\.asset->url[\s\S]*?"filename":\s*document\.asset->originalFilename[\s\S]*?"mimeType":\s*document\.asset->mimeType[\s\S]*?"size":\s*document\.asset->size/);
@@ -132,6 +144,9 @@ test('resources newsletter content contract projects downloadable file metadata'
 	assert.match(typesSource, /description\?:\s*string/);
 	assert.match(typesSource, /document:\s*\{[\s\S]*?url:\s*string;[\s\S]*?filename\?:\s*string;[\s\S]*?mimeType\?:\s*string;[\s\S]*?size\?:\s*number;/);
 	assert.match(typesSource, /export type ResourcesNewsletterPage = \{/);
+	assert.doesNotMatch(typesSource, /slug:\s*'resources-newsletter'/);
+	assert.doesNotMatch(typesSource, /activeSection:\s*'Resources'/);
+	assert.doesNotMatch(typesSource, /subNav:\s*LinkItem\[\]/);
 	assert.match(typesSource, /categories:\s*NewsletterDocumentItem\['category'\]\[\]/);
 	assert.match(typesSource, /items:\s*NewsletterDocumentItem\[\]/);
 
@@ -153,9 +168,11 @@ test('resources library route mirrors FAQ and glossary category layout', () => {
 
 	assert.match(loadSource, /getResourcesLibraryPage/);
 	assert.match(loadSource, /getSiteChrome/);
+	assert.match(loadSource, /routeKey:\s*'resourcesLibrary'\s+as const/);
 
 	assert.match(source, /import CategorySelector from '\$lib\/components\/site\/CategorySelector\.svelte';/);
 	assert.match(source, /import Pagination from '\$lib\/components\/site\/Pagination\.svelte';/);
+	assert.match(source, /import SectionChrome from '\$lib\/components\/site\/SectionChrome\.svelte';/);
 	assert.match(source, /type \{ ResourcesLibraryPage, SiteChrome \}/);
 	assert.match(source, /let selectedCategory = \$state\(''\);/);
 	assert.match(source, /let currentPage = \$state\(1\);/);
@@ -164,8 +181,8 @@ test('resources library route mirrors FAQ and glossary category layout', () => {
 	assert.match(source, /filteredItems\.slice\(firstItemIndex, firstItemIndex \+ itemsPerPage\)/);
 	assert.match(source, /function handleCategoryChange\(category: string\)/);
 	assert.match(source, /currentPage = 1;/);
-	assert.match(source, /<PrimaryNav[\s\S]*?activeSubSection="Library"/);
-	assert.match(source, /<SubNav[\s\S]*?active="Library"/);
+	assert.match(source, /<SectionChrome \{chrome\} routeKey="resourcesLibrary" \/>/);
+	assert.doesNotMatch(source, /<PrimaryNav|<SubNav/);
 	assert.match(source, /<CategorySelector[\s\S]*?categories=\{page\.categories\}[\s\S]*?label="Resource categories"[\s\S]*?allCategoryLabel="All items"[\s\S]*?bind:selectedCategory[\s\S]*?onSelect=\{handleCategoryChange\}/);
 	assert.match(source, /\{#if filteredItems\.length\}/);
 	assert.match(source, /\{#each paginatedItems as item\}/);
@@ -189,14 +206,15 @@ test('resources press route mirrors library document layout', () => {
 
 	assert.match(loadSource, /getResourcesPressPage/);
 	assert.match(loadSource, /getSiteChrome/);
+	assert.match(loadSource, /routeKey:\s*'resourcesPress'\s+as const/);
 
 	assert.match(source, /type \{ ResourcesPressPage, SiteChrome \}/);
 	assert.match(source, /let selectedCategory = \$state\(''\);/);
 	assert.match(source, /let currentPage = \$state\(1\);/);
 	assert.match(source, /let itemsPerPage = \$state\(25\);/);
 	assert.match(source, /page\.items\.filter\(\(item\) => item\.category === selectedCategory\)/);
-	assert.match(source, /activeSubSection="Press & charter"/);
-	assert.match(source, /<SubNav[\s\S]*?active="Press & charter"/);
+	assert.match(source, /<SectionChrome \{chrome\} routeKey="resourcesPress" \/>/);
+	assert.doesNotMatch(source, /<PrimaryNav|<SubNav/);
 	assert.match(source, /allCategoryLabel="All items"/);
 	assert.match(source, /href=\{item\.document\.url\}/);
 	assert.match(source, /download=\{item\.document\.filename \?\? true\}/);
@@ -218,14 +236,15 @@ test('resources newsletter route mirrors document layout with month-year categor
 
 	assert.match(loadSource, /getResourcesNewsletterPage/);
 	assert.match(loadSource, /getSiteChrome/);
+	assert.match(loadSource, /routeKey:\s*'resourcesNewsletter'\s+as const/);
 
 	assert.match(source, /type \{ ResourcesNewsletterPage, SiteChrome \}/);
 	assert.match(source, /let selectedCategory = \$state\(''\);/);
 	assert.match(source, /let currentPage = \$state\(1\);/);
 	assert.match(source, /let itemsPerPage = \$state\(25\);/);
 	assert.match(source, /page\.items\.filter\(\(item\) => item\.category === selectedCategory\)/);
-	assert.match(source, /activeSubSection="Newsletter"/);
-	assert.match(source, /<SubNav[\s\S]*?active="Newsletter"/);
+	assert.match(source, /<SectionChrome \{chrome\} routeKey="resourcesNewsletter" \/>/);
+	assert.doesNotMatch(source, /<PrimaryNav|<SubNav/);
 	assert.match(source, /label="Newsletter archive months"/);
 	assert.match(source, /allCategoryLabel="All items"/);
 	assert.match(source, /href=\{item\.document\.url\}/);
@@ -244,14 +263,10 @@ test('resources hub and library routes expose distinct subnav destinations', () 
 	const newsletterSource = readFileSync('src/routes/resources/newsletter/+page.svelte', 'utf8');
 	const migrationPath = 'studio/migrations/seed-resources-library-demo.ts';
 
-	assert.match(hubSource, /activeSubSection="Hub"/);
-	assert.match(hubSource, /<SubNav[\s\S]*?active="Hub"/);
-	assert.match(librarySource, /activeSubSection="Library"/);
-	assert.match(librarySource, /<SubNav[\s\S]*?active="Library"/);
-	assert.match(pressSource, /activeSubSection="Press & charter"/);
-	assert.match(pressSource, /<SubNav[\s\S]*?active="Press & charter"/);
-	assert.match(newsletterSource, /activeSubSection="Newsletter"/);
-	assert.match(newsletterSource, /<SubNav[\s\S]*?active="Newsletter"/);
+	assert.match(hubSource, /<SectionChrome \{chrome\} routeKey="resourcesHub" \/>/);
+	assert.match(librarySource, /<SectionChrome \{chrome\} routeKey="resourcesLibrary" \/>/);
+	assert.match(pressSource, /<SectionChrome \{chrome\} routeKey="resourcesPress" \/>/);
+	assert.match(newsletterSource, /<SectionChrome \{chrome\} routeKey="resourcesNewsletter" \/>/);
 
 	assert.equal(existsSync(migrationPath), true);
 

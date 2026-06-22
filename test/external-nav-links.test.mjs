@@ -26,33 +26,45 @@ test('subnav external links open in a new tab and show an icon', () => {
 
 test('subnav parent breadcrumb is a real link', () => {
 	const source = readFileSync('src/lib/components/site/SubNav.svelte', 'utf8');
+	const sectionChromeSource = readFileSync('src/lib/components/site/SectionChrome.svelte', 'utf8');
 	const routeSources = [
-		'src/routes/+page.svelte',
-		'src/routes/ceds/+page.svelte',
-		'src/routes/dsu/joining/+page.svelte',
-		'src/routes/dsu/members/+page.svelte',
-		'src/routes/dsu/projects/+page.svelte',
-		'src/routes/edu/+page.svelte',
-		'src/routes/edu/board/+page.svelte',
-		'src/routes/edu/history/+page.svelte',
-		'src/routes/educore/+page.svelte',
-		'src/routes/events/+page.svelte',
-		'src/routes/events/past/+page.svelte',
-		'src/routes/resources/+page.svelte',
-		'src/routes/resources/faq/+page.svelte',
-		'src/routes/resources/glossary/+page.svelte',
-		'src/routes/resources/library/+page.svelte',
-		'src/routes/resources/newsletter/+page.svelte',
-		'src/routes/resources/press/+page.svelte'
-	].map((path) => [path, readFileSync(path, 'utf8')]);
+		['src/lib/components/pages/EduOverviewPage.svelte', 'eduHome'],
+		['src/lib/components/pages/DsuOverviewPage.svelte', 'dsuHome'],
+		['src/routes/ceds/+page.svelte', 'cedsOverview'],
+		['src/routes/dsu/joining/+page.svelte', 'dsuJoin'],
+		['src/routes/dsu/members/+page.svelte', 'dsuMembers'],
+		['src/routes/dsu/projects/+page.svelte', 'dsuProjects'],
+		['src/routes/edu/board/+page.svelte', 'eduBoard'],
+		['src/routes/edu/history/+page.svelte', 'eduHistory'],
+		['src/routes/educore/+page.svelte', 'educoreOverview'],
+		['src/routes/events/+page.svelte', 'eventsUpcoming'],
+		['src/routes/events/past/+page.svelte', 'eventsPast'],
+		['src/routes/resources/+page.svelte', 'resourcesHub'],
+		['src/routes/resources/faq/+page.svelte', 'resourcesFaq'],
+		['src/routes/resources/glossary/+page.svelte', 'resourcesGlossary'],
+		['src/routes/resources/library/+page.svelte', 'resourcesLibrary'],
+		['src/routes/resources/newsletter/+page.svelte', 'resourcesNewsletter'],
+		['src/routes/resources/press/+page.svelte', 'resourcesPress']
+	].map(([path, routeKey]) => [path, routeKey, readFileSync(path, 'utf8')]);
 
 	assert.match(source, /crumbHref: string/);
 	assert.match(source, /currentCrumbHref = \$derived\(section\?\.href \?\? crumbHref\)/);
 	assert.match(source, /<a class="crumb-link" href=\{currentCrumbHref\}>\s*\{currentCrumb\}\s*<\/a>/);
 	assert.doesNotMatch(source, /<span>\{crumb\}<\/span>/);
+	assert.match(sectionChromeSource, /let route = \$derived\(getRoutePage\(routeKey\)\)/);
+	assert.match(sectionChromeSource, /section\.key === route\.sectionKey/);
+	assert.match(sectionChromeSource, /link\.pageKey === routeKey \|\| link\.href === route\.path/);
+	assert.match(
+		sectionChromeSource,
+		/<SubNav section=\{activeSection\} activeHref=\{route\.path\} activeLabel=\{activeChild\?\.label \?\? route\.label\} \/>/
+	);
 
-	for (const [path, routeSource] of routeSources) {
-		assert.match(routeSource, /<SubNav[\s\S]*?crumbHref=/, `${path} must pass a parent href`);
+	for (const [path, routeKey, routeSource] of routeSources) {
+		assert.match(
+			routeSource,
+			new RegExp(`<SectionChrome \\{chrome\\} routeKey="${routeKey}" />`),
+			`${path} must use SectionChrome routeKey="${routeKey}"`
+		);
 	}
 });
 

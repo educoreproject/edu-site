@@ -1,15 +1,15 @@
 <script lang="ts">
-	import DsuHomePage from '../+page.svelte';
-	import type { DsuHomePage as DsuHomePageContent, SiteChrome } from '$lib/content/types';
+	import DsuOverviewPage from '$lib/components/pages/DsuOverviewPage.svelte';
 
 	type Props = {
 		data: {
-			page: DsuHomePageContent;
-			chrome: SiteChrome;
+			page: import('$lib/content/types').DsuHomePage;
+			chrome: import('$lib/content/types').SiteChrome;
+			routeKey: 'dsuHome';
 		};
 	};
 
 	let { data }: Props = $props();
 </script>
 
-<DsuHomePage {data} />
+<DsuOverviewPage page={data.page} chrome={data.chrome} />
