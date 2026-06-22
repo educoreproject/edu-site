@@ -78,8 +78,8 @@
 
 <nav aria-label="Primary navigation">
   <Container flex={true} width="wide">
-    <a class="logo" href={logoHref} aria-label="DSU home">
-      <img src="/assets/educore-logo.png" alt="DSU" />
+    <a class="logo" href={logoHref} aria-label="Education Data Unlimited home">
+      <img src="/assets/educore-logo.png" alt="Education Data Unlimited" />
     </a>
 
     <div class="links">
@@ -146,10 +146,10 @@
         <a
           class="drawer-logo"
           href={logoHref}
-          aria-label="EDUcore home"
+          aria-label="Education Data Unlimited home"
           onclick={closeMenu}
         >
-          <img src="/assets/educore-logo.png" alt="EDU" />
+          <img src="/assets/educore-logo.png" alt="Education Data Unlimited" />
         </a>
 
         <button

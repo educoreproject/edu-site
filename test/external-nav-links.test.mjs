@@ -87,6 +87,16 @@ test('footer and mobile drawer use the same external-link behavior', () => {
 	}
 });
 
+test('primary nav logo describes the EDU home destination', () => {
+	const source = readFileSync('src/lib/components/site/PrimaryNav.svelte', 'utf8');
+
+	assert.match(source, /aria-label="Education Data Unlimited home"/);
+	assert.match(source, /alt="Education Data Unlimited"/);
+	assert.doesNotMatch(source, /aria-label="DSU home"/);
+	assert.doesNotMatch(source, /aria-label="EDUcore home"/);
+	assert.doesNotMatch(source, /alt="DSU"/);
+});
+
 test('footer disabled styles only target disabled link placeholders', () => {
 	const source = readFileSync('src/lib/components/site/PageFooter.svelte', 'utf8');
 

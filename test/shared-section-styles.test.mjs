@@ -125,3 +125,13 @@ test('EDU overview renders text sections through the shared section header helpe
 		);
 	}
 });
+
+test('EDU overview uses distinct scope heading ids', () => {
+	const source = readFileSync('src/lib/components/pages/EduOverviewPage.svelte', 'utf8');
+
+	assert.match(source, /aria-labelledby="will-do-heading"/);
+	assert.match(source, /sectionHeader\(page\.willDo, "will-do-heading"\)/);
+	assert.match(source, /aria-labelledby="will-not-do-heading"/);
+	assert.match(source, /sectionHeader\(page\.willNotDo, "will-not-do-heading"\)/);
+	assert.doesNotMatch(source, /scope-heading/);
+});

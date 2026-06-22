@@ -92,13 +92,13 @@
 
   <section
     class="section section-padded will-do bg-surface"
-    aria-labelledby="scope-heading"
+    aria-labelledby="will-do-heading"
   >
     <Container width="wide">
       <div class="horizontal-layout">
-        {@render sectionHeader(page.willDo, "scope-heading")}
+        {@render sectionHeader(page.willDo, "will-do-heading")}
 
-        <ul class="item-list" aria-labelledby="scope-heading">
+        <ul class="item-list" aria-labelledby="will-do-heading">
           {#each page.willDo.items as item}
             <Card
               variant="count"
@@ -114,13 +114,13 @@
   </section>
   <section
     class="section will-not-do bg-surface"
-    aria-labelledby="scope-heading"
+    aria-labelledby="will-not-do-heading"
   >
     <Container width="wide">
       <div class="horizontal-layout">
-        {@render sectionHeader(page.willNotDo, "scope-heading")}
+        {@render sectionHeader(page.willNotDo, "will-not-do-heading")}
 
-        <ul class="item-list" aria-labelledby="scope-heading">
+        <ul class="item-list" aria-labelledby="will-not-do-heading">
           {#each page.willNotDo.items as item}
             <Card
               variant="count"
