@@ -22,6 +22,7 @@ and curating navigation without allowing editors to create new Svelte routes fro
   links.
 - Let editors reorder, relabel, disable, hide, and add non-route links without creating new app
   routes.
+- Use the same controlled destination model for navigation links, hero buttons, and CTA links.
 - Keep page content in focused singleton documents rather than embedding every subpage into one
   large parent document.
 - Move EDU to the root route and DSU to `/dsu` as part of the same route/nav pass.
@@ -40,16 +41,23 @@ Use a folder-like top-level page document for each site section. The parent docu
 identity and navigation relationships. Route-backed content remains in specialized singleton content
 documents such as `eduOverview`, `dsuMembers`, `resourcesLibrary`, and `eventsUpcoming`.
 
-Each navigation item uses the same controlled object shape whether it appears in primary nav,
-subnav, mobile drawer, or footer:
+Define a reusable link destination object for anything that sends a visitor somewhere:
 
 - `Internal page`: selected from a code-controlled allowlist of existing route-backed pages.
 - `External link`: editor-controlled URL.
 - `Download`: Sanity file asset.
 - `Anchor`: controlled same-page or routed hash link when needed.
 
-Internal page items may be reordered, relabeled, disabled, or hidden, but their route is not
-editable. Sanity stores the chosen page key; Svelte maps that key to the public route.
+Navigation items, hero buttons, CTA banners, CTA cards, and resource-style links should all use
+that destination object instead of freeform `href` fields. Navigation items wrap the destination
+with navigation-specific controls such as order, disabled state, hidden state, and section-aware
+internal page limits. Hero and CTA links wrap the destination with button-specific controls such as
+label and variant.
+
+Internal navigation items may be reordered, relabeled, disabled, or hidden, but their route is not
+editable. Sanity stores the chosen page key; Svelte maps that key to the public route. Hero buttons
+and CTAs should not be section-limited when choosing internal pages, because a CTA in one section
+may intentionally send visitors to a different section.
 
 ## Exact Site Tree
 
@@ -122,6 +130,10 @@ overview, Members, Joining DSU, and Projects; Resources subnav can choose Resour
 Newsletter, Glossary, FAQ, and Press & charter. Once an internal page is selected, Studio should
 show the computed route as read-only helper text.
 
+Hero buttons and CTA links should use the same destination picker, but without section limiting.
+Their editor experience should still show computed internal routes as read-only helper text and
+should use file or URL fields only for download and external destinations.
+
 Remove or hide editor-facing `slug`, `activeSection`, and per-page `subNav` fields from content page
 schemas after the new model is in place.
 
@@ -153,7 +165,9 @@ tree. Individual route files should derive their active top-level section, activ
 label, and crumb href from route metadata and normalized chrome instead of hard-coded active labels.
 
 Page content queries should stop projecting `slug`, `activeSection`, and `subNav` from individual
-content documents.
+content documents. Hero and CTA projections should normalize the shared destination object into the
+current component-friendly link shape so existing button components can receive resolved `href`,
+target, download, and file metadata without duplicating link-resolution logic in route templates.
 
 ## Migration And Validation
 
@@ -164,6 +178,7 @@ Because the site has not launched, migration should be clean and direct:
 - Set EDU as the root section and DSU as `/dsu`.
 - Preserve existing specialized content documents and their content fields.
 - Remove editor-facing reliance on the old page-local nav fields.
+- Migrate existing CTA and hero button `href` values into the shared destination object.
 
 Missing required site page/navigation documents should fail loudly, matching the existing
 Sanity-required content contract. Optional external, download, and anchor nav items can be filtered
@@ -182,5 +197,7 @@ Implementation should include focused tests for:
 - Page schemas no longer expose editor-facing `slug`, `activeSection`, or `subNav`.
 - `getSiteChrome()` returns one normalized navigation tree for primary nav, section subnav, mobile
   drawer, and footer.
+- Hero buttons and CTA links can resolve internal pages, external URLs, downloads, and anchors from
+  the shared destination model.
 - Route components no longer hard-code active subnav labels when route metadata can provide them.
 - `npm run check` and `npm run build` pass with the required Sanity content contract.
