@@ -18,7 +18,8 @@
 		"deploy:preview": "vercel deploy",
 		"deploy:prod": "vercel deploy --prod",
 		"studio:dev": "cd studio && node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js dev",
-		"studio:build": "cd studio && SANITY_ALLOW_PLACEHOLDER_PROJECT=true node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js build"
+		"studio:build": "cd studio && SANITY_ALLOW_PLACEHOLDER_PROJECT=true node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js build",
+		"studio:deploy": "cd studio && node --env-file-if-exists=../.env ../node_modules/@sanity/cli/bin/run.js deploy"
 	},
 	"devDependencies": {
 		"@sanity/cli": "^7.1.0",

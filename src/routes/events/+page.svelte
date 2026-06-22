@@ -71,7 +71,7 @@
               <div class="event-image">
                 <img
                   src={event.image.url}
-                  alt={event.image.alt ?? ""}
+                  alt={event.image.alt ?? ''}
                   loading="lazy"
                 />
               </div>
@@ -148,7 +148,7 @@
 
   .event-counter strong {
     color: var(--ec-teal-soft);
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 1;
   }
 

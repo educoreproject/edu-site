@@ -122,6 +122,10 @@
     min-height: 10.4375rem;
   }
 
+  section.eventHero {
+    min-height: 13rem;
+  }
+
   .hero-content {
     display: flex;
     flex-direction: column;
