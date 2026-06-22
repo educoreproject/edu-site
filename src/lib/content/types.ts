@@ -1,12 +1,38 @@
-export type LinkItem = {
-	label: string;
-	href: string;
-	disabled?: boolean;
+import type { RoutePageKey, SiteSectionKey } from './route-metadata';
+
+export type LinkDestinationKind = 'internalPage' | 'externalUrl' | 'download' | 'anchor';
+
+export type LinkDestination = {
+	type: LinkDestinationKind;
+	pageKey?: RoutePageKey;
+	href?: string;
+	anchorId?: string;
+	file?: {
+		url?: string;
+		filename?: string;
+		mimeType?: string;
+		size?: number;
+	};
 };
 
-export type Cta = {
+export type ResolvedLink = {
+	href?: string;
+	target?: '_blank';
+	rel?: 'noopener noreferrer';
+	download?: string | boolean;
+	mimeType?: string;
+	size?: number;
+};
+
+export type LinkItem = ResolvedLink & {
 	label: string;
-	href: string;
+	disabled?: boolean;
+	hidden?: boolean;
+	pageKey?: RoutePageKey;
+};
+
+export type Cta = ResolvedLink & {
+	label: string;
 	variant: 'primary' | 'outline' | 'teal' | 'gold';
 };
 
@@ -277,8 +303,15 @@ export type FooterColumn = {
 	links: LinkItem[];
 };
 
+export type SiteNavSection = LinkItem & {
+	key: SiteSectionKey;
+	pageKey: RoutePageKey;
+	children: LinkItem[];
+};
+
 export type SiteChrome = {
 	primaryNav: LinkItem[];
+	sections: SiteNavSection[];
 	footerColumns: FooterColumn[];
 };
 
