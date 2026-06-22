@@ -3,8 +3,7 @@
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
   import PageCtas from "$lib/components/site/PageCtas.svelte";
-  import PrimaryNav from "$lib/components/site/PrimaryNav.svelte";
-  import SubNav from "$lib/components/site/SubNav.svelte";
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
   import type { EventsUpcomingPage, SiteChrome } from "$lib/content/types";
   import Button from "$lib/components/site/Button.svelte";
 
@@ -29,13 +28,7 @@
   />
 </svelte:head>
 
-<PrimaryNav
-  links={chrome.primaryNav}
-  footerColumns={chrome.footerColumns}
-  activeSection={page.activeSection}
-  activeSubSection="Upcoming"
-/>
-<SubNav crumb="Events" crumbHref="/events" links={page.subNav} active="Upcoming" />
+<SectionChrome {chrome} routeKey="eventsUpcoming" />
 
 <main>
   <Hero content={page.hero} background="teal" icon="event" layout="event">

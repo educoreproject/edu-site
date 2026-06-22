@@ -1,7 +1,7 @@
-import { getDsuHomePage, getSiteChrome } from '$lib/content/site';
+import { getEduOverviewPage, getSiteChrome } from '$lib/content/site';
 
 export async function load() {
-	const [page, chrome] = await Promise.all([getDsuHomePage(), getSiteChrome()]);
+	const [page, chrome] = await Promise.all([getEduOverviewPage(), getSiteChrome()]);
 
-	return { page, chrome };
+	return { page, chrome, routeKey: 'eduHome' as const };
 }

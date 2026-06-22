@@ -166,7 +166,11 @@ const educoreReferenceLibraryCta = {
 	cta: {
 		_type: 'cta',
 		label: 'Open reference library',
-		href: 'https://educore.dev/explore/use-cases',
+		destination: {
+			_type: 'linkDestination',
+			type: 'externalUrl',
+			href: 'https://educore.dev/explore/use-cases'
+		},
 		variant: 'gold'
 	}
 }

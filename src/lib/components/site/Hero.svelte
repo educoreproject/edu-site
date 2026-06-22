@@ -55,6 +55,9 @@
           {#each content.ctas as cta}
             <Button
               href={cta.href}
+              target={cta.target}
+              rel={cta.rel}
+              download={cta.download}
               label={cta.label}
               variant={cta.variant}
               onDark

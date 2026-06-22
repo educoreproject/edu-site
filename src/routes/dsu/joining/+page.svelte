@@ -4,8 +4,7 @@
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
   import PageCtas from "$lib/components/site/PageCtas.svelte";
-  import PrimaryNav from "$lib/components/site/PrimaryNav.svelte";
-  import SubNav from "$lib/components/site/SubNav.svelte";
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
   import Card from "$lib/components/site/Card.svelte";
   import type {
     DsuJoinPage,
@@ -64,13 +63,7 @@
   <meta name="description" content={page.hero.description} />
 </svelte:head>
 
-<PrimaryNav
-  links={chrome.primaryNav}
-  footerColumns={chrome.footerColumns}
-  activeSection={page.activeSection}
-  activeSubSection="Joining DSU"
-/>
-<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Joining DSU" />
+<SectionChrome {chrome} routeKey="dsuJoin" />
 
 <main>
   <Hero content={page.hero} compact />
@@ -115,6 +108,9 @@
 
             <Button
               href={membership.cta.href}
+              target={membership.cta.target}
+              rel={membership.cta.rel}
+              download={membership.cta.download}
               label={membership.cta.label}
               variant={membership.cta.variant}
             />

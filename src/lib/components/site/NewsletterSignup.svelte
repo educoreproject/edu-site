@@ -40,6 +40,9 @@
 			<div class="newsletter-form">
 				<Button
 					href={content.cta.href}
+					target={content.cta.target}
+					rel={content.cta.rel}
+					download={content.cta.download}
 					label={content.cta.label}
 					variant={content.cta.variant ?? 'gold'}
 					disabled={isSignupDisabled}

@@ -4,8 +4,7 @@
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
   import PageCtas from "$lib/components/site/PageCtas.svelte";
-  import PrimaryNav from "$lib/components/site/PrimaryNav.svelte";
-  import SubNav from "$lib/components/site/SubNav.svelte";
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
   import type {
     DsuMembersPage,
     MemberOrganization,
@@ -124,13 +123,7 @@
   />
 </svelte:head>
 
-<PrimaryNav
-  links={chrome.primaryNav}
-  footerColumns={chrome.footerColumns}
-  activeSection={page.activeSection}
-  activeSubSection="Members"
-/>
-<SubNav crumb={page.activeSection} crumbHref="/" links={page.subNav} active="Members" />
+<SectionChrome {chrome} routeKey="dsuMembers" />
 
 <main>
   <Hero content={page.hero} compact />

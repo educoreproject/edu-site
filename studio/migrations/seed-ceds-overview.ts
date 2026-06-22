@@ -33,6 +33,14 @@ function textBlock(key: string, label: string, text: string) {
 	}
 }
 
+function externalDestination(href: string) {
+	return {
+		_type: 'linkDestination',
+		type: 'externalUrl',
+		href
+	}
+}
+
 function resourceCard(
 	key: string,
 	meta: string,
@@ -51,7 +59,7 @@ function resourceCard(
 		cta: {
 			_type: 'cta',
 			label,
-			href,
+			destination: externalDestination(href),
 			variant
 		}
 	}
@@ -115,7 +123,7 @@ const cedsGithubAssetsCta = {
 	cta: {
 		_type: 'cta',
 		label: 'View CEDS on GitHub',
-		href: 'https://github.com/CEDStandards',
+		destination: externalDestination('https://github.com/CEDStandards'),
 		variant: 'gold'
 	}
 }
@@ -142,14 +150,14 @@ const cedsOverview = {
 				_key: 'open-gitbook',
 				_type: 'cta',
 				label: 'Open CEDS GitBook',
-				href: 'https://cedstandards.gitbook.io/ceds-gitbook',
+				destination: externalDestination('https://cedstandards.gitbook.io/ceds-gitbook'),
 				variant: 'gold'
 			},
 			{
 				_key: 'view-github-assets',
 				_type: 'cta',
 				label: 'View GitHub assets',
-				href: 'https://github.com/CEDStandards',
+				destination: externalDestination('https://github.com/CEDStandards'),
 				variant: 'outline'
 			}
 		]

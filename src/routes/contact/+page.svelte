@@ -4,7 +4,7 @@
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
-	import PrimaryNav from '$lib/components/site/PrimaryNav.svelte';
+	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import type { ContactPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -31,7 +31,7 @@
 	/>
 </svelte:head>
 
-<PrimaryNav links={chrome.primaryNav} footerColumns={chrome.footerColumns} activeSection={page.activeSection} />
+<SectionChrome {chrome} routeKey="contact" />
 
 <main>
 	<Hero content={page.hero} icon="mail" />
@@ -87,6 +87,9 @@
 						{#if page.directCard.cta}
 							<Button
 								href={page.directCard.cta.href}
+								target={page.directCard.cta.target}
+								rel={page.directCard.cta.rel}
+								download={page.directCard.cta.download}
 								label={page.directCard.cta.label}
 								variant={page.directCard.cta.variant}
 							/>
@@ -107,6 +110,9 @@
 						{#if page.collaborativeCard.cta}
 							<Button
 								href={page.collaborativeCard.cta.href}
+								target={page.collaborativeCard.cta.target}
+								rel={page.collaborativeCard.cta.rel}
+								download={page.collaborativeCard.cta.download}
 								label={page.collaborativeCard.cta.label}
 								variant={page.collaborativeCard.cta.variant}
 							/>

@@ -6,30 +6,6 @@ export const resourcesGlossary = defineType({
 	type: 'document',
 	fields: [
 		defineField({
-			name: 'slug',
-			title: 'Slug',
-			type: 'slug',
-			initialValue: {current: 'resources-glossary'},
-			options: {
-				source: () => 'resources-glossary'
-			},
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'activeSection',
-			title: 'Active section',
-			type: 'string',
-			initialValue: 'Resources',
-			validation: (rule) => rule.required()
-		}),
-		defineField({
-			name: 'subNav',
-			title: 'Sub navigation',
-			type: 'array',
-			of: [{type: 'linkItem'}],
-			validation: (rule) => rule.required().min(1)
-		}),
-		defineField({
 			name: 'hero',
 			title: 'Hero',
 			type: 'heroContent',

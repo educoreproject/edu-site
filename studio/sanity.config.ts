@@ -3,6 +3,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 
 import {schemaTypes} from './schemaTypes'
+import {structure} from './structure'
 
 const placeholderProjectId = 'educoreplaceholder'
 const configuredProjectId = process.env.SANITY_STUDIO_PROJECT_ID || process.env.PUBLIC_SANITY_PROJECT_ID
@@ -26,7 +27,7 @@ export default defineConfig({
 	title: 'EDUcore',
 	projectId,
 	dataset,
-	plugins: [structureTool(), visionTool()],
+	plugins: [structureTool({structure}), visionTool()],
 	schema: {
 		types: schemaTypes
 	}

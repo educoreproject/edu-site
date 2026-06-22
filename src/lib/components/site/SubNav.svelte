@@ -1,34 +1,57 @@
 <script lang="ts">
   import { isExternalLink } from "$lib/content/links";
-  import type { LinkItem } from "$lib/content/types";
+  import type { LinkItem, SiteNavSection } from "$lib/content/types";
   import Container from "./Container.svelte";
 
-  type Props = {
+  type LegacyProps = {
     crumb: string;
     crumbHref: string;
     links: LinkItem[];
     active?: LinkItem["label"];
   };
 
-  let { crumb, crumbHref, links, active }: Props = $props();
+  type Props = {
+    section?: SiteNavSection;
+    activeHref?: string;
+    activeLabel?: string;
+  } & Partial<LegacyProps>;
+
+  let {
+    section,
+    activeHref = "",
+    activeLabel,
+    crumb = "",
+    crumbHref = "",
+    links = [],
+    active,
+  }: Props = $props();
+
+  let currentCrumb = $derived(section?.label ?? crumb);
+  let currentCrumbHref = $derived(section?.href ?? crumbHref);
+  let currentLabel = $derived(activeLabel ?? active);
+  let navLinks = $derived(section ? section.children : links);
 </script>
 
-<nav aria-label="{crumb} navigation">
+<nav aria-label="{currentCrumb} navigation">
   <Container width="wide">
     <div class="inner">
       <div class="crumb">
-        <a class="crumb-link" href={crumbHref}>{crumb}</a>
+        <a class="crumb-link" href={currentCrumbHref}>{currentCrumb}</a>
         <i class="ti ti-chevron-right" aria-hidden="true"></i>
-        {#if active}
-          <span class="current">{active}</span>
+        {#if currentLabel}
+          <span class="current">{currentLabel}</span>
         {/if}
       </div>
 
       <div class="links">
-        {#each links as link}
-          {@const isActive = link.label === active}
+        {#each navLinks as link}
+          {@const isActive = section
+            ? link.href === activeHref || link.label === currentLabel
+            : link.label === currentLabel}
           {@const isExternal = isExternalLink(link.href)}
-          {#if link.disabled}
+          {@const target = link.target ?? (isExternal ? "_blank" : undefined)}
+          {@const rel = link.rel ?? (isExternal ? "noopener noreferrer" : undefined)}
+          {#if link.disabled || !link.href}
             <span class:active={isActive} class="disabled" aria-disabled="true"
               >{link.label}</span
             >
@@ -37,8 +60,9 @@
               class:active={isActive}
               href={link.href}
               aria-current={isActive ? "page" : undefined}
-              target={isExternal ? "_blank" : undefined}
-              rel={isExternal ? "noopener noreferrer" : undefined}
+              {target}
+              {rel}
+              download={link.download}
             >
               <span>{link.label}</span>
               {#if isExternal}

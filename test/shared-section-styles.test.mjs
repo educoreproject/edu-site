@@ -4,15 +4,15 @@ import { test } from 'node:test';
 
 const utilitiesSource = readFileSync('src/lib/styles/_utilities.css', 'utf8');
 const dsuPagePaths = [
-	'src/routes/+page.svelte',
+	'src/lib/components/pages/DsuOverviewPage.svelte',
 	'src/routes/dsu/joining/+page.svelte',
 	'src/routes/dsu/members/+page.svelte',
 	'src/routes/dsu/projects/+page.svelte'
 ];
 const routePagePaths = [
 	...dsuPagePaths,
+	'src/lib/components/pages/EduOverviewPage.svelte',
 	'src/routes/contact/+page.svelte',
-	'src/routes/edu/+page.svelte',
 	'src/routes/edu/board/+page.svelte',
 	'src/routes/edu/history/+page.svelte',
 	'src/routes/educore/+page.svelte',
@@ -68,7 +68,7 @@ test('DSU pages consume shared section primitives instead of redefining them', (
 		}
 	}
 
-	const dsuHomeSource = readFileSync('src/routes/+page.svelte', 'utf8');
+	const dsuHomeSource = readFileSync('src/lib/components/pages/DsuOverviewPage.svelte', 'utf8');
 	assert.equal(dsuHomeSource.includes('values-layout'), false);
 	assert.equal(dsuHomeSource.includes('horizontal-layout'), true);
 });
@@ -94,8 +94,20 @@ test('contact route is standalone instead of an EDU subsection', () => {
 	assert.equal(loadSource.includes('getEduContactPage'), false);
 });
 
+test('EDU and DSU root route wrappers delegate to page components', () => {
+	const rootSource = readFileSync('src/routes/+page.svelte', 'utf8');
+	const dsuSource = readFileSync('src/routes/dsu/+page.svelte', 'utf8');
+	const eduRedirectSource = readFileSync('src/routes/edu/+page.svelte', 'utf8');
+
+	assert.match(rootSource, /import EduOverviewPage from '\$lib\/components\/pages\/EduOverviewPage\.svelte';/);
+	assert.match(rootSource, /<EduOverviewPage page=\{data\.page\} chrome=\{data\.chrome\} \/>/);
+	assert.match(dsuSource, /import DsuOverviewPage from '\$lib\/components\/pages\/DsuOverviewPage\.svelte';/);
+	assert.match(dsuSource, /<DsuOverviewPage page=\{data\.page\} chrome=\{data\.chrome\} \/>/);
+	assert.doesNotMatch(eduRedirectSource, /EduOverviewPage|DsuOverviewPage|SectionHeader/);
+});
+
 test('EDU overview renders text sections through the shared section header helper', () => {
-	const source = readFileSync('src/routes/edu/+page.svelte', 'utf8');
+	const source = readFileSync('src/lib/components/pages/EduOverviewPage.svelte', 'utf8');
 
 	assert.equal(source.includes('SectionHeader'), true);
 	assert.match(source, /\{#snippet sectionHeader\(header: .*SectionHeader/);
@@ -112,4 +124,14 @@ test('EDU overview renders text sections through the shared section header helpe
 			`expected ${section} to render through sectionHeader`
 		);
 	}
+});
+
+test('EDU overview uses distinct scope heading ids', () => {
+	const source = readFileSync('src/lib/components/pages/EduOverviewPage.svelte', 'utf8');
+
+	assert.match(source, /aria-labelledby="will-do-heading"/);
+	assert.match(source, /sectionHeader\(page\.willDo, "will-do-heading"\)/);
+	assert.match(source, /aria-labelledby="will-not-do-heading"/);
+	assert.match(source, /sectionHeader\(page\.willNotDo, "will-not-do-heading"\)/);
+	assert.doesNotMatch(source, /scope-heading/);
 });

@@ -11,6 +11,63 @@ type SanityLinkItem = {
 	disabled?: boolean
 }
 
+type LinkDestination = {
+	_type: 'linkDestination'
+	type: 'internalPage' | 'externalUrl'
+	pageKey?: string
+	href?: string
+}
+
+type PatchableCta = {
+	_type?: 'cta'
+	label?: string
+	variant?: string
+	href?: string
+	destination?: LinkDestination
+}
+
+const routePageKeyByHref: Record<string, string> = {
+	'/resources': 'resourcesHub',
+	'/resources/library': 'resourcesLibrary',
+	'/resources/newsletter': 'resourcesNewsletter',
+	'/resources/press': 'resourcesPress'
+}
+
+function destinationFromHref(href?: string): LinkDestination | undefined {
+	if (!href) {
+		return undefined
+	}
+
+	const pageKey = routePageKeyByHref[href]
+
+	if (pageKey) {
+		return {
+			_type: 'linkDestination',
+			type: 'internalPage',
+			pageKey
+		}
+	}
+
+	if (/^(https?:|mailto:|tel:)/.test(href) || href.startsWith('//')) {
+		return {
+			_type: 'linkDestination',
+			type: 'externalUrl',
+			href
+		}
+	}
+
+	return undefined
+}
+
+function ctaWithDestination(cta: PatchableCta | undefined, destination?: LinkDestination) {
+	const {href: _href, ...nextCta} = cta ?? {}
+
+	return {
+		...nextCta,
+		destination: destination ?? cta?.destination
+	}
+}
+
 async function findExistingResourcesLink(key: string) {
 	const links = await client.fetch<SanityLinkItem[]>(
 		`[
@@ -442,41 +499,32 @@ if (resourcesHub?.cards?.length) {
 	await client
 		.patch('resourcesHub')
 		.set({
-			cards: resourcesHub.cards.map((card: {_key?: string; title?: string; cta?: {href?: string}}) =>
+			cards: resourcesHub.cards.map((card: {_key?: string; title?: string; cta?: PatchableCta}) =>
 				card.title?.toLowerCase().includes('white papers') ||
 				card.title?.toLowerCase().includes('reports')
 					? {
 							...card,
-							cta: {
-								...card.cta,
-								href: '/resources/library'
-							}
+							cta: ctaWithDestination(card.cta, destinationFromHref('/resources/library'))
 						}
 					: card.title?.toLowerCase().includes('press') ||
 						  card.title?.toLowerCase().includes('charter')
 						? {
 								...card,
-								cta: {
-									...card.cta,
-									href: '/resources/press'
-								}
+								cta: ctaWithDestination(card.cta, destinationFromHref('/resources/press'))
 							}
 						: card.title?.toLowerCase().includes('newsletter')
 							? {
 									...card,
-									cta: {
-										...card.cta,
-										href: '/resources/newsletter'
-									}
+									cta: ctaWithDestination(card.cta, destinationFromHref('/resources/newsletter'))
 								}
 						: card.title?.toLowerCase().includes('standards matrix') ||
 							  card.title?.toLowerCase().includes('edmatrix')
 							? {
 									...card,
-									cta: {
-										...card.cta,
-										href: standardsMatrixLink?.href ?? card.cta?.href
-									}
+									cta: ctaWithDestination(
+										card.cta,
+										destinationFromHref(standardsMatrixLink?.href) ?? card.cta?.destination
+									)
 							}
 					: card
 			)

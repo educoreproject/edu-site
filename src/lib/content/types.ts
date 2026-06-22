@@ -1,12 +1,38 @@
-export type LinkItem = {
-	label: string;
-	href: string;
-	disabled?: boolean;
+import type { RoutePageKey, SiteSectionKey } from './route-metadata';
+
+export type LinkDestinationKind = 'internalPage' | 'externalUrl' | 'download' | 'anchor';
+
+export type LinkDestination = {
+	type: LinkDestinationKind;
+	pageKey?: RoutePageKey;
+	href?: string;
+	anchorId?: string;
+	file?: {
+		url?: string;
+		filename?: string;
+		mimeType?: string;
+		size?: number;
+	};
 };
 
-export type Cta = {
+export type ResolvedLink = {
+	href?: string;
+	target?: '_blank';
+	rel?: 'noopener noreferrer';
+	download?: string | boolean;
+	mimeType?: string;
+	size?: number;
+};
+
+export type LinkItem = ResolvedLink & {
 	label: string;
-	href: string;
+	disabled?: boolean;
+	hidden?: boolean;
+	pageKey?: RoutePageKey;
+};
+
+export type Cta = ResolvedLink & {
+	label: string;
 	variant: 'primary' | 'outline' | 'teal' | 'gold';
 };
 
@@ -277,15 +303,19 @@ export type FooterColumn = {
 	links: LinkItem[];
 };
 
+export type SiteNavSection = LinkItem & {
+	key: SiteSectionKey;
+	pageKey: RoutePageKey;
+	children: LinkItem[];
+};
+
 export type SiteChrome = {
 	primaryNav: LinkItem[];
+	sections: SiteNavSection[];
 	footerColumns: FooterColumn[];
 };
 
 export type DsuHomePage = {
-	slug: 'dsu-home';
-	activeSection: 'DSU';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	pillarsHeader: SectionHeader;
 	pillars: TextBlock[];
@@ -301,9 +331,6 @@ export type DsuHomePage = {
 };
 
 export type DsuMembersPage = {
-	slug: 'dsu-members';
-	activeSection: 'DSU';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	videosHeader: SectionHeader;
 	videos: VideoTestimonial[];
@@ -316,9 +343,6 @@ export type DsuMembersPage = {
 };
 
 export type DsuJoinPage = {
-	slug: 'dsu-joining';
-	activeSection: 'DSU';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	membershipHeader: SectionHeader;
 	membershipTypes: MembershipType[];
@@ -332,9 +356,6 @@ export type DsuJoinPage = {
 };
 
 export type DsuProjectsPage = {
-	slug: 'dsu-projects';
-	activeSection: 'DSU';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	projectsHeader: SectionHeader;
 	projects: DsuProject[];
@@ -342,9 +363,6 @@ export type DsuProjectsPage = {
 };
 
 export type CedsOverviewPage = {
-	slug: 'ceds';
-	activeSection: 'CEDS';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	logoImage?: ImageAsset;
 	overview: SectionHeader;
@@ -357,9 +375,6 @@ export type CedsOverviewPage = {
 };
 
 export type ResourcesHubPage = {
-	slug: 'resources-library';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	eyebrow: string;
 	heading: string;
@@ -368,9 +383,6 @@ export type ResourcesHubPage = {
 };
 
 export type ResourcesLibraryPage = {
-	slug: 'resources-library';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	categories: ResourceDocumentItem['category'][];
 	items: ResourceDocumentItem[];
@@ -378,9 +390,6 @@ export type ResourcesLibraryPage = {
 };
 
 export type ResourcesPressPage = {
-	slug: 'resources-press';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	categories: PressDocumentItem['category'][];
 	items: PressDocumentItem[];
@@ -388,9 +397,6 @@ export type ResourcesPressPage = {
 };
 
 export type ResourcesNewsletterPage = {
-	slug: 'resources-newsletter';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	categories: NewsletterDocumentItem['category'][];
 	items: NewsletterDocumentItem[];
@@ -398,9 +404,6 @@ export type ResourcesNewsletterPage = {
 };
 
 export type ResourcesGlossaryPage = {
-	slug: 'resources-glossary';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	categories: string[];
 	terms: GlossaryTerm[];
@@ -409,9 +412,6 @@ export type ResourcesGlossaryPage = {
 };
 
 export type ResourcesFaqPage = {
-	slug: 'resources-faq';
-	activeSection: 'Resources';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	categories: string[];
 	items: FaqItem[];
@@ -419,9 +419,6 @@ export type ResourcesFaqPage = {
 };
 
 export type EventsUpcomingPage = {
-	slug: 'events-upcoming';
-	activeSection: 'Events';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	events: EventItem[];
 	counterLabel: string;
@@ -429,18 +426,12 @@ export type EventsUpcomingPage = {
 };
 
 export type EventsPastPage = {
-	slug: 'events-past';
-	activeSection: 'Events';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	archive: EventArchiveGroup[];
 	ctas: SharedCtaContent[];
 };
 
 export type EduOverviewPage = {
-	slug: 'edu-overview';
-	activeSection: EduSection;
-	subNav: LinkItem[];
 	hero: HeroContent;
 	mission: EduOverviewSection;
 	organization: EduOverviewSection;
@@ -452,27 +443,18 @@ export type EduOverviewPage = {
 };
 
 export type EduBoardPage = {
-	slug: 'edu-board';
-	activeSection: EduSection;
-	subNav: LinkItem[];
 	hero: HeroContent;
 	members: BoardMember[];
 	ctas: SharedCtaContent[];
 };
 
 export type EduHistoryPage = {
-	slug: 'edu-history';
-	activeSection: EduSection;
-	subNav: LinkItem[];
 	hero: HeroContent;
 	entries: TimelineEntry[];
 	ctas: SharedCtaContent[];
 };
 
 export type ContactPage = {
-	slug: 'contact' | 'edu-contact';
-	activeSection: 'Contact';
-	subNav: LinkItem[];
 	hero: HeroContent;
 	fields: ContactField[];
 	directCard: InfoCard;
@@ -481,9 +463,6 @@ export type ContactPage = {
 };
 
 export type EducoreOverviewPage = {
-	slug: 'educore-overview';
-	activeSection: EducoreSection;
-	subNav: LinkItem[];
 	hero: HeroContent;
 	useCasesHeader: SectionHeader;
 	useCases: EducoreFeatureCard[];

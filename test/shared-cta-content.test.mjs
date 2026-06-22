@@ -22,11 +22,11 @@ const pageSchemaPaths = [
 
 const routePagePaths = [
 	'src/routes/ceds/+page.svelte',
-	'src/routes/+page.svelte',
+	'src/lib/components/pages/EduOverviewPage.svelte',
+	'src/lib/components/pages/DsuOverviewPage.svelte',
 	'src/routes/dsu/members/+page.svelte',
 	'src/routes/dsu/joining/+page.svelte',
 	'src/routes/dsu/projects/+page.svelte',
-	'src/routes/edu/+page.svelte',
 	'src/routes/edu/board/+page.svelte',
 	'src/routes/edu/history/+page.svelte',
 	'src/routes/contact/+page.svelte',
@@ -35,7 +35,10 @@ const routePagePaths = [
 	'src/routes/events/past/+page.svelte',
 	'src/routes/resources/+page.svelte',
 	'src/routes/resources/faq/+page.svelte',
-	'src/routes/resources/glossary/+page.svelte'
+	'src/routes/resources/glossary/+page.svelte',
+	'src/routes/resources/library/+page.svelte',
+	'src/routes/resources/newsletter/+page.svelte',
+	'src/routes/resources/press/+page.svelte'
 ];
 
 test('Sanity exposes reusable shared CTA documents', () => {
@@ -77,6 +80,8 @@ test('page queries dereference shared CTAs into an ordered render list', () => {
 
 	assert.match(queriesSource, /const sharedCtaProjection = `->\{/);
 	assert.match(queriesSource, /cta\$\{ctaProjection\}/);
+	assert.match(queriesSource, /destination\$\{linkDestinationProjection\}/);
+	assert.doesNotMatch(queriesSource, /href,\s*\n\s*variant/);
 	assert.doesNotMatch(queriesSource, /\bctaLabel,/);
 	assert.doesNotMatch(queriesSource, /\bctaVariant,/);
 	assert.doesNotMatch(queriesSource, /\bsignupUrl,/);
