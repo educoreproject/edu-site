@@ -51,9 +51,13 @@ import {resourcesLibrary} from './resourcesLibrary'
 import {resourcesNewsletter} from './resourcesNewsletter'
 import {resourcesPress} from './resourcesPress'
 import {siteChrome} from './siteChrome'
+import {linkDestination, navItem, sitePage} from './siteNavigation'
 
 export const schemaTypes = [
 	linkItem,
+	linkDestination,
+	navItem,
+	sitePage,
 	cta,
 	sharedCta,
 	heroContent,
