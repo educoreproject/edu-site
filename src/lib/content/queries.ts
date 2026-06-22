@@ -490,10 +490,17 @@ export const educoreOverviewQuery = `*[_type == "educoreOverview" && slug.curren
 	${pageCtasProjection}
 }`;
 
-export const chromeQuery = `*[_type == "siteChrome"][0]{
-	"primaryNav": coalesce(primaryNav[]${linkItemProjection}, []),
-	"footerColumns": coalesce(footerColumns[]{
-		heading,
-		"links": coalesce(links[]${linkItemProjection}, [])
+export const chromeQuery = `*[_type == "sitePage"] | order(sortOrder asc){
+	sectionKey,
+	routePageKey,
+	navLabel,
+	disabled,
+	hidden,
+	sortOrder,
+	"navigationItems": coalesce(navigationItems[]{
+		label,
+		disabled,
+		hidden,
+		destination${linkDestinationProjection}
 	}, [])
 }`;

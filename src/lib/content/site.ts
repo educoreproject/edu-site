@@ -21,6 +21,8 @@ import {
 	resourcesPressQuery
 } from './queries';
 import { resolveDestination } from './destinations';
+import { getRoutePage, getSiteSection } from './route-metadata';
+import type { RoutePageKey, SiteSectionKey } from './route-metadata';
 import type {
 	Cta,
 	DsuHomePage,
@@ -46,7 +48,10 @@ import type {
 	ResourcesNewsletterPage,
 	ResourcesPressPage,
 	SharedCtaContent,
-	SiteChrome
+	SiteChrome,
+	SiteNavSection,
+	LinkDestination,
+	LinkItem
 } from './types';
 
 async function fetchFromSanity<T>(query: string, label: string): Promise<T> {
@@ -95,6 +100,23 @@ type RawMembershipType = Omit<MembershipType, 'cta'> & {
 
 type RawInfoCard = Omit<InfoCard, 'cta'> & {
 	cta?: RawCta;
+};
+
+type RawNavItem = {
+	label: string;
+	disabled?: boolean;
+	hidden?: boolean;
+	destination?: LinkDestination;
+};
+
+type RawSitePage = {
+	sectionKey: SiteSectionKey;
+	routePageKey: RoutePageKey;
+	navLabel?: string;
+	disabled?: boolean;
+	hidden?: boolean;
+	sortOrder?: number;
+	navigationItems?: RawNavItem[];
 };
 
 type RawPageContent<T extends { hero: HeroContent; ctas: SharedCtaContent[] }> = Omit<
@@ -158,8 +180,63 @@ function resolvePageContent<T extends { hero: HeroContent; ctas: SharedCtaConten
 	} as T;
 }
 
-export function getSiteChrome(): Promise<SiteChrome> {
-	return fetchFromSanity<SiteChrome>(chromeQuery, 'site chrome');
+function normalizeNavItem(item: RawNavItem): LinkItem | null {
+	if (item.hidden) {
+		return null;
+	}
+
+	const resolved = resolveDestination(item.destination);
+
+	if (!resolved.href && !item.disabled) {
+		return null;
+	}
+
+	return {
+		label: item.label,
+		disabled: item.disabled,
+		pageKey: item.destination?.pageKey,
+		...resolved
+	};
+}
+
+export function normalizeSiteChrome(rawPages: RawSitePage[]): SiteChrome {
+	const sections = rawPages
+		.filter((page) => !page.hidden)
+		.map((page): SiteNavSection => {
+			const route = getRoutePage(page.routePageKey);
+			const section = getSiteSection(page.sectionKey);
+			const children = (page.navigationItems ?? [])
+				.map(normalizeNavItem)
+				.filter((item): item is LinkItem => Boolean(item));
+
+			return {
+				key: page.sectionKey,
+				pageKey: page.routePageKey,
+				label: page.navLabel || section.label,
+				disabled: page.disabled,
+				href: route.path,
+				children
+			};
+		});
+
+	return {
+		primaryNav: sections.map(({ children, key, pageKey, ...section }) => section),
+		sections,
+		footerColumns: sections.map((section) => ({
+			heading: section.label,
+			links: section.children
+		}))
+	};
+}
+
+export async function getSiteChrome(): Promise<SiteChrome> {
+	const rawPages = await fetchFromSanity<RawSitePage[]>(chromeQuery, 'site pages navigation');
+
+	if (!rawPages.length) {
+		throw new Error('[content] Sanity returned no site page navigation documents.');
+	}
+
+	return normalizeSiteChrome(rawPages);
 }
 
 export async function getDsuHomePage(): Promise<DsuHomePage> {

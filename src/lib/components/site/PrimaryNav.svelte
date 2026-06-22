@@ -1,27 +1,42 @@
 <script lang="ts">
   import { isExternalLink } from "$lib/content/links";
-  import type { FooterColumn, LinkItem } from "$lib/content/types";
+  import { getRoutePage } from "$lib/content/route-metadata";
+  import type { RoutePageKey, SiteSectionKey } from "$lib/content/route-metadata";
+  import type { FooterColumn, LinkItem, SiteChrome } from "$lib/content/types";
   import Container from "./Container.svelte";
 
+  type NavSection = LinkItem & {
+    key?: SiteSectionKey;
+    pageKey?: RoutePageKey;
+    children: LinkItem[];
+  };
+
   type Props = {
-    links: LinkItem[];
+    chrome?: SiteChrome;
+    links?: LinkItem[];
     activeSection?: LinkItem["label"];
     activeSubSection?: LinkItem["label"];
     footerColumns?: FooterColumn[];
+    activeSectionKey?: SiteSectionKey;
+    activePageKey?: RoutePageKey;
     logoHref?: string;
   };
 
   const uid = $props.id();
   let {
+    chrome,
     links,
     activeSection,
     activeSubSection,
     footerColumns = [],
+    activeSectionKey,
+    activePageKey,
     logoHref = "/",
   }: Props = $props();
 
   let menuOpen = $state(false);
   const panelId = `${uid}-mobile-menu`;
+  let activePage = $derived(activePageKey ? getRoutePage(activePageKey) : undefined);
 
   const normalizeLabel = (value: string) =>
     value
@@ -30,16 +45,18 @@
       .trim();
 
   const navSections = $derived(
-    links.map((link) => {
-      const column = footerColumns.find(
-        (item) => normalizeLabel(item.heading) === normalizeLabel(link.label),
-      );
+    (chrome
+      ? chrome.sections
+      : (links ?? []).map((link) => {
+          const column = footerColumns.find(
+            (item) => normalizeLabel(item.heading) === normalizeLabel(link.label),
+          );
 
-      return {
-        link,
-        children: column?.links ?? [],
-      };
-    }),
+          return {
+            ...link,
+            children: column?.links ?? [],
+          };
+        })) as NavSection[],
   );
 
   function openMenu() {
@@ -66,21 +83,27 @@
     </a>
 
     <div class="links">
-      {#each links as link}
-        {@const active = link.label === activeSection}
-        {@const isExternal = isExternalLink(link.href)}
-        {#if link.disabled}
+      {#each navSections as section}
+        {@const active =
+          section.key === activeSectionKey ||
+          section.pageKey === activePageKey ||
+          section.label === activeSection}
+        {@const isExternal = isExternalLink(section.href)}
+        {@const target = section.target ?? (isExternal ? "_blank" : undefined)}
+        {@const rel = section.rel ?? (isExternal ? "noopener noreferrer" : undefined)}
+        {#if section.disabled || !section.href}
           <span class:active class="disabled" aria-disabled="true"
-            >{link.label}</span
+            >{section.label}</span
           >
         {:else}
           <a
             class:active
-            href={link.href}
+            href={section.href}
             aria-current={active ? "page" : undefined}
-            target={isExternal ? "_blank" : undefined}
-            rel={isExternal ? "noopener noreferrer" : undefined}
-            ><span>{link.label}</span>{#if isExternal}<i
+            {target}
+            {rel}
+            download={section.download}
+            ><span>{section.label}</span>{#if isExternal}<i
                 class="ti ti-external-link"
                 aria-hidden="true"
               ></i><span class="sr-only">Opens in a new tab</span>{/if}</a
@@ -142,24 +165,31 @@
 
       <div class="drawer-links">
         {#each navSections as section}
-          {@const sectionActive = section.link.label === activeSection}
-          {@const sectionExternal = isExternalLink(section.link.href)}
+          {@const sectionActive =
+            section.key === activeSectionKey ||
+            section.pageKey === activePageKey ||
+            section.label === activeSection}
+          {@const sectionExternal = isExternalLink(section.href)}
+          {@const sectionTarget = section.target ?? (sectionExternal ? "_blank" : undefined)}
+          {@const sectionRel = section.rel ?? (sectionExternal ? "noopener noreferrer" : undefined)}
           <section class:active-section={sectionActive}>
-            {#if section.link.disabled}
+            {#if section.disabled || !section.href}
               <span class="section-label disabled" aria-disabled="true"
-                >{section.link.label}</span
+                >{section.label}</span
               >
             {:else}
               <a
                 class="section-label"
-                href={section.link.href}
-                aria-current={sectionActive && !activeSubSection
+                href={section.href}
+                aria-current={(section.pageKey === activePageKey ||
+                  (sectionActive && !activeSubSection && !activePageKey))
                   ? "page"
                   : undefined}
-                target={sectionExternal ? "_blank" : undefined}
-                rel={sectionExternal ? "noopener noreferrer" : undefined}
+                target={sectionTarget}
+                rel={sectionRel}
+                download={section.download}
                 onclick={closeMenu}
-                ><span>{section.link.label}</span>{#if sectionExternal}<i
+                ><span>{section.label}</span>{#if sectionExternal}<i
                     class="ti ti-external-link"
                     aria-hidden="true"
                   ></i><span class="sr-only">Opens in a new tab</span>{/if}</a
@@ -170,10 +200,15 @@
               <ul>
                 {#each section.children as child}
                   {@const childActive =
-                    sectionActive && child.label === activeSubSection}
+                    sectionActive &&
+                    (child.pageKey === activePageKey ||
+                      child.href === activePage?.path ||
+                      child.label === activeSubSection)}
                   {@const childExternal = isExternalLink(child.href)}
+                  {@const childTarget = child.target ?? (childExternal ? "_blank" : undefined)}
+                  {@const childRel = child.rel ?? (childExternal ? "noopener noreferrer" : undefined)}
                   <li>
-                    {#if child.disabled}
+                    {#if child.disabled || !child.href}
                       <span
                         class:active={childActive}
                         class="disabled"
@@ -184,8 +219,9 @@
                         class:active={childActive}
                         href={child.href}
                         aria-current={childActive ? "page" : undefined}
-                        target={childExternal ? "_blank" : undefined}
-                        rel={childExternal ? "noopener noreferrer" : undefined}
+                        target={childTarget}
+                        rel={childRel}
+                        download={child.download}
                         onclick={closeMenu}
                         ><span>{child.label}</span>{#if childExternal}<i
                             class="ti ti-external-link"

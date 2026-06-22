@@ -33,21 +33,24 @@
 			</div>
 
 			<div class="columns" aria-label="Footer navigation">
-				{#each chrome.footerColumns as column}
-					<section aria-labelledby={`footer-${column.heading.toLowerCase().replaceAll(' ', '-')}`}>
-						<h2 id={`footer-${column.heading.toLowerCase().replaceAll(' ', '-')}`}>{column.heading}</h2>
+				{#each chrome.sections as section}
+					<section aria-labelledby={`footer-${section.key}`}>
+						<h2 id={`footer-${section.key}`}>{section.label}</h2>
 
 						<ul>
-							{#each column.links as link}
+							{#each section.children as link}
 								{@const isExternal = isExternalLink(link.href)}
+								{@const target = link.target ?? (isExternal ? '_blank' : undefined)}
+								{@const rel = link.rel ?? (isExternal ? 'noopener noreferrer' : undefined)}
 								<li>
-									{#if link.disabled}
+									{#if link.disabled || !link.href}
 										<span aria-disabled="true">{link.label}</span>
 									{:else}
 										<a
 											href={link.href}
-											target={isExternal ? '_blank' : undefined}
-											rel={isExternal ? 'noopener noreferrer' : undefined}
+											{target}
+											{rel}
+											download={link.download}
 										>
 											<span>{link.label}</span>
 											{#if isExternal}

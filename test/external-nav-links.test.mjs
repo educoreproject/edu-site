@@ -17,8 +17,9 @@ test('subnav external links open in a new tab and show an icon', () => {
 
 	assert.match(source, /import \{ isExternalLink \} from ['"]\$lib\/content\/links['"];/);
 	assert.match(source, /const isExternal = isExternalLink\(link\.href\)/);
-	assert.match(source, /target=\{isExternal \? ['"]_blank['"] : undefined\}/);
-	assert.match(source, /rel=\{isExternal \? ['"]noopener noreferrer['"] : undefined\}/);
+	assert.match(source, /const target = link\.target \?\? \(isExternal \? ['"]_blank['"] : undefined\)/);
+	assert.match(source, /const rel = link\.rel \?\? \(isExternal \? ['"]noopener noreferrer['"] : undefined\)/);
+	assert.match(source, /download=\{link\.download\}/);
 	assert.match(source, /ti ti-external-link/);
 	assert.match(source, /<span class="sr-only">Opens in a new tab<\/span>/);
 });
@@ -46,7 +47,8 @@ test('subnav parent breadcrumb is a real link', () => {
 	].map((path) => [path, readFileSync(path, 'utf8')]);
 
 	assert.match(source, /crumbHref: string/);
-	assert.match(source, /<a class="crumb-link" href=\{crumbHref\}>\s*\{crumb\}\s*<\/a>/);
+	assert.match(source, /currentCrumbHref = \$derived\(section\?\.href \?\? crumbHref\)/);
+	assert.match(source, /<a class="crumb-link" href=\{currentCrumbHref\}>\s*\{currentCrumb\}\s*<\/a>/);
 	assert.doesNotMatch(source, /<span>\{crumb\}<\/span>/);
 
 	for (const [path, routeSource] of routeSources) {
@@ -58,10 +60,16 @@ test('footer and mobile drawer use the same external-link behavior', () => {
 	const footerSource = readFileSync('src/lib/components/site/PageFooter.svelte', 'utf8');
 	const primaryNavSource = readFileSync('src/lib/components/site/PrimaryNav.svelte', 'utf8');
 
+	assert.match(footerSource, /chrome\.sections/);
+	assert.doesNotMatch(footerSource, /chrome\.footerColumns/);
+	assert.match(primaryNavSource, /chrome\.sections/);
+	assert.match(primaryNavSource, /section\.children/);
+
 	for (const source of [footerSource, primaryNavSource]) {
 		assert.match(source, /import \{ isExternalLink \} from ['"]\$lib\/content\/links['"];/);
-		assert.match(source, /target=\{[^}]*\? ['"]_blank['"] : undefined\}/);
-		assert.match(source, /rel=\{[^}]*\? ['"]noopener noreferrer['"] : undefined\}/);
+		assert.match(source, /target = .*?\?\? \([^)]*\? ['"]_blank['"] : undefined\)/);
+		assert.match(source, /rel = .*?\?\? \([^)]*\? ['"]noopener noreferrer['"] : undefined\)/);
+		assert.match(source, /download=\{[^}]+\.download\}/);
 		assert.match(source, /ti ti-external-link/);
 		assert.match(source, /<span class="sr-only">Opens in a new tab<\/span>/);
 	}

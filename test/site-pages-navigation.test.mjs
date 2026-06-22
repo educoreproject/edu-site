@@ -154,3 +154,137 @@ test('Studio route page options match the frontend route metadata registry', () 
 		['/dsu', '/dsu/members', '/dsu/joining', '/dsu/projects']
 	);
 });
+
+test('site chrome query reads sitePage documents for normalized navigation', () => {
+	const queriesSource = readFileSync('src/lib/content/queries.ts', 'utf8');
+	const siteSource = readFileSync('src/lib/content/site.ts', 'utf8');
+	const typesSource = readFileSync('src/lib/content/types.ts', 'utf8');
+
+	assert.match(queriesSource, /export const chromeQuery = `\*\[_type == "sitePage"\]/);
+	assert.match(queriesSource, /order\(sortOrder asc\)/);
+	assert.match(queriesSource, /sectionKey/);
+	assert.match(queriesSource, /routePageKey/);
+	assert.match(queriesSource, /navLabel/);
+	assert.match(queriesSource, /navigationItems\[\]/);
+	assert.match(queriesSource, /destination\$\{linkDestinationProjection\}/);
+	assert.doesNotMatch(queriesSource, /_type == "siteChrome"/);
+	assert.match(siteSource, /export function normalizeSiteChrome/);
+	assert.match(siteSource, /if \(!rawPages\.length\)/);
+	assert.match(siteSource, /Sanity returned no site page navigation documents/);
+	assert.match(siteSource, /primaryNav:\s*sections\.map/);
+	assert.match(siteSource, /footerColumns:\s*sections\.map/);
+	assert.match(typesSource, /export type SiteNavSection/);
+	assert.match(typesSource, /sections:\s*SiteNavSection\[\]/);
+});
+
+test('site chrome normalization resolves destinations and omits hidden items', () => {
+	const script = `
+		const { createServer } = await import('vite');
+		const server = await createServer({
+			appType: 'custom',
+			logLevel: 'error',
+			server: { middlewareMode: true }
+		});
+
+		try {
+			const { normalizeSiteChrome } = await server.ssrLoadModule('/src/lib/content/site.ts');
+			const chrome = normalizeSiteChrome([
+				{
+					sectionKey: 'resources',
+					routePageKey: 'resourcesHub',
+					navLabel: 'Resources',
+					navigationItems: [
+						{
+							label: 'Library',
+							destination: { type: 'internalPage', pageKey: 'resourcesLibrary' }
+						},
+						{
+							label: 'External research',
+							destination: { type: 'externalUrl', href: 'https://example.com/research' }
+						},
+						{
+							label: 'Hidden',
+							hidden: true,
+							destination: { type: 'internalPage', pageKey: 'resourcesFaq' }
+						},
+						{
+							label: 'Disabled placeholder',
+							disabled: true
+						},
+						{
+							label: 'Missing destination'
+						}
+					]
+				},
+				{
+					sectionKey: 'events',
+					routePageKey: 'eventsUpcoming',
+					navLabel: 'Events',
+					hidden: true,
+					navigationItems: [
+						{
+							label: 'Past events',
+							destination: { type: 'internalPage', pageKey: 'eventsPast' }
+						}
+					]
+				}
+			]);
+
+			console.log(JSON.stringify(chrome));
+		} finally {
+			await server.close();
+		}
+	`;
+	const output = execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
+		encoding: 'utf8'
+	});
+	const chrome = JSON.parse(output);
+
+	assert.deepEqual(
+		chrome.sections.map((section) => section.key),
+		['resources']
+	);
+	assert.deepEqual(
+		chrome.primaryNav.map((link) => [link.label, link.href]),
+		[['Resources', '/resources']]
+	);
+	assert.deepEqual(
+		chrome.footerColumns.map((column) => [
+			column.heading,
+			column.links.map((link) => [link.label, link.href, link.disabled ?? false, link.target])
+		]),
+		[
+			[
+				'Resources',
+				[
+					['Library', '/resources/library', false, undefined],
+					['External research', 'https://example.com/research', false, '_blank'],
+					['Disabled placeholder', undefined, true, undefined]
+				]
+			]
+		]
+	);
+});
+
+test('shared chrome components consume normalized SiteChrome sections', () => {
+	const sectionChrome = readFileSync('src/lib/components/site/SectionChrome.svelte', 'utf8');
+	const primaryNav = readFileSync('src/lib/components/site/PrimaryNav.svelte', 'utf8');
+	const subNav = readFileSync('src/lib/components/site/SubNav.svelte', 'utf8');
+	const footer = readFileSync('src/lib/components/site/PageFooter.svelte', 'utf8');
+
+	assert.match(sectionChrome, /routeKey:\s*RoutePageKey/);
+	assert.match(sectionChrome, /getRoutePage\(routeKey\)/);
+	assert.match(sectionChrome, /activeSection = \$derived/);
+	assert.match(sectionChrome, /<PrimaryNav[\s\S]*chrome=\{chrome\}/);
+	assert.match(sectionChrome, /<SubNav[\s\S]*section=\{activeSection\}/);
+	assert.match(primaryNav, /chrome\?:\s*SiteChrome/);
+	assert.match(primaryNav, /chrome\.sections/);
+	assert.match(primaryNav, /activeSectionKey\?:\s*SiteSectionKey/);
+	assert.match(primaryNav, /activePageKey\?:\s*RoutePageKey/);
+	assert.match(primaryNav, /section\.pageKey === activePageKey/);
+	assert.match(primaryNav, /!activePageKey/);
+	assert.match(subNav, /section\?:\s*SiteNavSection/);
+	assert.match(subNav, /section\.children/);
+	assert.match(footer, /chrome\.sections/);
+	assert.doesNotMatch(footer, /chrome\.footerColumns/);
+});
