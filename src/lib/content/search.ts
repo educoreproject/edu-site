@@ -101,12 +101,13 @@ function linkProps(href?: string) {
 function documentResult(
 	prefix: string,
 	type: string,
-	item: ResourceDocumentItem | PressDocumentItem | NewsletterDocumentItem
+	item: ResourceDocumentItem | PressDocumentItem | NewsletterDocumentItem,
+	index: number
 ): IndexedSearchResult {
 	const metadata = [item.category, item.documentType].filter(Boolean);
 
 	return {
-		id: `${prefix}-${item.title}`,
+		id: `${prefix}-${index}-${item.title}`,
 		type,
 		title: item.title,
 		description: item.description,
@@ -124,9 +125,9 @@ function documentResult(
 	};
 }
 
-function glossaryResult(term: GlossaryTerm): IndexedSearchResult {
+function glossaryResult(term: GlossaryTerm, index: number): IndexedSearchResult {
 	return {
-		id: `glossary-${term.term}`,
+		id: `glossary-${index}-${term.term}`,
 		type: 'Glossary',
 		title: term.term,
 		description: term.definition,
@@ -141,9 +142,9 @@ function glossaryResult(term: GlossaryTerm): IndexedSearchResult {
 	};
 }
 
-function faqResult(item: FaqItem): IndexedSearchResult {
+function faqResult(item: FaqItem, index: number): IndexedSearchResult {
 	return {
-		id: `faq-${item.question}`,
+		id: `faq-${index}-${item.question}`,
 		type: 'FAQ',
 		title: item.question,
 		description: item.answer,
@@ -158,11 +159,16 @@ function faqResult(item: FaqItem): IndexedSearchResult {
 	};
 }
 
-function eventResult(prefix: string, type: string, event: EventItem): IndexedSearchResult {
+function eventResult(
+	prefix: string,
+	type: string,
+	event: EventItem,
+	index: number
+): IndexedSearchResult {
 	const metadata = [event.tag, event.date].filter(Boolean);
 
 	return {
-		id: `${prefix}-${event.title}`,
+		id: `${prefix}-${index}-${event.title}`,
 		type,
 		title: event.title,
 		description: event.description,
@@ -179,14 +185,24 @@ function eventResult(prefix: string, type: string, event: EventItem): IndexedSea
 
 export function createSearchIndex(content: SearchContentSources): IndexedSearchResult[] {
 	return [
-		...content.library.items.map((item) => documentResult('library', 'Library resource', item)),
-		...content.press.items.map((item) => documentResult('press', 'Press & charter', item)),
-		...content.newsletter.items.map((item) => documentResult('newsletter', 'Newsletter', item)),
+		...content.library.items.map((item, index) =>
+			documentResult('library', 'Library resource', item, index)
+		),
+		...content.press.items.map((item, index) =>
+			documentResult('press', 'Press & charter', item, index)
+		),
+		...content.newsletter.items.map((item, index) =>
+			documentResult('newsletter', 'Newsletter', item, index)
+		),
 		...content.glossary.terms.map(glossaryResult),
 		...content.faq.items.map(faqResult),
-		...content.upcomingEvents.events.map((event) => eventResult('event', 'Event', event)),
-		...content.pastEvents.archive.flatMap((group) =>
-			group.events.map((event) => eventResult(`past-${group.year}`, 'Past event', event))
+		...content.upcomingEvents.events.map((event, index) =>
+			eventResult('event', 'Event', event, index)
+		),
+		...content.pastEvents.archive.flatMap((group, groupIndex) =>
+			group.events.map((event, eventIndex) =>
+				eventResult(`past-${groupIndex}-${group.year}`, 'Past event', event, eventIndex)
+			)
 		)
 	];
 }

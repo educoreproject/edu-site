@@ -132,6 +132,22 @@ test('createSearchIndex normalizes all Resources and Events result types', () =>
 	assert.equal(results[6].disabled, true);
 });
 
+test('createSearchIndex assigns unique ids when past event titles repeat in the same year', () => {
+	const content = fixtureContent();
+	content.pastEvents.archive[0].events.push({
+		tag: 'Convening',
+		date: 'June 12, 2025',
+		title: 'Past Data Convening',
+		description: 'A second event with the same public title.',
+		href: 'https://example.org/past-duplicate'
+	});
+
+	const results = createSearchIndex(content);
+	const ids = results.map((result) => result.id);
+
+	assert.equal(new Set(ids).size, ids.length);
+});
+
 test('searchContent filters case-insensitively across titles, body, and metadata', () => {
 	const index = createSearchIndex(fixtureContent());
 
