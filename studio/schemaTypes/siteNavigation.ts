@@ -14,6 +14,47 @@ type SitePageValue = {
 	routePageKey?: string
 }
 
+export function isValidExternalHref(href?: string) {
+	const value = href?.trim()
+
+	if (!value) {
+		return false
+	}
+
+	if (value !== href || /[\s\x00-\x1F\x7F]/.test(value)) {
+		return false
+	}
+
+	if (value === '#') {
+		return true
+	}
+
+	if (value.startsWith('//')) {
+		if (!/^\/\/[^/?#]+/.test(value)) {
+			return false
+		}
+
+		try {
+			const url = new URL(value, 'https://example.invalid')
+			return Boolean(url.hostname)
+		} catch {
+			return false
+		}
+	}
+
+	if (value.startsWith('mailto:') || value.startsWith('tel:')) {
+		const [, destination = ''] = value.split(':')
+		return destination.length > 0
+	}
+
+	try {
+		const url = new URL(value)
+		return ['http:', 'https:'].includes(url.protocol) && Boolean(url.hostname)
+	} catch {
+		return false
+	}
+}
+
 function validateLinkDestination(value?: LinkDestinationValue) {
 	if (!value?.type) {
 		return 'Choose a destination type.'
@@ -23,8 +64,8 @@ function validateLinkDestination(value?: LinkDestinationValue) {
 		return 'Choose the internal page this link should use.'
 	}
 
-	if (value.type === 'externalUrl' && !value.href?.trim()) {
-		return 'Enter the external URL this link should use.'
+	if (value.type === 'externalUrl' && !isValidExternalHref(value.href)) {
+		return 'Enter # or a valid external URL.'
 	}
 
 	if (value.type === 'download' && !value.file) {
@@ -85,7 +126,7 @@ export const linkDestination = defineType({
 		defineField({
 			name: 'href',
 			title: 'External URL',
-			type: 'url',
+			type: 'string',
 			hidden: ({parent}) => parent?.type !== 'externalUrl'
 		}),
 		defineField({

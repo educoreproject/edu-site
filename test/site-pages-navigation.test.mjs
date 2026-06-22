@@ -78,13 +78,16 @@ test('Sanity exposes site page navigation and shared link destination schemas', 
 	assert.match(siteNavigationSource, /function validateLinkDestination/);
 	assert.match(siteNavigationSource, /rule\.custom\(\(value\) => validateLinkDestination/);
 	assert.match(siteNavigationSource, /internalPage' && !value\.pageKey/);
-	assert.match(siteNavigationSource, /externalUrl' && !value\.href\?\.trim\(\)/);
+	assert.match(siteNavigationSource, /function isValidExternalHref/);
+	assert.match(siteNavigationSource, /value === '#'/);
+	assert.match(siteNavigationSource, /externalUrl' && !isValidExternalHref\(value\.href\)/);
 	assert.match(siteNavigationSource, /download' && !value\.file/);
 	assert.match(siteNavigationSource, /anchor' && !value\.anchorId\?\.trim\(\)/);
 	assert.match(siteNavigationSource, /value:\s*'internalPage'/);
 	assert.match(siteNavigationSource, /value:\s*'externalUrl'/);
 	assert.match(siteNavigationSource, /value:\s*'download'/);
 	assert.match(siteNavigationSource, /value:\s*'anchor'/);
+	assert.match(siteNavigationSource, /name:\s*'href'[\s\S]*?title:\s*'External URL'[\s\S]*?type:\s*'string'/);
 	assert.match(siteNavigationSource, /export const navItem = defineType\(\{/);
 	assert.match(siteNavigationSource, /name:\s*'navItem'/);
 	assert.match(siteNavigationSource, /name:\s*'hidden'/);
@@ -107,6 +110,116 @@ test('Sanity exposes site page navigation and shared link destination schemas', 
 	assert.match(indexSource, /linkDestination/);
 	assert.match(indexSource, /navItem/);
 	assert.match(indexSource, /sitePage/);
+});
+
+test('external href validation accepts only supported well-formed link values', () => {
+	const script = `
+		const { isValidExternalHref } = await import('./studio/schemaTypes/siteNavigation.ts');
+		const valid = [
+			'#',
+			'https://example.com',
+			'http://example.com/path',
+			'//example.com/path',
+			'mailto:hello@example.com',
+			'tel:+15555550123'
+		];
+		const invalid = [
+			'',
+			'https://',
+			'http://',
+			'//',
+			'mailto:',
+			'tel:',
+			'ftp://example.com',
+			'example.com',
+			'javascript:alert(1)',
+			'https://example.com/bad path'
+		];
+
+		console.log(JSON.stringify({
+			valid: valid.map((href) => [href, isValidExternalHref(href)]),
+			invalid: invalid.map((href) => [href, isValidExternalHref(href)])
+		}));
+	`;
+	const output = execFileSync(process.execPath, ['--import', 'tsx', '--input-type=module', '-e', script], {
+		encoding: 'utf8'
+	});
+	const result = JSON.parse(output);
+
+	assert.deepEqual(
+		result.valid.filter(([, isValid]) => !isValid),
+		[],
+		'all valid href examples pass'
+	);
+	assert.deepEqual(
+		result.invalid.filter(([, isValid]) => isValid),
+		[],
+		'all invalid href examples fail'
+	);
+});
+
+test('Sanity Studio exposes site pages structure and seed migration', () => {
+	const configSource = readFileSync('studio/sanity.config.ts', 'utf8');
+	const structureSource = readFileSync('studio/structure.ts', 'utf8');
+	const migrationSource = readFileSync('studio/migrations/seed-site-pages-navigation.ts', 'utf8');
+	const indexSource = readFileSync('studio/schemaTypes/index.ts', 'utf8');
+	const schemaTypesList = indexSource.match(/schemaTypes\s*=\s*\[([\s\S]*?)\]/)?.[1] ?? '';
+
+	assert.match(configSource, /import \{structure\} from '\.\/structure'/);
+	assert.match(configSource, /structureTool\(\{structure\}\)/);
+	assert.match(structureSource, /title\('Site pages'\)/);
+
+	for (const documentId of ['sitePageEdu', 'sitePageDsu', 'eduOverview', 'dsuHome']) {
+		assert.match(
+			structureSource,
+			new RegExp(`'${documentId}'`),
+			`${documentId} appears in Studio structure`
+		);
+	}
+
+	for (const schemaType of [
+		'eduOverview',
+		'eduBoard',
+		'eduHistory',
+		'dsuHome',
+		'dsuMembers',
+		'dsuJoin',
+		'dsuProjects',
+		'cedsOverview',
+		'educoreOverview',
+		'resourcesHub',
+		'resourcesLibrary',
+		'resourcesNewsletter',
+		'resourcesGlossary',
+		'resourcesFaq',
+		'resourcesPress',
+		'eventsUpcoming',
+		'eventsPast',
+		'eduContact',
+		'sitePage',
+		'siteChrome'
+	]) {
+		assert.match(
+			structureSource,
+			new RegExp(`id:\\s*'${schemaType}'|'${schemaType}'`),
+			`${schemaType} is filtered from the generic Studio document list`
+		);
+	}
+	assert.match(structureSource, /curatedDocumentTypeIds = new Set/);
+	assert.match(structureSource, /sections\.flatMap\(\(section\) => section\.items\.map/);
+	assert.match(structureSource, /!curatedDocumentTypeIds\.has\(id\)/);
+
+	assert.match(migrationSource, /_id:\s*'sitePageEdu'/);
+	assert.match(migrationSource, /routePageKey:\s*'eduHome'/);
+	assert.match(migrationSource, /_id:\s*'sitePageDsu'/);
+	assert.match(migrationSource, /routePageKey:\s*'dsuHome'/);
+	assert.match(migrationSource, /function destinationFromHref/);
+	assert.match(migrationSource, /if \(!href\) \{[\s\S]*?href:\s*'#'/);
+	assert.doesNotMatch(migrationSource, /createOrReplace/);
+	assert.match(migrationSource, /createIfNotExists\(sitePage\)/);
+	assert.match(migrationSource, /setIfMissing/);
+	assert.match(migrationSource, /unset\(\['slug', 'activeSection', 'subNav'\]\)/);
+	assert.doesNotMatch(schemaTypesList, /\bsiteChrome\b/);
 });
 
 test('Studio route page options match the frontend route metadata registry', () => {
