@@ -17,6 +17,26 @@
 	let { data }: Props = $props();
 	let page = $derived(data.page);
 	let chrome = $derived(data.chrome);
+	let selectedRecipientEmail = $state('');
+	let selectedRecipient = $derived(
+		page.recipientOptions.find((recipient) => recipient.email === selectedRecipientEmail) ??
+			page.recipientOptions[0]
+	);
+	let contactAction = $derived(
+		selectedRecipient
+			? `mailto:${selectedRecipient.email}?subject=${encodeURIComponent(
+					`Contact request for ${selectedRecipient.label}`
+				)}`
+			: '#'
+	);
+
+	$effect(() => {
+		if (page.recipientOptions.some((recipient) => recipient.email === selectedRecipientEmail)) {
+			return;
+		}
+
+		selectedRecipientEmail = page.recipientOptions[0]?.email ?? '';
+	});
 
 	function getInputType(type: string | undefined) {
 		return type === 'email' ? 'email' : 'text';
@@ -39,13 +59,32 @@
 	<section class="section section-padded" aria-labelledby="contact-heading">
 		<Container>
 			<div class="contact-layout">
-				<form aria-labelledby="contact-heading" onsubmit={(event) => event.preventDefault()}>
+				<form
+					aria-labelledby="contact-heading"
+					action={contactAction}
+					method="post"
+					enctype="text/plain"
+				>
 					<div class="form-header">
 						<p class="eyebrow">{page.hero.chip}</p>
 						<h2 id="contact-heading">{page.hero.title}</h2>
 					</div>
 
 					<div class="field-grid">
+						<div class="field full">
+							<label for="contact-recipient">Organization</label>
+							<select
+								id="contact-recipient"
+								name="recipient"
+								bind:value={selectedRecipientEmail}
+								required
+							>
+								{#each page.recipientOptions as recipient}
+									<option value={recipient.email}>{recipient.label}</option>
+								{/each}
+							</select>
+						</div>
+
 						{#each page.fields as field}
 							<div class="field" class:full={field.full || field.type === 'textarea'}>
 								<label for={`contact-${field.name}`}>{field.label}</label>
@@ -69,7 +108,12 @@
 						{/each}
 					</div>
 
-					<Button type="submit" label="Send message" variant="primary" />
+					<Button
+						type="submit"
+						label="Send message"
+						variant="primary"
+						disabled={!page.recipientOptions.length}
+					/>
 				</form>
 
 				<aside class="side-panel" aria-label="Contact options">
@@ -158,6 +202,7 @@
 	a,
 	label,
 	input,
+	select,
 	textarea {
 		font-family: var(--ec-font-sans);
 	}
@@ -194,6 +239,7 @@
 	}
 
 	input,
+	select,
 	textarea {
 		background: var(--ec-white);
 		border: 1px solid var(--ec-border);
@@ -215,6 +261,10 @@
 	textarea::placeholder {
 		color: var(--ec-ink-soft);
 		opacity: 0.72;
+	}
+
+	select {
+		cursor: pointer;
 	}
 
 	.side-panel {

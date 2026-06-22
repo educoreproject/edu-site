@@ -101,6 +101,8 @@ export const linkDestination = defineType({
 		defineField({
 			name: 'type',
 			title: 'Destination type',
+			description:
+				'Controls what kind of link this is. Choose internal page for a route in this site, external URL for another website or email link, download for a file, or anchor link for a section on a page.',
 			type: 'string',
 			options: {
 				list: [
@@ -117,6 +119,8 @@ export const linkDestination = defineType({
 		defineField({
 			name: 'pageKey',
 			title: 'Internal page',
+			description:
+				'Chooses the page this link should open when the destination is an internal page or an anchor on an internal page.',
 			type: 'string',
 			options: {
 				list: routePageOptions.map(({title, value}) => ({title, value}))
@@ -126,12 +130,16 @@ export const linkDestination = defineType({
 		defineField({
 			name: 'href',
 			title: 'External URL',
+			description:
+				'Controls the exact external destination for this link, such as https://example.org, mailto:name@example.org, tel:+15555555555, or #.',
 			type: 'string',
 			hidden: ({parent}) => parent?.type !== 'externalUrl'
 		}),
 		defineField({
 			name: 'file',
 			title: 'Download file',
+			description:
+				'Uploads the file visitors download when they click this link.',
 			type: 'file',
 			hidden: ({parent}) => parent?.type !== 'download'
 		}),
@@ -139,7 +147,8 @@ export const linkDestination = defineType({
 			name: 'anchorId',
 			title: 'Anchor ID',
 			type: 'string',
-			description: 'Enter the anchor without the # symbol.',
+			description:
+				'Controls the section ID this link jumps to on the chosen internal page. Enter the anchor without the # symbol.',
 			hidden: ({parent}) => parent?.type !== 'anchor'
 		})
 	],
@@ -166,24 +175,32 @@ export const navItem = defineType({
 		defineField({
 			name: 'label',
 			title: 'Label',
+			description:
+				'Controls the visible navigation text visitors click in a subnav or footer link list.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'destination',
 			title: 'Destination',
+			description:
+				'Controls where visitors go when they select this navigation item.',
 			type: 'linkDestination',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'disabled',
 			title: 'Disabled',
+			description:
+				'When enabled, this item appears as unavailable text instead of a working link. Use it only for destinations that should be visible but not clickable yet.',
 			type: 'boolean',
 			initialValue: false
 		}),
 		defineField({
 			name: 'hidden',
 			title: 'Hide from navigation',
+			description:
+				'When enabled, this item is omitted from generated navigation lists while the document and route can still exist.',
 			type: 'boolean',
 			initialValue: false
 		})
@@ -204,12 +221,16 @@ export const sitePage = defineType({
 		defineField({
 			name: 'title',
 			title: 'Editor title',
+			description:
+				'Editor-facing name for this site page record. This helps identify the page in Studio and is not the main public page headline.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'sectionKey',
 			title: 'Section',
+			description:
+				'Controls which top-level site section this page belongs to, such as EDU, DSU, Resources, or Events.',
 			type: 'string',
 			options: {
 				list: sectionOptions.map(({title, value}) => ({title, value}))
@@ -219,6 +240,8 @@ export const sitePage = defineType({
 		defineField({
 			name: 'routePageKey',
 			title: 'Primary internal page',
+			description:
+				'Connects this navigation record to the actual route in the website. Choose a page that belongs to the selected section.',
 			type: 'string',
 			options: {
 				list: routePageOptions.map(({title, value}) => ({title, value}))
@@ -231,30 +254,40 @@ export const sitePage = defineType({
 		defineField({
 			name: 'navLabel',
 			title: 'Primary navigation label',
+			description:
+				'Controls the public label used for this page in primary navigation, subnavigation, breadcrumbs, and footer navigation.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'sortOrder',
 			title: 'Navigation order',
+			description:
+				'Controls the order this page appears within its section navigation. Lower numbers appear earlier.',
 			type: 'number',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'disabled',
 			title: 'Disabled',
+			description:
+				'When enabled, this page appears as unavailable in navigation instead of as a clickable link. The page content is not deleted.',
 			type: 'boolean',
 			initialValue: false
 		}),
 		defineField({
 			name: 'hidden',
 			title: 'Hide from primary navigation and footer',
+			description:
+				'When enabled, this page is omitted from generated primary navigation and footer links. Use this for pages that should exist but not be promoted globally.',
 			type: 'boolean',
 			initialValue: false
 		}),
 		defineField({
 			name: 'navigationItems',
 			title: 'Subnav and footer items',
+			description:
+				'Adds child links for this section in subnavigation and footer areas. Use these for section pages, supporting links, downloads, or external destinations.',
 			type: 'array',
 			of: [{type: 'navItem'}]
 		})

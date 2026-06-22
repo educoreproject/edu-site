@@ -26,18 +26,24 @@ export const linkItem = defineType({
 		defineField({
 			name: 'label',
 			title: 'Label',
+			description:
+				'Controls the visible link text visitors see in navigation or footer link lists.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'href',
 			title: 'Href',
+			description:
+				'Controls the destination for this basic link. Use a full URL, route path, email link, phone link, or anchor that the live site can open.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'disabled',
 			title: 'Disabled',
+			description:
+				'When enabled, this link appears as unavailable text instead of a clickable link. Use it for planned or temporarily unavailable destinations.',
 			type: 'boolean',
 			initialValue: false
 		})
@@ -58,12 +64,16 @@ export const cta = defineType({
 		defineField({
 			name: 'label',
 			title: 'Label',
+			description:
+				'Controls the visible button text for this call to action.',
 			type: 'string',
 			validation: (rule) => rule.custom((value, context) => requireCtaValue(value, context, 'CTA label'))
 		}),
 		defineField({
 			name: 'destination',
 			title: 'Destination',
+			description:
+				'Controls where visitors go when they click this call-to-action button.',
 			type: 'linkDestination',
 			validation: (rule) =>
 				rule.custom((value, context) => requireCtaValue(value, context, 'CTA destination'))
@@ -71,6 +81,8 @@ export const cta = defineType({
 		defineField({
 			name: 'variant',
 			title: 'Variant',
+			description:
+				'Controls the visual button style on the live site, such as primary, outline, teal, or gold.',
 			type: 'string',
 			options: {
 				list: [
@@ -101,12 +113,15 @@ export const sharedCta = defineType({
 			name: 'title',
 			title: 'Internal title',
 			type: 'string',
-			description: 'Editor-facing name used when selecting this CTA from another page.',
+			description:
+				'Editor-facing name used when selecting this CTA from another page. Visitors do not see this title directly.',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'type',
 			title: 'Type',
+			description:
+				'Controls which shared CTA layout the site renders. Generic shows normal text and a button; Newsletter uses the newsletter signup treatment.',
 			type: 'string',
 			options: {
 				list: [
@@ -121,18 +136,24 @@ export const sharedCta = defineType({
 		defineField({
 			name: 'eyebrow',
 			title: 'Eyebrow',
+			description:
+				'Controls the small label above the shared CTA heading. This only appears for generic CTAs.',
 			type: 'string',
 			hidden: ({parent}) => parent?.type !== 'generic'
 		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the main headline visitors see in this shared CTA band.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the supporting paragraph shown below the shared CTA heading.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -140,6 +161,8 @@ export const sharedCta = defineType({
 		defineField({
 			name: 'cta',
 			title: 'CTA',
+			description:
+				'Controls the button label, destination, and visual style used in this shared CTA band.',
 			type: 'cta',
 			validation: (rule) =>
 				rule.custom((value, context) => {
@@ -166,6 +189,8 @@ export const sharedCta = defineType({
 		defineField({
 			name: 'signupMode',
 			title: 'Signup mode',
+			description:
+				'Controls how newsletter visitors sign up. External link sends them to another destination; direct email signup lets the site render an email capture form.',
 			type: 'string',
 			options: {
 				list: [
@@ -186,12 +211,16 @@ export const sharedCta = defineType({
 		defineField({
 			name: 'note',
 			title: 'Note',
+			description:
+				'Adds short helper text below the newsletter CTA, such as reassurance about updates or signup frequency.',
 			type: 'string',
 			hidden: ({parent}) => parent?.type !== 'newsletter'
 		}),
 		defineField({
 			name: 'background',
 			title: 'Background',
+			description:
+				'Controls the background color treatment for the shared CTA band.',
 			type: 'string',
 			options: {
 				list: [
@@ -217,24 +246,32 @@ export const heroContent = defineType({
 		defineField({
 			name: 'chip',
 			title: 'Chip',
+			description:
+				'Controls the small label shown above the hero headline, usually the section or page category.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the main hero headline at the top of the page.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the optional summary text below the hero headline. Use it to orient visitors before they reach the rest of the page.',
 			type: 'text',
 			rows: 4
 		}),
 		defineField({
 			name: 'ctas',
 			title: 'CTAs',
+			description:
+				'Adds buttons inside the hero area. The order here is the order the buttons appear.',
 			type: 'array',
 			of: [{type: 'cta'}]
 		})
@@ -249,12 +286,16 @@ export const textBlock = defineType({
 		defineField({
 			name: 'label',
 			title: 'Label',
+			description:
+				'Controls the short heading or label for this text block.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'text',
 			title: 'Text',
+			description:
+				'Controls the body copy shown inside this text block.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -276,16 +317,22 @@ export const sectionHeader = defineType({
 		defineField({
 			name: 'eyebrow',
 			title: 'Eyebrow',
+			description:
+				'Controls the small label above the section heading. Leave blank when the section does not need a label.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the main heading for this page section.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'body',
 			title: 'Body',
+			description:
+				'Controls the optional rich text introduction below the section heading. Use this for short explanatory copy before cards, lists, or other content.',
 			type: 'array',
 			of: [
 				{
@@ -319,18 +366,24 @@ export const numberedValue = defineType({
 		defineField({
 			name: 'number',
 			title: 'Number',
+			description:
+				'Controls the visible number or ordering marker shown with this value card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the headline text for this numbered value.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the supporting copy shown below this numbered value title.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -352,6 +405,8 @@ export const quote = defineType({
 		defineField({
 			name: 'quote',
 			title: 'Quote',
+			description:
+				'Controls the testimonial quote text visitors read.',
 			type: 'text',
 			rows: 5,
 			validation: (rule) => rule.required()
@@ -359,12 +414,16 @@ export const quote = defineType({
 		defineField({
 			name: 'name',
 			title: 'Name',
+			description:
+				'Controls the person name attributed to this quote.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'organization',
 			title: 'Organization',
+			description:
+				'Controls the organization name shown with the quoted person.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		})
@@ -385,30 +444,39 @@ export const videoTestimonial = defineType({
 		defineField({
 			name: 'name',
 			title: 'Name',
+			description:
+				'Controls the speaker name shown for this video testimonial.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the speaker title or role shown with this video testimonial.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'organization',
 			title: 'Organization',
+			description:
+				'Controls the organization shown with this video testimonial.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'provider',
 			title: 'Provider',
+			description:
+				'Optional editor note for the video service. The live site currently expects Vimeo content in the URL field.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'url',
 			title: 'Vimeo URL or embed code',
-			description: 'Paste the Vimeo player URL from the iframe src, a Vimeo page URL, or the full iframe embed code.',
+			description:
+				'Controls the video embedded for this testimonial. Paste the Vimeo player URL from the iframe src, a Vimeo page URL, or the full iframe embed code.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) =>
@@ -441,18 +509,24 @@ export const memberOrganization = defineType({
 		defineField({
 			name: 'name',
 			title: 'Name',
+			description:
+				'Controls the organization name shown in member lists.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'url',
 			title: 'URL',
+			description:
+				'Controls where visitors go when they open this member organization.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'logoImage',
 			title: 'Logo image',
+			description:
+				'Uploads the organization logo shown in the member list. Leave blank if the page should rely on text only.',
 			type: 'image',
 			options: {
 				hotspot: false
@@ -462,7 +536,8 @@ export const memberOrganization = defineType({
 					name: 'alt',
 					title: 'Alternative text',
 					type: 'string',
-					description: 'Defaults to the organization name when left blank.'
+					description:
+						'Describes the logo for screen reader users. Defaults to the organization name when left blank.'
 				})
 			]
 		})
@@ -483,23 +558,31 @@ export const membershipType = defineType({
 		defineField({
 			name: 'kind',
 			title: 'Kind',
+			description:
+				'Controls the short membership type label, such as Signatory or Affiliate.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'kindColor',
 			title: 'Kind color',
+			description:
+				'Controls the color treatment for the membership type label when the site uses a custom kind color.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the main heading for this membership type card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the paragraph that explains who this membership type is for and what it means.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -507,6 +590,8 @@ export const membershipType = defineType({
 		defineField({
 			name: 'bullets',
 			title: 'Bullets',
+			description:
+				'Adds the short benefit or requirement bullets shown inside this membership type card.',
 			type: 'array',
 			of: [{type: 'string'}],
 			validation: (rule) => rule.required().min(1)
@@ -514,12 +599,16 @@ export const membershipType = defineType({
 		defineField({
 			name: 'cta',
 			title: 'CTA',
+			description:
+				'Controls the button shown on this membership type card.',
 			type: 'cta',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'featured',
 			title: 'Featured',
+			description:
+				'When enabled, this membership type receives the featured visual treatment on the live page.',
 			type: 'boolean',
 			initialValue: false
 		})
@@ -540,12 +629,16 @@ export const processStep = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the heading for this process step.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the explanatory text shown for this process step.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -567,12 +660,16 @@ export const checklist = defineType({
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the heading above this checklist.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'items',
 			title: 'Items',
+			description:
+				'Adds the checklist items visitors see. Each entry should be a single requirement, document, or preparation step.',
 			type: 'array',
 			of: [{type: 'string'}],
 			validation: (rule) => rule.required().min(1)
@@ -585,6 +682,36 @@ export const checklist = defineType({
 	}
 })
 
+export const contactRecipient = defineType({
+	name: 'contactRecipient',
+	title: 'Contact recipient',
+	type: 'object',
+	fields: [
+		defineField({
+			name: 'label',
+			title: 'Label',
+			description:
+				'Controls the visible organization option shown in the contact form dropdown.',
+			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'email',
+			title: 'Email',
+			description:
+				'Controls the email address used when a visitor selects this recipient in the contact form.',
+			type: 'email',
+			validation: (rule) => rule.required()
+		})
+	],
+	preview: {
+		select: {
+			title: 'label',
+			subtitle: 'email'
+		}
+	}
+})
+
 export const contactPrompt = defineType({
 	name: 'contactPrompt',
 	title: 'Contact prompt',
@@ -593,18 +720,24 @@ export const contactPrompt = defineType({
 		defineField({
 			name: 'eyebrow',
 			title: 'Eyebrow',
+			description:
+				'Controls the small label above this contact prompt heading.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the main heading shown in this contact prompt.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the explanatory copy that tells visitors when and why to use this contact option.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -612,6 +745,8 @@ export const contactPrompt = defineType({
 		defineField({
 			name: 'email',
 			title: 'Email',
+			description:
+				'Controls the email address shown or linked from this contact prompt.',
 			type: 'email',
 			validation: (rule) => rule.required()
 		})
@@ -632,23 +767,31 @@ export const dsuProject = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible project name shown on the DSU projects page.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'category',
 			title: 'Category',
+			description:
+				'Controls the optional category label shown with this DSU project.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'href',
 			title: 'Href',
+			description:
+				'Controls where visitors go when they open this DSU project.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'logoImage',
 			title: 'Logo image',
+			description:
+				'Uploads the project logo shown on the DSU projects page. Leave blank if the project should appear as text only.',
 			type: 'image',
 			options: {
 				hotspot: false
@@ -658,7 +801,8 @@ export const dsuProject = defineType({
 					name: 'alt',
 					title: 'Alternative text',
 					type: 'string',
-					description: 'Defaults to the project title when left blank.'
+					description:
+						'Describes the project logo for screen reader users. Defaults to the project title when left blank.'
 				})
 			]
 		})
@@ -679,18 +823,24 @@ export const resourceCard = defineType({
 		defineField({
 			name: 'meta',
 			title: 'Meta',
+			description:
+				'Controls the small label or category text shown above the resource card title.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the main heading for this resource card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the short summary text shown on this resource card.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -698,6 +848,8 @@ export const resourceCard = defineType({
 		defineField({
 			name: 'cta',
 			title: 'CTA',
+			description:
+				'Controls the button or link action shown on this resource card.',
 			type: 'cta',
 			validation: (rule) => rule.required()
 		})
@@ -718,6 +870,8 @@ export const resourceDocument = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
+			description:
+				'Controls which Resources library filter this document appears under.',
 			type: 'string',
 			options: {
 				list: [
@@ -731,12 +885,16 @@ export const resourceDocument = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible document title in the Resources library list.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'documentType',
 			title: 'Type',
+			description:
+				'Controls the document type label shown with this Resources library item, such as PDF or Word doc.',
 			type: 'string',
 			options: {
 				list: [
@@ -750,12 +908,16 @@ export const resourceDocument = defineType({
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the optional summary text shown with this Resources library document.',
 			type: 'text',
 			rows: 3
 		}),
 		defineField({
 			name: 'document',
 			title: 'Document',
+			description:
+				'Uploads the file visitors download from this Resources library item.',
 			type: 'file',
 			options: {
 				accept:
@@ -781,6 +943,8 @@ export const pressDocument = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
+			description:
+				'Controls whether this item appears under Press releases or Charters on the Press & charter page.',
 			type: 'string',
 			options: {
 				list: [
@@ -794,12 +958,16 @@ export const pressDocument = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible document title on the Press & charter page.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'documentType',
 			title: 'Type',
+			description:
+				'Controls the document type label shown with this press or charter item, such as PDF or Word doc.',
 			type: 'string',
 			options: {
 				list: [
@@ -813,12 +981,16 @@ export const pressDocument = defineType({
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the optional summary text shown with this press or charter document.',
 			type: 'text',
 			rows: 3
 		}),
 		defineField({
 			name: 'document',
 			title: 'Document',
+			description:
+				'Uploads the file visitors download from this press or charter item.',
 			type: 'file',
 			options: {
 				accept:
@@ -844,19 +1016,24 @@ export const newsletterDocument = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
-			description: 'Month and year label, such as January 2026.',
+			description:
+				'Controls the month/year archive filter for this newsletter, such as January 2026.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible newsletter title in the archive list.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'documentType',
 			title: 'Type',
+			description:
+				'Controls the document type label shown with this newsletter, such as PDF or Word doc.',
 			type: 'string',
 			options: {
 				list: [
@@ -870,12 +1047,16 @@ export const newsletterDocument = defineType({
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the optional summary text shown with this newsletter archive item.',
 			type: 'text',
 			rows: 3
 		}),
 		defineField({
 			name: 'document',
 			title: 'Document',
+			description:
+				'Uploads the file visitors download from this newsletter archive item.',
 			type: 'file',
 			options: {
 				accept:
@@ -901,6 +1082,8 @@ export const eventItem = defineType({
 		defineField({
 			name: 'image',
 			title: 'Image',
+			description:
+				'Uploads the event image shown on event cards. Leave blank only when the event should use the no-image layout.',
 			type: 'image',
 			options: {
 				hotspot: true
@@ -910,31 +1093,40 @@ export const eventItem = defineType({
 					name: 'alt',
 					title: 'Alternative text',
 					type: 'string',
-					description: 'Describe the event image for screen reader users.'
+					description:
+						'Describes the event image for screen reader users. Use concise, meaningful text rather than repeating the event title.'
 				})
 			]
 		}),
 		defineField({
 			name: 'tag',
 			title: 'Tag',
+			description:
+				'Controls the small category or status label shown on this event card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'date',
 			title: 'Date',
+			description:
+				'Controls the date text shown on this event card. Enter it exactly as visitors should read it.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible event title.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the event summary text shown on the event card.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -942,6 +1134,8 @@ export const eventItem = defineType({
 		defineField({
 			name: 'href',
 			title: 'Href',
+			description:
+				'Controls where visitors go when they open this event, such as a registration page, recording, recap, or event detail link.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		})
@@ -962,12 +1156,16 @@ export const eventArchiveGroup = defineType({
 		defineField({
 			name: 'year',
 			title: 'Year',
+			description:
+				'Controls the year heading used to group past events in the archive.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'events',
 			title: 'Events',
+			description:
+				'Adds the past events shown under this archive year. The order here is the order visitors see within the year.',
 			type: 'array',
 			of: [{type: 'eventItem'}],
 			validation: (rule) => rule.required().min(1)
@@ -993,12 +1191,16 @@ export const glossaryTerm = defineType({
 		defineField({
 			name: 'term',
 			title: 'Term',
+			description:
+				'Controls the glossary term visitors can browse or search for.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'definition',
 			title: 'Definition',
+			description:
+				'Controls the definition text shown for this glossary term.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -1006,6 +1208,8 @@ export const glossaryTerm = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
+			description:
+				'Controls which glossary filter this term appears under. Match one of the category labels on the Glossary page.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		})
@@ -1026,12 +1230,16 @@ export const faqItem = defineType({
 		defineField({
 			name: 'question',
 			title: 'Question',
+			description:
+				'Controls the FAQ question text visitors see in the FAQ list.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'answer',
 			title: 'Answer',
+			description:
+				'Controls the answer text shown beneath this FAQ question.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -1039,6 +1247,8 @@ export const faqItem = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
+			description:
+				'Controls which FAQ filter this item appears under. Match one of the category labels on the FAQ page.',
 			type: 'string'
 		})
 	],
@@ -1058,17 +1268,23 @@ export const eduOverviewSection = defineType({
 		defineField({
 			name: 'eyebrow',
 			title: 'Eyebrow',
+			description:
+				'Controls the small optional label above this EDU overview section heading.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the main heading for this EDU overview section.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'paragraphs',
 			title: 'Paragraphs',
+			description:
+				'Controls the body paragraphs for this EDU overview section. Each entry appears as a separate paragraph on the live page.',
 			type: 'array',
 			of: [{type: 'text'}],
 			validation: (rule) => rule.required().min(1)
@@ -1090,12 +1306,16 @@ export const eduListGroup = defineType({
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the heading for this EDU list group.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the short explanatory text shown before this EDU list.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -1103,6 +1323,8 @@ export const eduListGroup = defineType({
 		defineField({
 			name: 'items',
 			title: 'Items',
+			description:
+				'Adds the list items shown in this EDU list group. Each entry should be one clear statement.',
 			type: 'array',
 			of: [{type: 'string'}],
 			validation: (rule) => rule.required().min(1)
@@ -1124,7 +1346,8 @@ export const educoreFeatureCard = defineType({
 		defineField({
 			name: 'icon',
 			title: 'Icon',
-			description: 'Tabler icon name used by the site, such as robot or building-community.',
+			description:
+				'Controls the icon shown on this EDUcore feature card. The site uses Tabler icon names, such as robot or building-community.',
 			type: 'string',
 			options: {
 				list: [
@@ -1145,12 +1368,16 @@ export const educoreFeatureCard = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the heading shown on this EDUcore feature card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the explanatory copy shown on this EDUcore feature card.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -1172,23 +1399,31 @@ export const educoreDemo = defineType({
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the visible title for this EDUcore demo card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'presenter',
 			title: 'Presenter',
+			description:
+				'Controls the presenter name shown on this EDUcore demo card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'organization',
 			title: 'Organization',
+			description:
+				'Controls the optional organization shown with the presenter on this EDUcore demo card.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'description',
 			title: 'Description',
+			description:
+				'Controls the summary text shown for this EDUcore demo.',
 			type: 'text',
 			rows: 4,
 			validation: (rule) => rule.required()
@@ -1196,6 +1431,8 @@ export const educoreDemo = defineType({
 		defineField({
 			name: 'thumbnailImage',
 			title: 'Thumbnail image',
+			description:
+				'Uploads the thumbnail image shown for this EDUcore demo card.',
 			type: 'image',
 			options: {
 				hotspot: false
@@ -1205,7 +1442,8 @@ export const educoreDemo = defineType({
 					name: 'alt',
 					title: 'Alternative text',
 					type: 'string',
-					description: 'Describe the demo thumbnail for screen reader users.',
+					description:
+						'Describes the demo thumbnail for screen reader users. Include the meaningful visual content, not just the demo title.',
 					validation: (rule) => rule.required()
 				})
 			],
@@ -1214,12 +1452,16 @@ export const educoreDemo = defineType({
 		defineField({
 			name: 'videoUrl',
 			title: 'Video URL',
+			description:
+				'Controls the URL visitors open to watch this EDUcore demo video.',
 			type: 'url',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'linkLabel',
 			title: 'Link label',
+			description:
+				'Controls the visible text for the demo video link, such as Watch on Drive.',
 			type: 'string',
 			initialValue: 'Watch on Drive',
 			validation: (rule) => rule.required()
@@ -1242,23 +1484,31 @@ export const boardMember = defineType({
 		defineField({
 			name: 'role',
 			title: 'Role',
+			description:
+				'Controls the board role or office shown for this person.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'name',
 			title: 'Name',
+			description:
+				'Controls the board member name shown on the EDU board page.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'organization',
 			title: 'Organization',
+			description:
+				'Controls the optional organization shown with this board member.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'email',
 			title: 'Email',
+			description:
+				'Controls the optional email address shown or linked for this board member.',
 			type: 'email'
 		})
 	],
@@ -1278,18 +1528,24 @@ export const timelineEntry = defineType({
 		defineField({
 			name: 'year',
 			title: 'Year',
+			description:
+				'Controls the year or date label shown for this history timeline entry.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'title',
 			title: 'Title',
+			description:
+				'Controls the heading for this history timeline entry.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'text',
 			title: 'Text',
+			description:
+				'Controls the explanatory text shown for this history timeline entry.',
 			type: 'text',
 			rows: 3,
 			validation: (rule) => rule.required()
@@ -1311,24 +1567,32 @@ export const contactField = defineType({
 		defineField({
 			name: 'label',
 			title: 'Label',
+			description:
+				'Controls the visible label for this Contact page form field.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'placeholder',
 			title: 'Placeholder',
+			description:
+				'Controls the hint text shown inside this form field before a visitor types.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'name',
 			title: 'Name',
+			description:
+				'Controls the technical form field name submitted with the message. Keep this stable unless the form handling is updated too.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'type',
 			title: 'Type',
+			description:
+				'Controls the kind of form control visitors see, such as a single-line text field, email field, or larger message textarea.',
 			type: 'string',
 			options: {
 				list: [
@@ -1343,12 +1607,16 @@ export const contactField = defineType({
 		defineField({
 			name: 'required',
 			title: 'Required',
+			description:
+				'When enabled, visitors must fill out this field before submitting the contact form.',
 			type: 'boolean',
 			initialValue: false
 		}),
 		defineField({
 			name: 'full',
 			title: 'Full width',
+			description:
+				'When enabled, this form field spans the full form width instead of sharing a row with another field.',
 			type: 'boolean',
 			initialValue: false
 		})
@@ -1369,28 +1637,38 @@ export const infoCard = defineType({
 		defineField({
 			name: 'eyebrow',
 			title: 'Eyebrow',
+			description:
+				'Controls the small optional label shown above this information card heading.',
 			type: 'string'
 		}),
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the main heading shown on this information card.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'text',
 			title: 'Text',
+			description:
+				'Controls the supporting text shown inside this information card.',
 			type: 'text',
 			rows: 3
 		}),
 		defineField({
 			name: 'email',
 			title: 'Email',
+			description:
+				'Controls the optional email address shown or linked from this information card.',
 			type: 'email'
 		}),
 		defineField({
 			name: 'cta',
 			title: 'CTA',
+			description:
+				'Controls the optional button shown on this information card.',
 			type: 'cta'
 		})
 	],
@@ -1410,12 +1688,16 @@ export const footerColumn = defineType({
 		defineField({
 			name: 'heading',
 			title: 'Heading',
+			description:
+				'Controls the heading shown above this footer link column.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'links',
 			title: 'Links',
+			description:
+				'Adds the links shown under this footer column heading.',
 			type: 'array',
 			of: [{type: 'linkItem'}]
 		})

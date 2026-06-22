@@ -124,6 +124,11 @@ export type ContactPrompt = {
 	email: string;
 };
 
+export type ContactRecipient = {
+	label: string;
+	email: string;
+};
+
 export type DsuProject = {
 	title: string;
 	category?: string;
@@ -457,6 +462,7 @@ export type EduHistoryPage = {
 export type ContactPage = {
 	hero: HeroContent;
 	fields: ContactField[];
+	recipientOptions: ContactRecipient[];
 	directCard: InfoCard;
 	collaborativeCard: InfoCard;
 	ctas: SharedCtaContent[];

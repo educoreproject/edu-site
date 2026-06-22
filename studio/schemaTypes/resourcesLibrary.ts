@@ -8,12 +8,16 @@ export const resourcesLibrary = defineType({
 		defineField({
 			name: 'hero',
 			title: 'Hero',
+			description:
+				'Controls the large introduction at the top of the Resources library page, including the label, headline, optional summary, and hero buttons.',
 			type: 'heroContent',
 			validation: (rule) => rule.required()
 		}),
 		defineField({
 			name: 'categories',
 			title: 'Categories',
+			description:
+				'Controls the Resources library filter labels. These should match the categories used by the library documents below.',
 			type: 'array',
 			of: [
 				{
@@ -32,6 +36,8 @@ export const resourcesLibrary = defineType({
 		defineField({
 			name: 'items',
 			title: 'Items',
+			description:
+				'Adds the downloadable resources shown in the library. Each item includes its title, type, description, category, and uploaded file.',
 			type: 'array',
 			of: [{type: 'resourceDocument'}],
 			validation: (rule) => rule.required().min(1)
@@ -39,6 +45,8 @@ export const resourcesLibrary = defineType({
 		defineField({
 			name: 'ctas',
 			title: 'CTAs',
+			description:
+				'Selects the shared call-to-action bands shown near the bottom of the Resources library page. The order here is the order visitors see.',
 			type: 'array',
 			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
 		})

@@ -13,8 +13,9 @@ import {eventsUpcoming} from './eventsUpcoming'
 import {
 	boardMember,
 	checklist,
-	contactPrompt,
 	contactField,
+	contactPrompt,
+	contactRecipient,
 	cta,
 	dsuProject,
 	educoreDemo,
@@ -69,6 +70,7 @@ export const schemaTypes = [
 	membershipType,
 	processStep,
 	checklist,
+	contactRecipient,
 	contactPrompt,
 	dsuProject,
 	resourceCard,

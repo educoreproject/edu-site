@@ -36,6 +36,7 @@ import type {
 	EventsPastPage,
 	EventsUpcomingPage,
 	ContactPage,
+	ContactRecipient,
 	CedsOverviewPage,
 	HeroContent,
 	InfoCard,
@@ -100,6 +101,15 @@ type RawMembershipType = Omit<MembershipType, 'cta'> & {
 
 type RawInfoCard = Omit<InfoCard, 'cta'> & {
 	cta?: RawCta;
+};
+
+type RawContactPage = Omit<
+	RawPageContent<ContactPage>,
+	'directCard' | 'collaborativeCard' | 'recipientOptions'
+> & {
+	directCard: RawInfoCard;
+	collaborativeCard: RawInfoCard;
+	recipientOptions?: ContactRecipient[];
 };
 
 type RawNavItem = {
@@ -167,6 +177,49 @@ function resolveInfoCard(card: RawInfoCard): InfoCard {
 	return {
 		...card,
 		cta: card.cta ? resolveCta(card.cta) : undefined
+	};
+}
+
+function normalizeContactRecipients(recipients?: ContactRecipient[]): ContactRecipient[] {
+	const seenEmails = new Set<string>();
+
+	return (recipients ?? []).flatMap((recipient) => {
+		const label = recipient.label?.trim();
+		const email = recipient.email?.trim();
+
+		if (!label || !email || seenEmails.has(email)) {
+			return [];
+		}
+
+		seenEmails.add(email);
+
+		return [{ label, email }];
+	});
+}
+
+function recipientFromInfoCard(card: InfoCard): ContactRecipient | null {
+	return card.email ? { label: card.heading, email: card.email } : null;
+}
+
+export function resolveContactPageContent(page: RawContactPage): ContactPage {
+	const directCard = resolveInfoCard(page.directCard);
+	const collaborativeCard = resolveInfoCard(page.collaborativeCard);
+	const explicitRecipients = normalizeContactRecipients(page.recipientOptions);
+	const fallbackRecipients = normalizeContactRecipients(
+		[recipientFromInfoCard(directCard), recipientFromInfoCard(collaborativeCard)].filter(
+			(recipient): recipient is ContactRecipient => Boolean(recipient)
+		)
+	);
+	const resolvedPage = resolvePageContent<ContactPage>({
+		...(page as RawPageContent<ContactPage>),
+		recipientOptions: explicitRecipients
+	});
+
+	return {
+		...resolvedPage,
+		directCard,
+		collaborativeCard,
+		recipientOptions: explicitRecipients.length ? explicitRecipients : fallbackRecipients
 	};
 }
 
@@ -387,18 +440,9 @@ export async function getEduHistoryPage(): Promise<EduHistoryPage> {
 }
 
 export async function getContactPage(): Promise<ContactPage> {
-	const page = await fetchFromSanity<
-		RawPageContent<ContactPage> & {
-			directCard: RawInfoCard;
-			collaborativeCard: RawInfoCard;
-		}
-	>(contactPageQuery, 'contact page');
+	const page = await fetchFromSanity<RawContactPage>(contactPageQuery, 'contact page');
 
-	return {
-		...resolvePageContent<ContactPage>(page),
-		directCard: resolveInfoCard(page.directCard),
-		collaborativeCard: resolveInfoCard(page.collaborativeCard)
-	};
+	return resolveContactPageContent(page);
 }
 
 export async function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {

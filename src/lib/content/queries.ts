@@ -404,6 +404,10 @@ export const contactPageQuery = `*[_id == "eduContact"][0]{
 		required,
 		full
 	}, []),
+	"recipientOptions": coalesce(recipientOptions[]{
+		label,
+		email
+	}, []),
 	directCard${infoCardProjection},
 	collaborativeCard${infoCardProjection},
 	${pageCtasProjection}
