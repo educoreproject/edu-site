@@ -32,3 +32,21 @@ test('search route renders chrome, GET form, typed results, and empty states', (
 	assert.match(source, /download=\{result\.download\}/);
 	assert.match(source, /aria-disabled="true"/);
 });
+
+test('primary nav exposes accessible search buttons and modal form', () => {
+	const source = readFileSync('src/lib/components/site/PrimaryNav.svelte', 'utf8');
+
+	assert.match(source, /import \{ tick \} from 'svelte';/);
+	assert.match(source, /let searchOpen = \$state\(false\);/);
+	assert.match(source, /aria-label="Open search"/);
+	assert.match(source, /class="search-toggle desktop-search"/);
+	assert.match(source, /class="search-toggle mobile-search"/);
+	assert.match(source, /role="dialog"/);
+	assert.match(source, /aria-modal="true"/);
+	assert.match(source, /bind:this=\{searchInput\}/);
+	assert.match(source, /name="keyword"/);
+	assert.match(source, /action="\/search"/);
+	assert.match(source, /method="GET"/);
+	assert.match(source, /placeholder="Search resources and events"/);
+	assert.match(source, /onclick=\{closeSearch\}/);
+});
