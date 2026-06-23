@@ -57,10 +57,10 @@
 
 	<section class="section section-padded" aria-labelledby="faq-heading">
 		<Container>
-			<div class="section-header">
+			<!-- <div class="section-header">
 				<p class="eyebrow">Categories</p>
 				<h2 id="faq-heading">Frequently asked questions</h2>
-			</div>
+			</div> -->
 
 			<div class="content-layout">
 				<CategorySelector

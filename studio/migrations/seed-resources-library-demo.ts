@@ -237,6 +237,7 @@ const demoItems = [
 		_key: 'demo-white-paper-connected-data-standards',
 		_type: 'resourceDocument',
 		category: 'White papers',
+		resourceType: 'DSU',
 		title: 'Demo white paper: Connected data standards',
 		documentType: 'PDF',
 		description:
@@ -247,6 +248,7 @@ const demoItems = [
 		_key: 'demo-report-implementation-readiness',
 		_type: 'resourceDocument',
 		category: 'Reports',
+		resourceType: 'EDUcore',
 		title: 'Demo report: Implementation readiness snapshot',
 		documentType: 'Word doc',
 		description:
@@ -260,6 +262,7 @@ const demoPressItems = [
 		_key: 'demo-press-release-dsu-community-update',
 		_type: 'pressDocument',
 		category: 'Press releases',
+		resourceType: 'DSU',
 		title: 'Demo press release: DSU community update',
 		documentType: 'PDF',
 		description:
@@ -270,6 +273,7 @@ const demoPressItems = [
 		_key: 'demo-charter-data-collaboration',
 		_type: 'pressDocument',
 		category: 'Charters',
+		resourceType: 'EDU',
 		title: 'Demo charter: Data collaboration charter',
 		documentType: 'Word doc',
 		description:

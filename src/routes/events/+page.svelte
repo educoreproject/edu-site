@@ -1,9 +1,11 @@
 <script lang="ts">
+  import CategorySelector from '$lib/components/site/CategorySelector.svelte';
   import Container from "$lib/components/site/Container.svelte";
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
   import PageCtas from "$lib/components/site/PageCtas.svelte";
 	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
+  import { eventMatchesCategory, getEventCategoryOptions } from '$lib/content/event-filters';
   import type { EventsUpcomingPage, SiteChrome } from "$lib/content/types";
   import Button from "$lib/components/site/Button.svelte";
 
@@ -17,6 +19,15 @@
   let { data }: Props = $props();
   let page = $derived(data.page);
   let chrome = $derived(data.chrome);
+  let selectedCategory = $state('');
+  let eventCategoryOptions = $derived(getEventCategoryOptions(page.events));
+  let filteredEvents = $derived(
+    page.events.filter((event) => eventMatchesCategory(event, selectedCategory))
+  );
+
+  function handleCategoryChange(category: string) {
+    selectedCategory = category;
+  }
 </script>
 
 <svelte:head>
@@ -56,42 +67,62 @@
         <h2 id="events-heading">Events</h2>
       </div>
 
-      <div class="event-list">
-        {#each page.events as event}
-          {@const isLinkDisabled = !event.href || event.href === "#"}
-          <article class="event-card" class:has-image={event.image?.url}>
-            {#if event.image?.url}
-              <div class="event-image">
-                <img
-                  src={event.image.url}
-                  alt={event.image.alt ?? ''}
-                  loading="lazy"
-                />
-              </div>
-            {/if}
-
-            <div class="event-content">
-              <p class="event-tag">{event.tag}</p>
-              <p class="event-date">{event.date}</p>
-              <h3>{event.title}</h3>
-              <p class="event-description">{event.description}</p>
-              {#if isLinkDisabled}
-                <span class="card-link disabled" aria-disabled="true"
-                  ><span>Learn more</span><i class="ti ti-external-link" aria-hidden="true"></i></span
-                >
-              {:else}
-                <a class="card-link" href={event.href} target="_blank" rel="noopener noreferrer"><span>Learn more</span><i class="ti ti-external-link" aria-hidden="true"></i></a>
-              {/if}
-            </div>
-          </article>
-        {/each}
-      </div>
-      <div style="margin-top: 2rem;">
-        <Button
-          href={"/events/past"}
-          label={"View past events"}
-          variant={"outline"}
+      <div class="event-content-layout">
+        <CategorySelector
+          categories={eventCategoryOptions}
+          allCategoryLabel="All events"
+          bind:selectedCategory
+          label="Event categories"
+          onSelect={handleCategoryChange}
         />
+
+        <div class="event-results">
+          {#if filteredEvents.length}
+            <div class="event-list">
+              {#each filteredEvents as event}
+                {@const isLinkDisabled = !event.href || event.href === "#"}
+                <article class="event-card" class:has-image={event.image?.url}>
+                  {#if event.image?.url}
+                    <div class="event-image">
+                      <img
+                        src={event.image.url}
+                        alt={event.image.alt ?? ''}
+                        loading="lazy"
+                      />
+                    </div>
+                  {/if}
+
+                  <div class="event-content">
+                    <p class="event-tag">{event.tag}</p>
+                    <p class="event-date">{event.date}</p>
+                    <h3>{event.title}</h3>
+                    <p class="event-description">{event.description}</p>
+                    {#if isLinkDisabled}
+                      <span class="card-link disabled" aria-disabled="true"
+                        ><span>Learn more</span><i class="ti ti-external-link" aria-hidden="true"></i></span
+                      >
+                    {:else}
+                      <a class="card-link" href={event.href} target="_blank" rel="noopener noreferrer"><span>Learn more</span><i class="ti ti-external-link" aria-hidden="true"></i></a>
+                    {/if}
+                  </div>
+                </article>
+              {/each}
+            </div>
+          {:else}
+            <div class="empty-state" role="status">
+              <h3>No events available</h3>
+              <p>There are no upcoming events available{#if selectedCategory} for {selectedCategory}{/if} yet.</p>
+            </div>
+          {/if}
+
+          <div class="past-events-link">
+            <Button
+              href={"/events/past"}
+              label={"View past events"}
+              variant={"outline"}
+            />
+          </div>
+        </div>
       </div>
     </Container>
   </section>
@@ -152,10 +183,23 @@
     line-height: 1.25;
   }
 
+  .event-content-layout {
+    align-items: start;
+    display: grid;
+    gap: 3.5rem;
+    grid-template-columns: minmax(9rem, 11rem) minmax(0, 1fr);
+    margin-top: 2rem;
+  }
+
+  .event-results {
+    display: grid;
+    gap: 2rem;
+    min-width: 0;
+  }
+
   .event-list {
     display: grid;
     gap: 1.25rem;
-    margin-top: 2rem;
   }
 
   .event-card {
@@ -255,9 +299,34 @@
     opacity: 0.72;
     text-decoration: none;
   }
+
+  .past-events-link {
+    margin-top: 0;
+  }
+
+  .empty-state {
+    border: 1px solid var(--ec-border-soft);
+    border-left: 4px solid var(--ec-teal-dark);
+    border-radius: 8px;
+    display: grid;
+    gap: 0.875rem;
+    min-width: 0;
+    padding: 1.25rem;
+  }
+
+  .empty-state h3,
+  .empty-state p {
+    margin: 0;
+  }
+
   @media (max-width: 760px) {
-    .event-list {
+    .event-content-layout {
+      grid-template-columns: 1fr;
       margin-top: 1.5rem;
+    }
+
+    .event-list {
+      gap: 1rem;
     }
 
     .event-card.has-image {

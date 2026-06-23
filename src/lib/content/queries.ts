@@ -120,6 +120,7 @@ const eventItemProjection = `{
 		null
 	),
 	tag,
+	category,
 	date,
 	title,
 	description,
@@ -266,6 +267,13 @@ export const resourcesHubQuery = `*[_id == "resourcesHub"][0]{
 	eyebrow,
 	heading,
 	"cards": coalesce(cards[]${resourceCardProjection}, []),
+	"counts": {
+		"libraryDocuments": count(coalesce(*[_id == "resourcesLibrary"][0].items, [])),
+		"pressDocuments": count(coalesce(*[_id == "resourcesPress"][0].items, [])),
+		"newsletterItems": count(coalesce(*[_id == "resourcesNewsletter"][0].items, [])),
+		"glossaryTerms": count(coalesce(*[_id == "resourcesGlossary"][0].terms, [])),
+		"faqQuestions": count(coalesce(*[_id == "resourcesFaq"][0].items, []))
+	},
 	${pageCtasProjection}
 }`;
 
@@ -274,6 +282,7 @@ export const resourcesLibraryQuery = `*[_id == "resourcesLibrary"][0]{
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		category,
+		resourceType,
 		title,
 		documentType,
 		description,
@@ -292,6 +301,7 @@ export const resourcesPressQuery = `*[_id == "resourcesPress"][0]{
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		category,
+		resourceType,
 		title,
 		documentType,
 		description,

@@ -52,21 +52,10 @@
 
 	<section class="section section-padded" aria-labelledby="glossary-heading">
 		<Container>
-			<div class="section-header">
+			<!-- <div class="section-header">
 				<p class="eyebrow">Categories</p>
 				<h2 id="glossary-heading">All glossary terms</h2>
-			</div>
-
-			{#if page.artifact?.url}
-				<a
-					class="artifact-link"
-					href={page.artifact.url}
-					download={page.artifact.filename ?? true}
-				>
-					<i class="ti ti-download" aria-hidden="true"></i>
-					<span>{page.artifact.label}</span>
-				</a>
-			{/if}
+			</div> -->
 
 			<div class="content-layout">
 				<CategorySelector
@@ -96,6 +85,18 @@
 					/>
 				</div>
 			</div>
+			{#if page.artifact?.url}
+				<div class="link-wrapper">
+					<a
+					class="artifact-link"
+					href={page.artifact.url}
+					download={page.artifact.filename ?? true}
+				>
+					<i class="ti ti-download" aria-hidden="true"></i>
+					<span>{page.artifact.label}</span>
+				</a>
+				</div>
+			{/if}
 		</Container>
 	</section>
 
@@ -110,22 +111,39 @@
 		font-family: var(--ec-font-sans);
 	}
 
-	.artifact-link {
-		align-items: center;
-		color: var(--ec-link);
-		display: inline-flex;
-		font-family: var(--ec-font-sans);
-		font-size: 0.9375rem;
-		font-weight: 700;
-		gap: 0.5rem;
-		line-height: 1.35;
-		margin-top: 1.25rem;
-		text-decoration-thickness: 0.125rem;
-		text-underline-offset: 0.1875rem;
+	.link-wrapper {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 4rem;
 	}
 
+	.artifact-link {
+	  align-self: flex-start;
+    color: var(--ec-link);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    text-decoration: none;
+	}
+
+	  .artifact-link > i {
+    font-size: 1.125rem;
+  }
+
+  .artifact-link > span {
+    text-decoration: underline;
+    text-decoration-thickness: 0.125rem;
+    text-underline-offset: 0.1875rem;
+  }
+
+
 	.artifact-link:hover {
-		color: var(--ec-navy);
+		 color: var(--ec-navy);
 	}
 
 	.artifact-link i {

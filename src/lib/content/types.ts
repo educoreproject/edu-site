@@ -1,4 +1,5 @@
 import type { RoutePageKey, SiteSectionKey } from './route-metadata';
+import type { ResourceType } from './document-filters';
 
 export type LinkDestinationKind = 'internalPage' | 'externalUrl' | 'download' | 'anchor';
 
@@ -145,6 +146,7 @@ export type ResourceCard = {
 
 export type ResourceDocumentItem = {
 	category: 'White papers' | 'Reports';
+	resourceType?: ResourceType;
 	title: string;
 	documentType: string;
 	description?: string;
@@ -158,6 +160,7 @@ export type ResourceDocumentItem = {
 
 export type PressDocumentItem = {
 	category: 'Press releases' | 'Charters';
+	resourceType?: ResourceType;
 	title: string;
 	documentType: string;
 	description?: string;
@@ -210,6 +213,7 @@ export type SharedCtaContent = GenericSharedCtaContent | NewsletterBandContent;
 export type EventItem = {
 	image?: ImageAsset;
 	tag: string;
+	category?: ResourceType;
 	date: string;
 	title: string;
 	description: string;

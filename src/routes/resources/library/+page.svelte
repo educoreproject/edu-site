@@ -6,6 +6,12 @@
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import Pagination from '$lib/components/site/Pagination.svelte';
 	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
+	import {
+		RESOURCE_TYPE_OPTIONS,
+		documentMatchesFilters,
+		getDocumentFormatOptions,
+		getDocumentResourceType
+	} from '$lib/content/document-filters';
 	import type { ResourcesLibraryPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -19,20 +25,64 @@
 	let page = $derived(data.page);
 	let chrome = $derived(data.chrome);
 	let selectedCategory = $state('');
+	let selectedResourceType = $state('');
+	let selectedFormat = $state('');
 	let currentPage = $state(1);
 	let itemsPerPage = $state(25);
+	let formatOptions = $derived(getDocumentFormatOptions(page.items));
+	let activeFilterLabel = $derived(
+		[selectedCategory, selectedResourceType, selectedFormat].filter(Boolean).join(', ')
+	);
+	let filterGroups = $derived([
+		{
+			id: 'categories',
+			title: 'Categories',
+			options: page.categories,
+			selectedValue: selectedCategory,
+			allOptionLabel: 'All items',
+			onSelect: (value: string) => {
+				selectedCategory = value;
+				handleFilterChange();
+			}
+		},
+		{
+			id: 'type',
+			title: 'Type',
+			options: RESOURCE_TYPE_OPTIONS,
+			selectedValue: selectedResourceType,
+			allOptionLabel: 'All types',
+			onSelect: (value: string) => {
+				selectedResourceType = value;
+				handleFilterChange();
+			}
+		},
+		{
+			id: 'format',
+			title: 'Format',
+			options: formatOptions,
+			selectedValue: selectedFormat,
+			allOptionLabel: 'All formats',
+			onSelect: (value: string) => {
+				selectedFormat = value;
+				handleFilterChange();
+			}
+		}
+	]);
 	let filteredItems = $derived(
-		selectedCategory
-			? page.items.filter((item) => item.category === selectedCategory)
-			: page.items
+		page.items.filter((item) =>
+			documentMatchesFilters(item, {
+				category: selectedCategory,
+				resourceType: selectedResourceType,
+				format: selectedFormat
+			})
+		)
 	);
 	let firstItemIndex = $derived((currentPage - 1) * itemsPerPage);
 	let paginatedItems = $derived(
 		filteredItems.slice(firstItemIndex, firstItemIndex + itemsPerPage)
 	);
 
-	function handleCategoryChange(category: string) {
-		void category;
+	function handleFilterChange() {
 		currentPage = 1;
 	}
 </script>
@@ -52,18 +102,17 @@
 
 	<section class="section section-padded" aria-labelledby="library-heading">
 		<Container>
-			<div class="section-header">
-				<p class="eyebrow">Categories</p>
+			<!-- <div class="section-header">
+				<p class="eyebrow">Filters</p>
 				<h2 id="library-heading">White papers and reports</h2>
-			</div>
+			</div> -->
 
 			<div class="content-layout">
 				<CategorySelector
 					categories={page.categories}
-					label="Resource categories"
-					allCategoryLabel="All items"
-					bind:selectedCategory
-					onSelect={handleCategoryChange}
+					groups={filterGroups}
+					title="Filters"
+					label="Resource filters"
 				/>
 
 				<div class="document-list">
@@ -72,7 +121,9 @@
 							<article class="document-row">
 								<div class="document-heading">
 									<div>
-										<p class="item-category">{item.category}</p>
+										<p class="item-category">
+											{getDocumentResourceType(item)} / {item.category}
+										</p>
 										<h3>{item.title}</h3>
 									</div>
 									<span class="document-type">{item.documentType}</span>
@@ -104,7 +155,9 @@
 					{:else}
 						<div class="empty-state" role="status">
 							<h3>No documents available</h3>
-							<p>There are no resources available for {selectedCategory} yet.</p>
+							<p>
+								There are no resources available{#if activeFilterLabel} for {activeFilterLabel}{/if} yet.
+							</p>
 						</div>
 					{/if}
 				</div>

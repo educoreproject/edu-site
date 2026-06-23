@@ -883,6 +883,23 @@ export const resourceDocument = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
+			name: 'resourceType',
+			title: 'Type',
+			description:
+				'Controls whether this Resources library item appears under DSU, EDU, or EDUcore filters.',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'DSU', value: 'DSU'},
+					{title: 'EDU', value: 'EDU'},
+					{title: 'EDUcore', value: 'EDUcore'}
+				],
+				layout: 'radio'
+			},
+			initialValue: 'DSU',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
 			name: 'title',
 			title: 'Title',
 			description:
@@ -892,9 +909,9 @@ export const resourceDocument = defineType({
 		}),
 		defineField({
 			name: 'documentType',
-			title: 'Type',
+			title: 'Format',
 			description:
-				'Controls the document type label shown with this Resources library item, such as PDF or Word doc.',
+				'Controls the document format label shown with this Resources library item, such as PDF or Word doc.',
 			type: 'string',
 			options: {
 				list: [
@@ -956,6 +973,23 @@ export const pressDocument = defineType({
 			validation: (rule) => rule.required()
 		}),
 		defineField({
+			name: 'resourceType',
+			title: 'Type',
+			description:
+				'Controls whether this press or charter item appears under DSU, EDU, or EDUcore filters.',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'DSU', value: 'DSU'},
+					{title: 'EDU', value: 'EDU'},
+					{title: 'EDUcore', value: 'EDUcore'}
+				],
+				layout: 'radio'
+			},
+			initialValue: 'DSU',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
 			name: 'title',
 			title: 'Title',
 			description:
@@ -965,9 +999,9 @@ export const pressDocument = defineType({
 		}),
 		defineField({
 			name: 'documentType',
-			title: 'Type',
+			title: 'Format',
 			description:
-				'Controls the document type label shown with this press or charter item, such as PDF or Word doc.',
+				'Controls the document format label shown with this press or charter item, such as PDF or Word doc.',
 			type: 'string',
 			options: {
 				list: [
@@ -1016,8 +1050,7 @@ export const newsletterDocument = defineType({
 		defineField({
 			name: 'category',
 			title: 'Category',
-			description:
-				'Controls the month/year archive filter for this newsletter, such as January 2026.',
+			description: 'Month and year label, such as January 2026.',
 			type: 'string',
 			validation: (rule) => rule.required()
 		}),
@@ -1104,6 +1137,23 @@ export const eventItem = defineType({
 			description:
 				'Controls the small category or status label shown on this event card.',
 			type: 'string',
+			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'category',
+			title: 'Category',
+			description:
+				'Controls whether this event appears under DSU, EDU, or EDUcore filters.',
+			type: 'string',
+			options: {
+				list: [
+					{title: 'DSU', value: 'DSU'},
+					{title: 'EDU', value: 'EDU'},
+					{title: 'EDUcore', value: 'EDUcore'}
+				],
+				layout: 'radio'
+			},
+			initialValue: 'DSU',
 			validation: (rule) => rule.required()
 		}),
 		defineField({

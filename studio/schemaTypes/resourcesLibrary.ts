@@ -37,7 +37,7 @@ export const resourcesLibrary = defineType({
 			name: 'items',
 			title: 'Items',
 			description:
-				'Adds the downloadable resources shown in the library. Each item includes its title, type, description, category, and uploaded file.',
+				'Adds the downloadable resources shown in the library. Each item includes its category, DSU/EDU/EDUcore type, format, title, description, and uploaded file.',
 			type: 'array',
 			of: [{type: 'resourceDocument'}],
 			validation: (rule) => rule.required().min(1)

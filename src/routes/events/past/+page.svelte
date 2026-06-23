@@ -1,9 +1,11 @@
 <script lang="ts">
+	import CategorySelector from '$lib/components/site/CategorySelector.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
+	import { eventMatchesCategory, getEventCategoryOptions } from '$lib/content/event-filters';
 	import type { EventsPastPage, SiteChrome } from '$lib/content/types';
 
 	type Props = {
@@ -16,8 +18,23 @@
 	let { data }: Props = $props();
 	let page = $derived(data.page);
 	let chrome = $derived(data.chrome);
+	let selectedCategory = $state('');
+	let allEvents = $derived(page.archive.flatMap((group) => group.events));
+	let eventCategoryOptions = $derived(getEventCategoryOptions(allEvents));
+	let filteredArchive = $derived(
+		page.archive
+			.map((group) => ({
+				...group,
+				events: group.events.filter((event) => eventMatchesCategory(event, selectedCategory))
+			}))
+			.filter((group) => group.events.length)
+	);
 
 	const countLabel = (count: number) => `${count} ${count === 1 ? 'event' : 'events'}`;
+
+	function handleCategoryChange(category: string) {
+		selectedCategory = category;
+	}
 </script>
 
 <svelte:head>
@@ -40,41 +57,60 @@
 				<h2 id="archive-heading">Past events</h2>
 			</div>
 
-			<div class="archive-list">
-				{#each page.archive as group}
-					<section class="archive-group" aria-labelledby="archive-{group.year}">
-						<div class="archive-heading">
-							<h3 id="archive-{group.year}">{group.year}</h3>
-							<span aria-hidden="true"></span>
-							<p>{countLabel(group.events.length)}</p>
-						</div>
+			<div class="event-content-layout">
+				<CategorySelector
+					categories={eventCategoryOptions}
+					allCategoryLabel="All events"
+					bind:selectedCategory
+					label="Event categories"
+					onSelect={handleCategoryChange}
+				/>
 
-						<div class="event-list">
-							{#each group.events as event}
-								{@const isLinkDisabled = !event.href || event.href === '#'}
-								<article class="event-card" class:has-image={event.image?.url}>
-									{#if event.image?.url}
-										<div class="event-image">
-											<img src={event.image.url} alt={event.image.alt ?? ''} loading="lazy" />
-										</div>
-									{/if}
-
-									<div class="event-content">
-										<p class="event-tag">{event.tag}</p>
-										<p class="event-date">{event.date}</p>
-										<h4>{event.title}</h4>
-										<p class="event-description">{event.description}</p>
-										{#if isLinkDisabled}
-											<span class="card-link disabled" aria-disabled="true">Learn more</span>
-										{:else}
-											<a class="card-link" href={event.href}>Learn more</a>
-										{/if}
+				<div class="event-results">
+					{#if filteredArchive.length}
+						<div class="archive-list">
+							{#each filteredArchive as group}
+								<section class="archive-group" aria-labelledby="archive-{group.year}">
+									<div class="archive-heading">
+										<h3 id="archive-{group.year}">{group.year}</h3>
+										<span aria-hidden="true"></span>
+										<p>{countLabel(group.events.length)}</p>
 									</div>
-								</article>
+
+									<div class="event-list">
+										{#each group.events as event}
+											{@const isLinkDisabled = !event.href || event.href === '#'}
+											<article class="event-card" class:has-image={event.image?.url}>
+												{#if event.image?.url}
+													<div class="event-image">
+														<img src={event.image.url} alt={event.image.alt ?? ''} loading="lazy" />
+													</div>
+												{/if}
+
+												<div class="event-content">
+													<p class="event-tag">{event.tag}</p>
+													<p class="event-date">{event.date}</p>
+													<h4>{event.title}</h4>
+													<p class="event-description">{event.description}</p>
+													{#if isLinkDisabled}
+														<span class="card-link disabled" aria-disabled="true">Learn more</span>
+													{:else}
+														<a class="card-link" href={event.href}>Learn more</a>
+													{/if}
+												</div>
+											</article>
+										{/each}
+									</div>
+								</section>
 							{/each}
 						</div>
-					</section>
-				{/each}
+					{:else}
+						<div class="empty-state" role="status">
+							<h3>No past events available</h3>
+							<p>There are no past events available{#if selectedCategory} for {selectedCategory}{/if} yet.</p>
+						</div>
+					{/if}
+				</div>
 			</div>
 		</Container>
 	</section>
@@ -120,10 +156,23 @@
 		text-wrap: pretty;
 	}
 
+	.event-content-layout {
+		align-items: start;
+		display: grid;
+		gap: 3.5rem;
+		grid-template-columns: minmax(9rem, 11rem) minmax(0, 1fr);
+		margin-top: 2rem;
+	}
+
+	.event-results {
+		display: grid;
+		gap: 2rem;
+		min-width: 0;
+	}
+
 	.archive-list {
 		display: grid;
 		gap: 2.5rem;
-		margin-top: 2rem;
 	}
 
 	.archive-heading {
@@ -230,9 +279,29 @@
 		text-decoration: none;
 	}
 
+	.empty-state {
+		border: 1px solid var(--ec-border-soft);
+		border-left: 4px solid var(--ec-teal-dark);
+		border-radius: 8px;
+		display: grid;
+		gap: 0.875rem;
+		min-width: 0;
+		padding: 1.25rem;
+	}
+
+	.empty-state h3,
+	.empty-state p {
+		margin: 0;
+	}
+
 	@media (max-width: 760px) {
-		.archive-list {
+		.event-content-layout {
+			grid-template-columns: 1fr;
 			margin-top: 1.5rem;
+		}
+
+		.archive-list {
+			gap: 1.75rem;
 		}
 
 		.archive-heading {

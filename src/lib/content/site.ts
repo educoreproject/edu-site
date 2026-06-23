@@ -91,6 +91,20 @@ type RawResourceCard = Omit<ResourceCard, 'cta'> & {
 	cta: RawCta;
 };
 
+type ResourceHubCounts = {
+	libraryDocuments: number;
+	pressDocuments: number;
+	newsletterItems: number;
+	glossaryTerms: number;
+	faqQuestions: number;
+};
+
+type ResourceHubCountLabel = {
+	countKey: keyof ResourceHubCounts;
+	singular: string;
+	plural: string;
+};
+
 type RawSharedCtaContent = Omit<SharedCtaContent, 'cta'> & {
 	cta: RawCta;
 };
@@ -157,6 +171,75 @@ function resolveResourceCard(card: RawResourceCard): ResourceCard {
 		...card,
 		cta: resolveCta(card.cta)
 	};
+}
+
+const resourceHubCountLabelsByPath: Record<string, ResourceHubCountLabel> = {
+	'/resources/library': {
+		countKey: 'libraryDocuments',
+		singular: 'document',
+		plural: 'documents'
+	},
+	'/resources/press': {
+		countKey: 'pressDocuments',
+		singular: 'document',
+		plural: 'documents'
+	},
+	'/resources/newsletter': {
+		countKey: 'newsletterItems',
+		singular: 'newsletter',
+		plural: 'newsletters'
+	},
+	'/resources/glossary': {
+		countKey: 'glossaryTerms',
+		singular: 'term',
+		plural: 'terms'
+	},
+	'/resources/faq': {
+		countKey: 'faqQuestions',
+		singular: 'question',
+		plural: 'questions'
+	}
+};
+
+function normalizeResourceHubCardPath(href?: string): string | undefined {
+	if (!href || href.includes('://') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+		return undefined;
+	}
+
+	const [withoutHash] = href.split('#');
+	const [path] = withoutHash.split('?');
+	const normalizedPath = path.replace(/\/+$/, '');
+
+	return normalizedPath || '/';
+}
+
+function formatResourceHubCount(
+	count: number | undefined,
+	singular: string,
+	plural: string
+): string {
+	const safeCount = Number.isFinite(count) && count && count > 0 ? Math.floor(count) : 0;
+
+	return `${safeCount} ${safeCount === 1 ? singular : plural}`;
+}
+
+export function resolveResourcesHubCardStats(
+	cards: ResourceCard[],
+	counts: Partial<ResourceHubCounts>
+): ResourceCard[] {
+	return cards.map((card) => {
+		const path = normalizeResourceHubCardPath(card.cta.href);
+		const label = path ? resourceHubCountLabelsByPath[path] : undefined;
+
+		if (!label) {
+			return card;
+		}
+
+		return {
+			...card,
+			meta: formatResourceHubCount(counts[label.countKey], label.singular, label.plural)
+		};
+	});
 }
 
 function resolveSharedCta(cta: RawSharedCtaContent): SharedCtaContent {
@@ -340,12 +423,13 @@ export async function getCedsOverviewPage(): Promise<CedsOverviewPage> {
 
 export async function getResourcesHubPage(): Promise<ResourcesHubPage> {
 	const page = await fetchFromSanity<
-		RawPageContent<ResourcesHubPage> & { cards: RawResourceCard[] }
+		RawPageContent<ResourcesHubPage> & { cards: RawResourceCard[]; counts: ResourceHubCounts }
 	>(resourcesHubQuery, 'Resources hub page');
+	const cards = page.cards.map(resolveResourceCard);
 
 	return {
 		...resolvePageContent<ResourcesHubPage>(page),
-		cards: page.cards.map(resolveResourceCard)
+		cards: resolveResourcesHubCardStats(cards, page.counts)
 	};
 }
 

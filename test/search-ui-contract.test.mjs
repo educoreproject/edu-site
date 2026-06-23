@@ -20,13 +20,24 @@ test('search route renders chrome, GET form, typed results, and empty states', (
 
 	assert.match(source, /import PrimaryNav from '\$lib\/components\/site\/PrimaryNav\.svelte';/);
 	assert.match(source, /import PageFooter from '\$lib\/components\/site\/PageFooter\.svelte';/);
+	assert.match(source, /import \{ filterSearchResultsByType, getSearchResultTypeOptions \} from '\$lib\/content\/search';/);
 	assert.match(source, /<PrimaryNav \{chrome\} \/>/);
 	assert.match(source, /<form[\s\S]*?method="GET"[\s\S]*?action="\/search"/);
 	assert.match(source, /name="keyword"/);
-	assert.match(source, /Displaying \{results\.length\}/);
+	assert.match(source, /let selectedResultType = \$state\(''\);/);
+	assert.match(source, /let resultTypeOptions = \$derived\(getSearchResultTypeOptions\(results\)\);/);
+	assert.match(source, /let filteredResults = \$derived\(filterSearchResultsByType\(results, selectedResultType\)\);/);
+	assert.match(source, /Displaying \{filteredResults\.length\}/);
+	assert.match(source, /of \{results\.length\}/);
+	assert.match(source, /aria-label="Filter by result type"/);
+	assert.match(source, /Result type/);
+	assert.match(source, /All results/);
+	assert.match(source, /aria-pressed=\{!selectedResultType\}/);
+	assert.match(source, /aria-pressed=\{selectedResultType === type\}/);
 	assert.match(source, /No search yet/);
 	assert.match(source, /No results found/);
 	assert.match(source, /\{result\.type\}/);
+	assert.match(source, /\{#each filteredResults as result \(result\.id\)\}/);
 	assert.match(source, /\{#if result\.href && !result\.disabled\}/);
 	assert.match(source, /href=\{result\.href\}/);
 	assert.match(source, /download=\{result\.download\}/);

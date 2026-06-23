@@ -19,8 +19,11 @@ test('resources library schema registers downloadable white papers and reports',
 	assert.match(objectsSource, /name:\s*'resourceDocument'/);
 	assert.match(objectsSource, /name:\s*'category'[\s\S]*?\{title:\s*'White paper',\s*value:\s*'White papers'\}/);
 	assert.match(objectsSource, /name:\s*'category'[\s\S]*?\{title:\s*'Report',\s*value:\s*'Reports'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?title:\s*'Type'[\s\S]*?\{title:\s*'DSU',\s*value:\s*'DSU'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?\{title:\s*'EDU',\s*value:\s*'EDU'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?\{title:\s*'EDUcore',\s*value:\s*'EDUcore'\}/);
 	assert.match(objectsSource, /name:\s*'title'[\s\S]*?validation:\s*\(rule\) => rule\.required\(\)/);
-	assert.match(objectsSource, /name:\s*'documentType'[\s\S]*?\{title:\s*'PDF',\s*value:\s*'PDF'\}/);
+	assert.match(objectsSource, /name:\s*'documentType'[\s\S]*?title:\s*'Format'[\s\S]*?\{title:\s*'PDF',\s*value:\s*'PDF'\}/);
 	assert.match(objectsSource, /name:\s*'documentType'[\s\S]*?\{title:\s*'Word doc',\s*value:\s*'Word doc'\}/);
 	assert.match(objectsSource, /name:\s*'description'[\s\S]*?type:\s*'text'/);
 	assert.match(objectsSource, /name:\s*'document'[\s\S]*?type:\s*'file'/);
@@ -47,7 +50,10 @@ test('resources press schema registers downloadable press releases and charters'
 	assert.match(objectsSource, /name:\s*'pressDocument'/);
 	assert.match(objectsSource, /name:\s*'category'[\s\S]*?\{title:\s*'Press release',\s*value:\s*'Press releases'\}/);
 	assert.match(objectsSource, /name:\s*'category'[\s\S]*?\{title:\s*'Charter',\s*value:\s*'Charters'\}/);
-	assert.match(objectsSource, /name:\s*'documentType'[\s\S]*?\{title:\s*'PDF',\s*value:\s*'PDF'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?title:\s*'Type'[\s\S]*?\{title:\s*'DSU',\s*value:\s*'DSU'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?\{title:\s*'EDU',\s*value:\s*'EDU'\}/);
+	assert.match(objectsSource, /name:\s*'resourceType'[\s\S]*?\{title:\s*'EDUcore',\s*value:\s*'EDUcore'\}/);
+	assert.match(objectsSource, /name:\s*'documentType'[\s\S]*?title:\s*'Format'[\s\S]*?\{title:\s*'PDF',\s*value:\s*'PDF'\}/);
 	assert.match(objectsSource, /name:\s*'document'[\s\S]*?type:\s*'file'/);
 
 	assert.match(indexSource, /pressDocument/);
@@ -86,11 +92,12 @@ test('resources library content contract projects downloadable file metadata', (
 
 	assert.match(querySource, /export const resourcesLibraryQuery = `\*\[_id == "resourcesLibrary"\]\[0\]\{/);
 	assert.match(querySource, /"categories":\s*coalesce\(categories,\s*\[\]\)/);
-	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
+	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?resourceType[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
 	assert.match(querySource, /"document":\s*\{[\s\S]*?"url":\s*document\.asset->url[\s\S]*?"filename":\s*document\.asset->originalFilename[\s\S]*?"mimeType":\s*document\.asset->mimeType[\s\S]*?"size":\s*document\.asset->size/);
 
 	assert.match(typesSource, /export type ResourceDocumentItem = \{/);
 	assert.match(typesSource, /category:\s*'White papers' \| 'Reports'/);
+	assert.match(typesSource, /resourceType\?:\s*ResourceType/);
 	assert.match(typesSource, /documentType:\s*string/);
 	assert.match(typesSource, /description\?:\s*string/);
 	assert.match(typesSource, /document:\s*\{[\s\S]*?url:\s*string;[\s\S]*?filename\?:\s*string;[\s\S]*?mimeType\?:\s*string;[\s\S]*?size\?:\s*number;/);
@@ -112,11 +119,12 @@ test('resources press content contract projects downloadable file metadata', () 
 
 	assert.match(querySource, /export const resourcesPressQuery = `\*\[_id == "resourcesPress"\]\[0\]\{/);
 	assert.match(querySource, /"categories":\s*coalesce\(categories,\s*\[\]\)/);
-	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
+	assert.match(querySource, /"items":\s*coalesce\(items\[\]\{[\s\S]*?category[\s\S]*?resourceType[\s\S]*?title[\s\S]*?documentType[\s\S]*?description/);
 	assert.match(querySource, /"document":\s*\{[\s\S]*?"url":\s*document\.asset->url[\s\S]*?"filename":\s*document\.asset->originalFilename[\s\S]*?"mimeType":\s*document\.asset->mimeType[\s\S]*?"size":\s*document\.asset->size/);
 
 	assert.match(typesSource, /export type PressDocumentItem = \{/);
 	assert.match(typesSource, /category:\s*'Press releases' \| 'Charters'/);
+	assert.match(typesSource, /resourceType\?:\s*ResourceType/);
 	assert.match(typesSource, /export type ResourcesPressPage = \{/);
 	assert.doesNotMatch(typesSource, /slug:\s*'resources-press'/);
 	assert.doesNotMatch(typesSource, /activeSection:\s*'Resources'/);
@@ -175,22 +183,30 @@ test('resources library route mirrors FAQ and glossary category layout', () => {
 	assert.match(source, /import SectionChrome from '\$lib\/components\/site\/SectionChrome\.svelte';/);
 	assert.match(source, /type \{ ResourcesLibraryPage, SiteChrome \}/);
 	assert.match(source, /let selectedCategory = \$state\(''\);/);
+	assert.match(source, /let selectedResourceType = \$state\(''\);/);
+	assert.match(source, /let selectedFormat = \$state\(''\);/);
 	assert.match(source, /let currentPage = \$state\(1\);/);
 	assert.match(source, /let itemsPerPage = \$state\(25\);/);
-	assert.match(source, /let filteredItems = \$derived\([\s\S]*?selectedCategory[\s\S]*?page\.items\.filter\(\(item\) => item\.category === selectedCategory\)[\s\S]*?: page\.items/);
+	assert.match(source, /let formatOptions = \$derived\(getDocumentFormatOptions\(page\.items\)\);/);
+	assert.match(source, /let filterGroups = \$derived\(\[/);
+	assert.match(source, /title:\s*'Categories'[\s\S]*?options:\s*page\.categories/);
+	assert.match(source, /title:\s*'Type'[\s\S]*?options:\s*RESOURCE_TYPE_OPTIONS/);
+	assert.match(source, /title:\s*'Format'[\s\S]*?options:\s*formatOptions/);
+	assert.match(source, /documentMatchesFilters\(item,\s*\{[\s\S]*?category:\s*selectedCategory[\s\S]*?resourceType:\s*selectedResourceType[\s\S]*?format:\s*selectedFormat/);
 	assert.match(source, /filteredItems\.slice\(firstItemIndex, firstItemIndex \+ itemsPerPage\)/);
-	assert.match(source, /function handleCategoryChange\(category: string\)/);
+	assert.match(source, /function handleFilterChange\(\)/);
 	assert.match(source, /currentPage = 1;/);
 	assert.match(source, /<SectionChrome \{chrome\} routeKey="resourcesLibrary" \/>/);
 	assert.doesNotMatch(source, /<PrimaryNav|<SubNav/);
-	assert.match(source, /<CategorySelector[\s\S]*?categories=\{page\.categories\}[\s\S]*?label="Resource categories"[\s\S]*?allCategoryLabel="All items"[\s\S]*?bind:selectedCategory[\s\S]*?onSelect=\{handleCategoryChange\}/);
+	assert.match(source, /<CategorySelector[\s\S]*?groups=\{filterGroups\}[\s\S]*?label="Resource filters"/);
 	assert.match(source, /\{#if filteredItems\.length\}/);
 	assert.match(source, /\{#each paginatedItems as item\}/);
 	assert.match(source, /href=\{item\.document\.url\}/);
 	assert.match(source, /download=\{item\.document\.filename \?\? true\}/);
 	assert.match(source, /\{item\.documentType\}/);
 	assert.match(source, /No documents available/);
-	assert.match(source, /There are no resources available for \{selectedCategory\} yet\./);
+	assert.match(source, /let activeFilterLabel = \$derived\(/);
+	assert.match(source, /There are no resources available\{#if activeFilterLabel\} for \{activeFilterLabel\}\{\/if\} yet\./);
 	assert.match(source, /<Pagination[\s\S]*?totalItems=\{filteredItems\.length\}[\s\S]*?bind:currentPage[\s\S]*?bind:itemsPerPage/);
 });
 
@@ -210,12 +226,18 @@ test('resources press route mirrors library document layout', () => {
 
 	assert.match(source, /type \{ ResourcesPressPage, SiteChrome \}/);
 	assert.match(source, /let selectedCategory = \$state\(''\);/);
+	assert.match(source, /let selectedResourceType = \$state\(''\);/);
+	assert.match(source, /let selectedFormat = \$state\(''\);/);
 	assert.match(source, /let currentPage = \$state\(1\);/);
 	assert.match(source, /let itemsPerPage = \$state\(25\);/);
-	assert.match(source, /page\.items\.filter\(\(item\) => item\.category === selectedCategory\)/);
+	assert.match(source, /let formatOptions = \$derived\(getDocumentFormatOptions\(page\.items\)\);/);
+	assert.match(source, /title:\s*'Categories'[\s\S]*?options:\s*page\.categories/);
+	assert.match(source, /title:\s*'Type'[\s\S]*?options:\s*RESOURCE_TYPE_OPTIONS/);
+	assert.match(source, /title:\s*'Format'[\s\S]*?options:\s*formatOptions/);
+	assert.match(source, /documentMatchesFilters\(item,\s*\{[\s\S]*?category:\s*selectedCategory[\s\S]*?resourceType:\s*selectedResourceType[\s\S]*?format:\s*selectedFormat/);
 	assert.match(source, /<SectionChrome \{chrome\} routeKey="resourcesPress" \/>/);
 	assert.doesNotMatch(source, /<PrimaryNav|<SubNav/);
-	assert.match(source, /allCategoryLabel="All items"/);
+	assert.match(source, /<CategorySelector[\s\S]*?groups=\{filterGroups\}[\s\S]*?label="Press and charter filters"/);
 	assert.match(source, /href=\{item\.document\.url\}/);
 	assert.match(source, /download=\{item\.document\.filename \?\? true\}/);
 	assert.match(source, /\{item\.documentType\}/);

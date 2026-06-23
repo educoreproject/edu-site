@@ -38,6 +38,16 @@ export type IndexedSearchResult = Omit<SearchResult, 'score'> & {
 	fields: SearchField[];
 };
 
+const SEARCH_RESULT_TYPE_ORDER = [
+	'Library resource',
+	'Press & charter',
+	'Newsletter',
+	'Glossary',
+	'FAQ',
+	'Event',
+	'Past event'
+];
+
 export type SearchContentSources = {
 	library: Pick<ResourcesLibraryPage, 'items'>;
 	press: Pick<ResourcesPressPage, 'items'>;
@@ -247,6 +257,20 @@ export function searchContent(index: IndexedSearchResult[], keyword: string): Se
 		.filter((result) => result.score > 0)
 		.sort((a, b) => b.score - a.score || a.title.localeCompare(b.title))
 		.map(({ fields, ...result }) => result);
+}
+
+export function getSearchResultTypeOptions(results: SearchResult[]) {
+	const resultTypes = new Set(results.map((result) => result.type));
+	const knownTypes = SEARCH_RESULT_TYPE_ORDER.filter((type) => resultTypes.has(type));
+	const customTypes = [...resultTypes]
+		.filter((type) => !SEARCH_RESULT_TYPE_ORDER.includes(type))
+		.sort((first, second) => first.localeCompare(second));
+
+	return [...knownTypes, ...customTypes];
+}
+
+export function filterSearchResultsByType(results: SearchResult[], selectedType: string) {
+	return selectedType ? results.filter((result) => result.type === selectedType) : results;
 }
 
 export async function getSearchResults(keyword: string, fetchers?: SearchFetchers) {

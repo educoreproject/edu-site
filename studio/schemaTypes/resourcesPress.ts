@@ -37,7 +37,7 @@ export const resourcesPress = defineType({
 			name: 'items',
 			title: 'Items',
 			description:
-				'Adds the downloadable press releases and charters shown on the page. Each item includes its category, title, type, description, and uploaded file.',
+				'Adds the downloadable press releases and charters shown on the page. Each item includes its category, DSU/EDU/EDUcore type, format, title, description, and uploaded file.',
 			type: 'array',
 			of: [{type: 'pressDocument'}],
 			validation: (rule) => rule.required().min(1)

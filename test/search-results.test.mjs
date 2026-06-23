@@ -1,9 +1,14 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-const { createSearchIndex, searchContent, normalizeKeyword, getSearchResults } = await import(
-	'../src/lib/content/search.ts'
-);
+const {
+	createSearchIndex,
+	filterSearchResultsByType,
+	getSearchResultTypeOptions,
+	searchContent,
+	normalizeKeyword,
+	getSearchResults
+} = await import('../src/lib/content/search.ts');
 
 function fixtureContent() {
 	return {
@@ -175,6 +180,29 @@ test('searchContent ranks title matches before lower-strength metadata matches',
 
 test('searchContent returns no results for an empty keyword', () => {
 	assert.deepEqual(searchContent(createSearchIndex(fixtureContent()), '   '), []);
+});
+
+test('getSearchResultTypeOptions derives available result types in stable type order', () => {
+	const results = searchContent(createSearchIndex(fixtureContent()), 'data');
+
+	assert.deepEqual(getSearchResultTypeOptions(results), [
+		'Library resource',
+		'Glossary',
+		'FAQ',
+		'Event',
+		'Past event'
+	]);
+});
+
+test('filterSearchResultsByType narrows results by selected type', () => {
+	const results = searchContent(createSearchIndex(fixtureContent()), 'data');
+
+	assert.deepEqual(
+		filterSearchResultsByType(results, 'Event').map((result) => result.title),
+		['Data Quality Webinar']
+	);
+	assert.deepEqual(filterSearchResultsByType(results, ''), results);
+	assert.deepEqual(filterSearchResultsByType(results, 'Missing type'), []);
 });
 
 test('getSearchResults delegates to supplied content fetchers', async () => {
