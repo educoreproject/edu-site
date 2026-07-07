@@ -89,8 +89,8 @@ export const routePages: Record<RoutePageKey, RoutePageMeta> = {
 		key: 'eduHome',
 		sectionKey: 'edu',
 		label: 'Overview',
-		path: '/',
-		parentPath: '/',
+		path: '/edu',
+		parentPath: '/edu',
 		isSectionHome: true
 	},
 	eduBoard: {
@@ -98,14 +98,14 @@ export const routePages: Record<RoutePageKey, RoutePageMeta> = {
 		sectionKey: 'edu',
 		label: 'Board',
 		path: '/edu/board',
-		parentPath: '/'
+		parentPath: '/edu'
 	},
 	eduHistory: {
 		key: 'eduHistory',
 		sectionKey: 'edu',
 		label: 'History',
 		path: '/edu/history',
-		parentPath: '/'
+		parentPath: '/edu'
 	},
 	dsuHome: {
 		key: 'dsuHome',

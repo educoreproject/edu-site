@@ -1,5 +1,7 @@
-import { redirect } from '@sveltejs/kit';
+import { getEduOverviewPage, getSiteChrome } from '$lib/content/site';
 
-export function load() {
-	throw redirect(308, '/');
+export async function load() {
+	const [page, chrome] = await Promise.all([getEduOverviewPage(), getSiteChrome()]);
+
+	return { page, chrome, routeKey: 'eduHome' as const };
 }
