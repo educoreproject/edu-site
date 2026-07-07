@@ -1,7 +1,5 @@
-import { getDsuHomePage, getSiteChrome } from '$lib/content/site';
+import { redirect } from '@sveltejs/kit';
 
-export async function load() {
-	const [page, chrome] = await Promise.all([getDsuHomePage(), getSiteChrome()]);
-
-	return { page, chrome, routeKey: 'dsuHome' as const };
+export function load() {
+	throw redirect(308, '/');
 }

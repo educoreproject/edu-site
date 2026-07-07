@@ -1,15 +1,15 @@
 <script lang="ts">
-	import EduOverviewPage from '$lib/components/pages/EduOverviewPage.svelte';
+	import DsuOverviewPage from '$lib/components/pages/DsuOverviewPage.svelte';
 
 	type Props = {
 		data: {
-			page: import('$lib/content/types').EduOverviewPage;
+			page: import('$lib/content/types').DsuHomePage;
 			chrome: import('$lib/content/types').SiteChrome;
-			routeKey: 'eduHome';
+			routeKey: 'dsuHome';
 		};
 	};
 
 	let { data }: Props = $props();
 </script>
 
-<EduOverviewPage page={data.page} chrome={data.chrome} />
+<DsuOverviewPage page={data.page} chrome={data.chrome} />
