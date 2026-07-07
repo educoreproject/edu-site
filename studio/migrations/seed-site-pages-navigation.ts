@@ -124,29 +124,13 @@ function navItem(key: string, label: string, href: string, disabled = false): Na
 
 const sitePages: SitePageDocument[] = [
 	{
-		_id: 'sitePageEdu',
-		_type: 'sitePage',
-		title: 'EDU navigation',
-		sectionKey: 'edu',
-		routePageKey: 'eduHome',
-		navLabel: 'EDU',
-		sortOrder: 10,
-		disabled: false,
-		hidden: false,
-		navigationItems: [
-			navItem('overview', 'Overview', '/'),
-			navItem('board', 'Board', '/edu/board'),
-			navItem('history', 'History', '/edu/history')
-		]
-	},
-	{
 		_id: 'sitePageDsu',
 		_type: 'sitePage',
 		title: 'DSU navigation',
 		sectionKey: 'dsu',
 		routePageKey: 'dsuHome',
 		navLabel: 'DSU',
-		sortOrder: 20,
+		sortOrder: 10,
 		disabled: false,
 		hidden: false,
 		navigationItems: [
@@ -154,6 +138,22 @@ const sitePages: SitePageDocument[] = [
 			navItem('members', 'Members', '/dsu/members'),
 			navItem('joining-dsu', 'Joining DSU', '/dsu/joining'),
 			navItem('projects', 'Projects', '/dsu/projects')
+		]
+	},
+	{
+		_id: 'sitePageEdu',
+		_type: 'sitePage',
+		title: 'EDU navigation',
+		sectionKey: 'edu',
+		routePageKey: 'eduHome',
+		navLabel: 'EDU',
+		sortOrder: 20,
+		disabled: false,
+		hidden: false,
+		navigationItems: [
+			navItem('overview', 'Overview', '/'),
+			navItem('board', 'Board', '/edu/board'),
+			navItem('history', 'History', '/edu/history')
 		]
 	},
 	{
