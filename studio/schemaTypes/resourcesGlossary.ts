@@ -69,8 +69,9 @@ export const resourcesGlossary = defineType({
 		})
 	],
 	preview: {
-		prepare: () => ({
-			title: 'Resources glossary'
+		select: {title: 'hero.title'},
+		prepare: ({title}) => ({
+			title: title || 'Resources glossary'
 		})
 	}
 })

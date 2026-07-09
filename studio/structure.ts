@@ -3,6 +3,7 @@ import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 type ContentPage = {
 	id: string
 	title: string
+	schemaType?: string
 }
 
 type SitePageSection = {
@@ -28,7 +29,12 @@ const sections: SitePageSection[] = [
 			{id: 'dsuHome', title: 'Home'},
 			{id: 'dsuMembers', title: 'Members'},
 			{id: 'dsuJoin', title: 'Joining DSU'},
-			{id: 'dsuProjects', title: 'Projects'}
+			{id: 'dsuProjects', title: 'Projects'},
+			{
+				id: '5dcb5add-6399-4b81-ae19-179fd9ae7129',
+				title: 'Standards',
+				schemaType: 'resourcesGlossary'
+			}
 		]
 	},
 	{
@@ -82,7 +88,7 @@ function singleton(S: StructureBuilder, title: string, schemaType: string, docum
 }
 
 function contentItem(S: StructureBuilder, page: ContentPage) {
-	return singleton(S, page.title, page.id, page.id)
+	return singleton(S, page.title, page.schemaType ?? page.id, page.id)
 }
 
 export const structure: StructureResolver = (S) =>
