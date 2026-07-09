@@ -6,6 +6,7 @@ import {
 	dsuJoinQuery,
 	dsuMembersQuery,
 	dsuProjectsQuery,
+	dsuStandardsQuery,
 	eduBoardQuery,
 	eduHistoryQuery,
 	eduOverviewQuery,
@@ -464,6 +465,15 @@ export async function getResourcesGlossaryPage(): Promise<ResourcesGlossaryPage>
 	const page = await fetchFromSanity<RawPageContent<ResourcesGlossaryPage>>(
 		resourcesGlossaryQuery,
 		'Resources glossary page'
+	);
+
+	return resolvePageContent<ResourcesGlossaryPage>(page);
+}
+
+export async function getDsuStandardsPage(): Promise<ResourcesGlossaryPage> {
+	const page = await fetchFromSanity<RawPageContent<ResourcesGlossaryPage>>(
+		dsuStandardsQuery,
+		'DSU standards page'
 	);
 
 	return resolvePageContent<ResourcesGlossaryPage>(page);

@@ -345,6 +345,18 @@ export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 	${pageCtasProjection}
 }`;
 
+export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb5add-6399-4b81-ae19-179fd9ae7129"][0]{
+	hero${heroProjection},
+	"categories": coalesce(categories, []),
+	"terms": coalesce(terms[]{
+		term,
+		definition,
+		category
+	}, []),
+	artifact${fileArtifactProjection},
+	${pageCtasProjection}
+}`;
+
 export const resourcesFaqQuery = `*[_id == "resourcesFaq"][0]{
 	hero${heroProjection},
 	"categories": coalesce(categories, []),

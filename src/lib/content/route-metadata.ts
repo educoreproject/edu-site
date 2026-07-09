@@ -15,6 +15,7 @@ export type RoutePageKey =
 	| 'dsuMembers'
 	| 'dsuJoin'
 	| 'dsuProjects'
+	| 'dsuStandards'
 	| 'cedsOverview'
 	| 'educoreOverview'
 	| 'resourcesHub'
@@ -61,6 +62,7 @@ export const routePageKeys = [
 	'dsuMembers',
 	'dsuJoin',
 	'dsuProjects',
+	'dsuStandards',
 	'cedsOverview',
 	'educoreOverview',
 	'resourcesHub',
@@ -134,6 +136,13 @@ export const routePages: Record<RoutePageKey, RoutePageMeta> = {
 		sectionKey: 'dsu',
 		label: 'Projects',
 		path: '/dsu/projects',
+		parentPath: '/dsu'
+	},
+	dsuStandards: {
+		key: 'dsuStandards',
+		sectionKey: 'dsu',
+		label: 'Standards',
+		path: '/dsu/standards',
 		parentPath: '/dsu'
 	},
 	cedsOverview: {
