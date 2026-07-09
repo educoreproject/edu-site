@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount, tick } from 'svelte';
 	import CategorySelector from '$lib/components/site/CategorySelector.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
@@ -6,7 +7,8 @@
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import Pagination from '$lib/components/site/Pagination.svelte';
 	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
-	import type { ResourcesGlossaryPage, SiteChrome } from '$lib/content/types';
+	import type { ResourcesGlossaryPage, SiteChrome, GlossaryTerm } from '$lib/content/types';
+	import { slugify } from '$lib/utils/slugify';
 
 	type Props = {
 		data: {
@@ -35,6 +37,42 @@
 		void category;
 		currentPage = 1;
 	}
+
+	let highlightedAnchor = $state('');
+
+	function anchorFor(item: GlossaryTerm) {
+		return item.anchor?.trim() || slugify(item.term);
+	}
+
+	async function goToAnchor(hash: string) {
+		const anchorId = decodeURIComponent(hash.replace(/^#/, ''));
+		if (!anchorId) return;
+
+		const term = page.terms.find((item) => anchorFor(item) === anchorId);
+		if (!term) return;
+
+		selectedCategory = term.category;
+		await tick();
+
+		const index = filteredTerms.findIndex((item) => anchorFor(item) === anchorId);
+		if (index === -1) return;
+
+		currentPage = Math.floor(index / itemsPerPage) + 1;
+		await tick();
+
+		document.getElementById(anchorId)?.scrollIntoView({ block: 'start' });
+		highlightedAnchor = anchorId;
+	}
+
+	onMount(() => {
+		if (window.location.hash) {
+			void goToAnchor(window.location.hash);
+		}
+
+		const handleHashChange = () => void goToAnchor(window.location.hash);
+		window.addEventListener('hashchange', handleHashChange);
+		return () => window.removeEventListener('hashchange', handleHashChange);
+	});
 </script>
 
 <svelte:head>
@@ -63,7 +101,11 @@
 
 				<div class="term-list">
 					{#each paginatedTerms as item}
-						<article class="term-row">
+						<article
+							class="term-row"
+							class:highlighted={anchorFor(item) === highlightedAnchor}
+							id={anchorFor(item)}
+						>
 							<div class="term-heading">
 								<h3>{item.term}</h3>
 								<span>{item.category}</span>
@@ -175,6 +217,12 @@
 		gap: 0.75rem;
 		min-width: 0;
 		padding: 1.25rem;
+		scroll-margin-top: 1.5rem;
+	}
+
+	.term-row:target,
+	.term-row.highlighted {
+		box-shadow: 0 0 0 2px var(--ec-gold);
 	}
 
 	.term-heading {
