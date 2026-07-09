@@ -8,6 +8,7 @@ export const routePageOptions = [
 	{title: 'DSU members', value: 'dsuMembers', section: 'dsu', path: '/dsu/members'},
 	{title: 'Joining DSU', value: 'dsuJoin', section: 'dsu', path: '/dsu/joining'},
 	{title: 'DSU projects', value: 'dsuProjects', section: 'dsu', path: '/dsu/projects'},
+	{title: 'DSU standards', value: 'dsuStandards', section: 'dsu', path: '/dsu/standards'},
 	{title: 'CEDS overview', value: 'cedsOverview', section: 'ceds', path: '/ceds'},
 	{title: 'EDUcore overview', value: 'educoreOverview', section: 'educore', path: '/educore'},
 	{title: 'Resources hub', value: 'resourcesHub', section: 'resources', path: '/resources'},
