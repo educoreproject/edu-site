@@ -1262,6 +1262,13 @@ export const glossaryTerm = defineType({
 				'Controls which glossary filter this term appears under. Match one of the category labels on the Glossary page.',
 			type: 'string',
 			validation: (rule) => rule.required()
+		}),
+		defineField({
+			name: 'anchor',
+			title: 'Link anchor',
+			description:
+				'Optional. Lets visitors link directly to this entry, e.g. entering "CASE" makes the entry reachable at .../glossary#CASE. Leave blank to generate one automatically from the term.',
+			type: 'string'
 		})
 	],
 	preview: {

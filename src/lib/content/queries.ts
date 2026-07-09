@@ -339,7 +339,8 @@ export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 	"terms": coalesce(terms[]{
 		term,
 		definition,
-		category
+		category,
+		anchor
 	}, []),
 	artifact${fileArtifactProjection},
 	${pageCtasProjection}
@@ -351,7 +352,8 @@ export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb
 	"terms": coalesce(terms[]{
 		term,
 		definition,
-		category
+		category,
+		anchor
 	}, []),
 	artifact${fileArtifactProjection},
 	${pageCtasProjection}

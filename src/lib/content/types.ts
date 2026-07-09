@@ -229,6 +229,7 @@ export type GlossaryTerm = {
 	term: string;
 	definition: string;
 	category: string;
+	anchor?: string;
 };
 
 export type GlossaryArtifact = {
