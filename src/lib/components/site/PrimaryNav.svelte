@@ -344,20 +344,20 @@
   }
 
   .logo {
-    align-items: center;
+    align-items: stretch;
+    align-self: stretch;
     background: transparent;
     display: flex;
     flex: 0 0 auto;
     justify-content: flex-start;
-    min-height: 2rem;
   }
 
   .logo img {
     background: var(--ec-white);
     border: 1px solid rgba(255, 255, 255, 0.2);
     filter: none;
-    height: 1.5rem;
-    padding: 0.5rem 0.875rem;
+    height: 100%;
+    padding: 0.625rem 1rem;
     width: auto;
   }
 
@@ -761,10 +761,6 @@
 
     .logo {
       width: auto;
-    }
-
-    .logo img {
-      height: 1.75rem;
     }
 
     .links {
