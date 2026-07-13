@@ -58,6 +58,8 @@ export type RichTextSpan = {
 export type RichTextBlock = {
 	_type: 'block';
 	style?: 'normal';
+	listItem?: 'bullet';
+	level?: number;
 	children?: RichTextSpan[];
 };
 
@@ -227,7 +229,7 @@ export type EventArchiveGroup = {
 
 export type GlossaryTerm = {
 	term: string;
-	definition: string;
+	definition: RichTextBlock[];
 	category: string;
 	anchor?: string;
 };
