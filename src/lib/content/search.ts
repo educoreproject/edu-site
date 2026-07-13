@@ -135,18 +135,26 @@ function documentResult(
 	};
 }
 
+function plainTextFromBlocks(blocks: GlossaryTerm['definition']): string {
+	return (blocks ?? [])
+		.map((block) => (block.children ?? []).map((span) => span.text).join(''))
+		.join(' ');
+}
+
 function glossaryResult(term: GlossaryTerm, index: number): IndexedSearchResult {
+	const definition = plainTextFromBlocks(term.definition);
+
 	return {
 		id: `glossary-${index}-${term.term}`,
 		type: 'Glossary',
 		title: term.term,
-		description: term.definition,
+		description: definition,
 		href: '/resources/glossary',
 		linkLabel: 'View glossary',
 		metadata: [term.category].filter(Boolean),
 		fields: [
 			{ value: term.term, weight: 24 },
-			{ value: term.definition, weight: 8 },
+			{ value: definition, weight: 8 },
 			{ value: term.category, weight: 5 }
 		]
 	};

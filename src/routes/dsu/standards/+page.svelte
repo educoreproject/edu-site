@@ -6,6 +6,7 @@
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
 	import Pagination from '$lib/components/site/Pagination.svelte';
+	import RichText from '$lib/components/site/RichText.svelte';
 	import SectionChrome from '$lib/components/site/SectionChrome.svelte';
 	import type { ResourcesGlossaryPage, SiteChrome, GlossaryTerm } from '$lib/content/types';
 	import { slugify } from '$lib/utils/slugify';
@@ -110,7 +111,7 @@
 								<h3>{item.term}</h3>
 								<span>{item.category}</span>
 							</div>
-							<p>{item.definition}</p>
+							<RichText blocks={item.definition} />
 						</article>
 					{/each}
 

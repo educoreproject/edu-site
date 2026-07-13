@@ -1250,10 +1250,23 @@ export const glossaryTerm = defineType({
 			name: 'definition',
 			title: 'Definition',
 			description:
-				'Controls the definition text shown for this glossary term.',
-			type: 'text',
-			rows: 3,
-			validation: (rule) => rule.required()
+				'Controls the definition shown for this glossary term. Use bulleted lists for multi-part definitions (e.g. a standard with several modules).',
+			type: 'array',
+			of: [
+				{
+					type: 'block',
+					styles: [{title: 'Normal', value: 'normal'}],
+					lists: [{title: 'Bulleted list', value: 'bullet'}],
+					marks: {
+						decorators: [
+							{title: 'Bold', value: 'strong'},
+							{title: 'Italic', value: 'em'}
+						],
+						annotations: []
+					}
+				}
+			],
+			validation: (rule) => rule.required().min(1)
 		}),
 		defineField({
 			name: 'category',
