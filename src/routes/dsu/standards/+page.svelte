@@ -101,6 +101,16 @@
 				/>
 
 				<div class="term-list">
+					{#if selectedCategory}
+						{@const intro = page.categoryIntros?.find((i) => i.category === selectedCategory)}
+						{#if intro}
+							<div class="category-intro">
+								{#if intro.heading}<h2>{intro.heading}</h2>{/if}
+								{#if intro.body}<RichText blocks={intro.body} />{/if}
+							</div>
+						{/if}
+					{/if}
+
 					{#each paginatedTerms as item}
 						<article
 							class="term-row"
@@ -208,6 +218,17 @@
 		display: grid;
 		gap: 1rem;
 		min-width: 0;
+	}
+
+	.category-intro {
+		border-bottom: 1px solid var(--ec-border-soft);
+		padding-bottom: 1.5rem;
+	}
+
+	.category-intro h2 {
+		color: var(--ec-navy);
+		font-size: 1.25rem;
+		margin: 0 0 0.75rem;
 	}
 
 	.term-row {

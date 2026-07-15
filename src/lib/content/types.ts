@@ -234,6 +234,12 @@ export type GlossaryTerm = {
 	anchor?: string;
 };
 
+export type CategoryIntro = {
+	category: string;
+	heading?: string;
+	body?: RichTextBlock[];
+};
+
 export type GlossaryArtifact = {
 	label: string;
 	url?: string;
@@ -419,6 +425,7 @@ export type ResourcesGlossaryPage = {
 	hero: HeroContent;
 	categories: string[];
 	terms: GlossaryTerm[];
+	categoryIntros?: CategoryIntro[];
 	artifact?: GlossaryArtifact;
 	ctas: SharedCtaContent[];
 };
