@@ -355,6 +355,11 @@ export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb
 		category,
 		anchor
 	}, []),
+	"categoryIntros": coalesce(categoryIntros[]{
+		category,
+		heading,
+		body
+	}, []),
 	artifact${fileArtifactProjection},
 	${pageCtasProjection}
 }`;

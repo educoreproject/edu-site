@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const resourcesGlossary = defineType({
 	name: 'resourcesGlossary',
@@ -30,6 +30,49 @@ export const resourcesGlossary = defineType({
 			type: 'array',
 			of: [{type: 'glossaryTerm'}],
 			validation: (rule) => rule.required().min(1)
+		}),
+		defineField({
+			name: 'categoryIntros',
+			title: 'Category intros',
+			description:
+				'Optional explanatory text shown at the top of the page when a single category filter is selected. Not shown under "All terms" and never sorted alongside the terms.',
+			type: 'array',
+			of: [
+				defineArrayMember({
+					type: 'object',
+					name: 'categoryIntro',
+					fields: [
+						defineField({
+							name: 'category',
+							title: 'Category',
+							type: 'string',
+							description: 'Must exactly match one of the names in the Categories field.',
+							validation: (rule) => rule.required()
+						}),
+						defineField({name: 'heading', title: 'Heading', type: 'string'}),
+						defineField({
+							name: 'body',
+							title: 'Body',
+							type: 'array',
+							of: [
+								{
+									type: 'block',
+									styles: [{title: 'Normal', value: 'normal'}],
+									lists: [{title: 'Bulleted list', value: 'bullet'}],
+									marks: {
+										decorators: [
+											{title: 'Bold', value: 'strong'},
+											{title: 'Italic', value: 'em'}
+										],
+										annotations: []
+									}
+								}
+							]
+						})
+					],
+					preview: {select: {title: 'category', subtitle: 'heading'}}
+				})
+			]
 		}),
 		defineField({
 			name: 'artifact',
