@@ -174,6 +174,10 @@
 		gap: 0.625rem;
 		position: sticky;
 		top: 7.5rem;
+		max-height: calc(100vh - 8.75rem); /* 7.5rem sticky offset + ~1.25rem breathing room */
+		overflow-y: auto;
+		padding-right: 0.5rem;
+		scrollbar-gutter: stable;
 	}
 
 	.category-list button {
