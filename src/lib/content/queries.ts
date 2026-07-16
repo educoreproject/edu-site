@@ -413,6 +413,17 @@ export const eduBoardQuery = `*[_id == "eduBoard"][0]{
 	${pageCtasProjection}
 }`;
 
+export const dsuBoardQuery = `*[_id == "dsuBoard"][0]{
+	hero${heroProjection},
+	"members": coalesce(members[]{
+		role,
+		name,
+		organization,
+		email
+	}, []),
+	${pageCtasProjection}
+}`;
+
 export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 	hero${heroProjection},
 	"entries": coalesce(entries[]{

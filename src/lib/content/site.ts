@@ -7,6 +7,7 @@ import {
 	dsuMembersQuery,
 	dsuProjectsQuery,
 	dsuStandardsQuery,
+	dsuBoardQuery,
 	eduBoardQuery,
 	eduHistoryQuery,
 	eduOverviewQuery,
@@ -30,6 +31,7 @@ import type {
 	DsuJoinPage,
 	DsuMembersPage,
 	DsuProjectsPage,
+	DsuBoardPage,
 	EduBoardPage,
 	EduHistoryPage,
 	EduOverviewPage,
@@ -522,6 +524,15 @@ export async function getEduBoardPage(): Promise<EduBoardPage> {
 	);
 
 	return resolvePageContent<EduBoardPage>(page);
+}
+
+export async function getDsuBoardPage(): Promise<DsuBoardPage> {
+	const page = await fetchFromSanity<RawPageContent<DsuBoardPage>>(
+		dsuBoardQuery,
+		'DSU board page'
+	);
+
+	return resolvePageContent<DsuBoardPage>(page);
 }
 
 export async function getEduHistoryPage(): Promise<EduHistoryPage> {

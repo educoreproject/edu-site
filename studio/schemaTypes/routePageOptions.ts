@@ -5,6 +5,7 @@ export const routePageOptions = [
 	{title: 'EDU board', value: 'eduBoard', section: 'edu', path: '/edu/board'},
 	{title: 'EDU history', value: 'eduHistory', section: 'edu', path: '/edu/history'},
 	{title: 'DSU overview', value: 'dsuHome', section: 'dsu', path: '/dsu'},
+	{title: 'DSU board', value: 'dsuBoard', section: 'dsu', path: '/dsu/board'},
 	{title: 'DSU members', value: 'dsuMembers', section: 'dsu', path: '/dsu/members'},
 	{title: 'Joining DSU', value: 'dsuJoin', section: 'dsu', path: '/dsu/joining'},
 	{title: 'DSU projects', value: 'dsuProjects', section: 'dsu', path: '/dsu/projects'},
