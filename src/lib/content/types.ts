@@ -473,6 +473,20 @@ export type EduHistoryPage = {
 	ctas: SharedCtaContent[];
 };
 
+export type Milestone = {
+	_key: string;
+	group: string;
+	displayDate?: string;
+	sortOrder?: number;
+	heading: string;
+	body?: RichTextBlock[];
+};
+
+export type TimelinePage = {
+	hero: HeroContent;
+	milestones: Milestone[];
+};
+
 export type ContactPage = {
 	hero: HeroContent;
 	fields: ContactField[];

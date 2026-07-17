@@ -18,6 +18,7 @@ export type RoutePageKey =
 	| 'dsuStandards'
 	| 'cedsOverview'
 	| 'educoreOverview'
+	| 'educoreMilestones'
 	| 'resourcesHub'
 	| 'resourcesLibrary'
 	| 'resourcesNewsletter'
@@ -65,6 +66,7 @@ export const routePageKeys = [
 	'dsuStandards',
 	'cedsOverview',
 	'educoreOverview',
+	'educoreMilestones',
 	'resourcesHub',
 	'resourcesLibrary',
 	'resourcesNewsletter',
@@ -160,6 +162,13 @@ export const routePages: Record<RoutePageKey, RoutePageMeta> = {
 		path: '/educore',
 		parentPath: '/educore',
 		isSectionHome: true
+	},
+	educoreMilestones: {
+		key: 'educoreMilestones',
+		sectionKey: 'educore',
+		label: 'Milestones',
+		path: '/educore/milestones',
+		parentPath: '/educore'
 	},
 	resourcesHub: {
 		key: 'resourcesHub',

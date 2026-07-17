@@ -19,7 +19,8 @@ import {
 	resourcesHubQuery,
 	resourcesLibraryQuery,
 	resourcesNewsletterQuery,
-	resourcesPressQuery
+	resourcesPressQuery,
+	timelineQuery
 } from './queries';
 import { resolveDestination } from './destinations';
 import { getRoutePage, getSiteSection } from './route-metadata';
@@ -52,6 +53,7 @@ import type {
 	SharedCtaContent,
 	SiteChrome,
 	SiteNavSection,
+	TimelinePage,
 	LinkDestination,
 	LinkItem
 } from './types';
@@ -522,6 +524,18 @@ export async function getEduBoardPage(): Promise<EduBoardPage> {
 	);
 
 	return resolvePageContent<EduBoardPage>(page);
+}
+
+export async function getTimelinePage(): Promise<TimelinePage> {
+	const page = await fetchFromSanity<Omit<TimelinePage, 'hero'> & { hero: RawHeroContent }>(
+		timelineQuery,
+		'milestones page'
+	);
+
+	return {
+		...page,
+		hero: resolveHero(page.hero)
+	};
 }
 
 export async function getEduHistoryPage(): Promise<EduHistoryPage> {
