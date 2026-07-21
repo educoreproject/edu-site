@@ -12,6 +12,7 @@ export type RoutePageKey =
 	| 'eduBoard'
 	| 'eduHistory'
 	| 'dsuHome'
+	| 'dsuBoard'
 	| 'dsuMembers'
 	| 'dsuJoin'
 	| 'dsuProjects'
@@ -60,6 +61,7 @@ export const routePageKeys = [
 	'eduBoard',
 	'eduHistory',
 	'dsuHome',
+	'dsuBoard',
 	'dsuMembers',
 	'dsuJoin',
 	'dsuProjects',
@@ -118,6 +120,13 @@ export const routePages: Record<RoutePageKey, RoutePageMeta> = {
 		path: '/dsu',
 		parentPath: '/dsu',
 		isSectionHome: true
+	},
+	dsuBoard: {
+		key: 'dsuBoard',
+		sectionKey: 'dsu',
+		label: 'Board',
+		path: '/dsu/board',
+		parentPath: '/dsu'
 	},
 	dsuMembers: {
 		key: 'dsuMembers',

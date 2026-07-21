@@ -3,6 +3,7 @@ import {dsuHome} from './dsuHome'
 import {dsuJoin} from './dsuJoin'
 import {dsuMembers} from './dsuMembers'
 import {dsuProjects} from './dsuProjects'
+import {dsuBoard} from './dsuBoard'
 import {eduBoard} from './eduBoard'
 import {eduContact} from './eduContact'
 import {eduHistory} from './eduHistory'
@@ -96,6 +97,7 @@ export const schemaTypes = [
 	dsuMembers,
 	dsuJoin,
 	dsuProjects,
+	dsuBoard,
 	resourcesHub,
 	resourcesLibrary,
 	resourcesPress,
