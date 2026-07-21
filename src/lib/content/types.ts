@@ -467,6 +467,12 @@ export type EduBoardPage = {
 	ctas: SharedCtaContent[];
 };
 
+export type DsuBoardPage = {
+	hero: HeroContent;
+	members: BoardMember[];
+	ctas: SharedCtaContent[];
+};
+
 export type EduHistoryPage = {
 	hero: HeroContent;
 	entries: TimelineEntry[];

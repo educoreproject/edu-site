@@ -27,6 +27,7 @@ const sections: SitePageSection[] = [
 		sitePage: {id: 'sitePageDsu', title: 'DSU navigation'},
 		items: [
 			{id: 'dsuHome', title: 'Home'},
+			{id: 'dsuBoard', title: 'Board'},
 			{id: 'dsuMembers', title: 'Members'},
 			{id: 'dsuJoin', title: 'Joining DSU'},
 			{id: 'dsuProjects', title: 'Projects'},
