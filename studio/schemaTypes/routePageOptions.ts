@@ -12,6 +12,7 @@ export const routePageOptions = [
 	{title: 'DSU standards', value: 'dsuStandards', section: 'dsu', path: '/dsu/standards'},
 	{title: 'CEDS overview', value: 'cedsOverview', section: 'ceds', path: '/ceds'},
 	{title: 'EDUcore overview', value: 'educoreOverview', section: 'educore', path: '/educore'},
+	{title: 'Milestones', value: 'educoreMilestones', section: 'educore', path: '/educore/milestones'},
 	{title: 'Resources hub', value: 'resourcesHub', section: 'resources', path: '/resources'},
 	{title: 'Resources library', value: 'resourcesLibrary', section: 'resources', path: '/resources/library'},
 	{title: 'Newsletter', value: 'resourcesNewsletter', section: 'resources', path: '/resources/newsletter'},

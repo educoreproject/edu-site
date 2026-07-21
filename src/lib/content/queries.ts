@@ -434,6 +434,28 @@ export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 	${pageCtasProjection}
 }`;
 
+export const timelineQuery = `*[_id == "timeline"][0]{
+	hero${heroProjection},
+	"milestones": coalesce(milestones[]{
+		_key,
+		group,
+		displayDate,
+		sortOrder,
+		heading,
+		"body": coalesce(body[]{
+			_type,
+			style,
+			listItem,
+			level,
+			children[]{
+				_type,
+				text,
+				marks
+			}
+		}, [])
+	}, [])
+}`;
+
 export const contactPageQuery = `*[_id == "eduContact"][0]{
 	hero${heroProjection},
 	"fields": coalesce(fields[]{

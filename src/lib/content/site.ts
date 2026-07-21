@@ -20,7 +20,8 @@ import {
 	resourcesHubQuery,
 	resourcesLibraryQuery,
 	resourcesNewsletterQuery,
-	resourcesPressQuery
+	resourcesPressQuery,
+	timelineQuery
 } from './queries';
 import { resolveDestination } from './destinations';
 import { getRoutePage, getSiteSection } from './route-metadata';
@@ -54,6 +55,7 @@ import type {
 	SharedCtaContent,
 	SiteChrome,
 	SiteNavSection,
+	TimelinePage,
 	LinkDestination,
 	LinkItem
 } from './types';

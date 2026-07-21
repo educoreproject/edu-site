@@ -46,7 +46,10 @@ const sections: SitePageSection[] = [
 	{
 		title: 'EDUcore',
 		sitePage: {id: 'sitePageEducore', title: 'EDUcore navigation'},
-		items: [{id: 'educoreOverview', title: 'Overview'}]
+		items: [
+			{id: 'educoreOverview', title: 'Overview'},
+			{id: 'timeline', title: 'Milestones'}
+		]
 	},
 	{
 		title: 'Resources',
