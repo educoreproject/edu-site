@@ -537,6 +537,18 @@ export async function getDsuBoardPage(): Promise<DsuBoardPage> {
 	return resolvePageContent<DsuBoardPage>(page);
 }
 
+export async function getTimelinePage(): Promise<TimelinePage> {
+	const page = await fetchFromSanity<Omit<TimelinePage, 'hero'> & { hero: RawHeroContent }>(
+		timelineQuery,
+		'milestones page'
+	);
+
+	return {
+		...page,
+		hero: resolveHero(page.hero)
+	};
+}
+
 export async function getEduHistoryPage(): Promise<EduHistoryPage> {
 	const page = await fetchFromSanity<RawPageContent<EduHistoryPage>>(
 		eduHistoryQuery,
