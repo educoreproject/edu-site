@@ -53,7 +53,6 @@ import type {
 	ResourcesNewsletterPage,
 	ResourcesPressPage,
 	SharedCtaContent,
-	Milestone,
 	SiteChrome,
 	SiteNavSection,
 	TimelinePage,
@@ -572,16 +571,4 @@ export async function getEducoreOverviewPage(): Promise<EducoreOverviewPage> {
 	);
 
 	return resolvePageContent<EducoreOverviewPage>(page);
-}
-
-export async function getTimelinePage(): Promise<TimelinePage> {
-	const page = await fetchFromSanity<{ hero: RawHeroContent; milestones: Milestone[] }>(
-		timelineQuery,
-		'EDUcore milestones timeline'
-	);
-
-	return {
-		hero: resolveHero(page.hero),
-		milestones: page.milestones
-	};
 }
