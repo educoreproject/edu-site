@@ -3,7 +3,7 @@
   import { isExternalLink } from "$lib/content/links";
   import { getRoutePage } from "$lib/content/route-metadata";
   import type { RoutePageKey, SiteSectionKey } from "$lib/content/route-metadata";
-  import type { FooterColumn, LinkItem, SiteChrome } from "$lib/content/types";
+  import type { FooterColumn, ImageAsset, LinkItem, SiteChrome } from "$lib/content/types";
   import Container from "./Container.svelte";
 
   type NavSection = LinkItem & {
@@ -21,6 +21,7 @@
     activeSectionKey?: SiteSectionKey;
     activePageKey?: RoutePageKey;
     logoHref?: string;
+    logoImage?: ImageAsset;
   };
 
   const uid = $props.id();
@@ -33,7 +34,11 @@
     activeSectionKey,
     activePageKey,
     logoHref = "/",
+    logoImage,
   }: Props = $props();
+
+  const LOGO_FALLBACK_SRC = "/assets/educore-logo.png";
+  const LOGO_FALLBACK_ALT = "Education Data Unlimited";
 
   let menuOpen = $state(false);
   let searchOpen = $state(false);
@@ -101,7 +106,7 @@
 <nav aria-label="Primary navigation">
   <Container flex={true} width="wide">
     <a class="logo" href={logoHref} aria-label="Education Data Unlimited home">
-      <img src="/assets/educore-logo.png" alt="Education Data Unlimited" />
+      <img src={logoImage?.url ?? LOGO_FALLBACK_SRC} alt={logoImage?.alt ?? LOGO_FALLBACK_ALT} />
     </a>
 
     <div class="links">
@@ -237,7 +242,7 @@
           aria-label="Education Data Unlimited home"
           onclick={closeMenu}
         >
-          <img src="/assets/educore-logo.png" alt="Education Data Unlimited" />
+          <img src={logoImage?.url ?? LOGO_FALLBACK_SRC} alt={logoImage?.alt ?? LOGO_FALLBACK_ALT} />
         </a>
 
         <button

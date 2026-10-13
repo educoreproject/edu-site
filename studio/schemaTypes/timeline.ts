@@ -1,10 +1,12 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {headerLogoField} from './headerLogo'
 
 export const timeline = defineType({
 	name: 'timeline',
 	title: 'Impact / Milestones timeline',
 	type: 'document',
 	fields: [
+		headerLogoField,
 		defineField({
 			name: 'hero',
 			title: 'Hero',

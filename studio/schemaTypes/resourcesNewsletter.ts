@@ -1,10 +1,12 @@
 import {defineField, defineType} from 'sanity'
+import {headerLogoField} from './headerLogo'
 
 export const resourcesNewsletter = defineType({
 	name: 'resourcesNewsletter',
 	title: 'Resources newsletter',
 	type: 'document',
 	fields: [
+		headerLogoField,
 		defineField({
 			name: 'hero',
 			title: 'Hero',

@@ -27,7 +27,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="dsuBoard" />
+<SectionChrome {chrome} routeKey="dsuBoard" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} compact />

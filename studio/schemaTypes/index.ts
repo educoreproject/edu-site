@@ -53,6 +53,7 @@ import {resourcesLibrary} from './resourcesLibrary'
 import {resourcesNewsletter} from './resourcesNewsletter'
 import {resourcesPress} from './resourcesPress'
 import {timeline} from './timeline'
+import {siteChrome} from './siteChrome'
 import {linkDestination, navItem, sitePage} from './siteNavigation'
 
 export const schemaTypes = [
@@ -60,6 +61,7 @@ export const schemaTypes = [
 	linkDestination,
 	navItem,
 	sitePage,
+	siteChrome,
 	cta,
 	sharedCta,
 	heroContent,

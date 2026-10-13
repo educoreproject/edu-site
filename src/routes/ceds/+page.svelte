@@ -83,7 +83,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="cedsOverview" />
+<SectionChrome {chrome} routeKey="cedsOverview" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="world" />

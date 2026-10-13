@@ -1,10 +1,12 @@
 import {defineField, defineType} from 'sanity'
+import {headerLogoField} from './headerLogo'
 
 export const eventsUpcoming = defineType({
 	name: 'eventsUpcoming',
 	title: 'Events upcoming',
 	type: 'document',
 	fields: [
+		headerLogoField,
 		defineField({
 			name: 'hero',
 			title: 'Hero',

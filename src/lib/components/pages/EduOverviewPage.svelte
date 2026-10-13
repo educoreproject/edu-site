@@ -73,7 +73,7 @@
   />
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="eduHome" />
+<SectionChrome {chrome} routeKey="eduHome" logoImage={page.headerLogo} />
 
 <main>
   <Hero content={page.hero} />

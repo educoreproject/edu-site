@@ -45,7 +45,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="resourcesNewsletter" />
+<SectionChrome {chrome} routeKey="resourcesNewsletter" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

@@ -45,7 +45,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="eventsPast" />
+<SectionChrome {chrome} routeKey="eventsPast" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="event" />

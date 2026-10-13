@@ -95,7 +95,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="resourcesPress" />
+<SectionChrome {chrome} routeKey="resourcesPress" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

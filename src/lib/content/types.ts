@@ -323,17 +323,20 @@ export type FooterColumn = {
 
 export type SiteNavSection = LinkItem & {
 	key: SiteSectionKey;
+	headerLogo?: ImageAsset;
 	pageKey: RoutePageKey;
 	children: LinkItem[];
 };
 
 export type SiteChrome = {
+	defaultLogo?: ImageAsset;
 	primaryNav: LinkItem[];
 	sections: SiteNavSection[];
 	footerColumns: FooterColumn[];
 };
 
 export type DsuHomePage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	pillarsHeader: SectionHeader;
 	pillars: TextBlock[];
@@ -349,6 +352,7 @@ export type DsuHomePage = {
 };
 
 export type DsuMembersPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	videosHeader: SectionHeader;
 	videos: VideoTestimonial[];
@@ -361,6 +365,7 @@ export type DsuMembersPage = {
 };
 
 export type DsuJoinPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	membershipHeader: SectionHeader;
 	membershipTypes: MembershipType[];
@@ -374,6 +379,7 @@ export type DsuJoinPage = {
 };
 
 export type DsuProjectsPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	projectsHeader: SectionHeader;
 	projects: DsuProject[];
@@ -381,6 +387,7 @@ export type DsuProjectsPage = {
 };
 
 export type CedsOverviewPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	logoImage?: ImageAsset;
 	overview: SectionHeader;
@@ -393,6 +400,7 @@ export type CedsOverviewPage = {
 };
 
 export type ResourcesHubPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	eyebrow: string;
 	heading: string;
@@ -401,6 +409,7 @@ export type ResourcesHubPage = {
 };
 
 export type ResourcesLibraryPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	categories: ResourceDocumentItem['category'][];
 	items: ResourceDocumentItem[];
@@ -408,6 +417,7 @@ export type ResourcesLibraryPage = {
 };
 
 export type ResourcesPressPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	categories: PressDocumentItem['category'][];
 	items: PressDocumentItem[];
@@ -415,6 +425,7 @@ export type ResourcesPressPage = {
 };
 
 export type ResourcesNewsletterPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	categories: NewsletterDocumentItem['category'][];
 	items: NewsletterDocumentItem[];
@@ -422,6 +433,7 @@ export type ResourcesNewsletterPage = {
 };
 
 export type ResourcesGlossaryPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	categories: string[];
 	terms: GlossaryTerm[];
@@ -431,6 +443,7 @@ export type ResourcesGlossaryPage = {
 };
 
 export type ResourcesFaqPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	categories: string[];
 	items: FaqItem[];
@@ -438,6 +451,7 @@ export type ResourcesFaqPage = {
 };
 
 export type EventsUpcomingPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	events: EventItem[];
 	counterLabel: string;
@@ -445,12 +459,14 @@ export type EventsUpcomingPage = {
 };
 
 export type EventsPastPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	archive: EventArchiveGroup[];
 	ctas: SharedCtaContent[];
 };
 
 export type EduOverviewPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	mission: EduOverviewSection;
 	organization: EduOverviewSection;
@@ -462,18 +478,21 @@ export type EduOverviewPage = {
 };
 
 export type EduBoardPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	members: BoardMember[];
 	ctas: SharedCtaContent[];
 };
 
 export type DsuBoardPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	members: BoardMember[];
 	ctas: SharedCtaContent[];
 };
 
 export type EduHistoryPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	entries: TimelineEntry[];
 	ctas: SharedCtaContent[];
@@ -489,11 +508,13 @@ export type Milestone = {
 };
 
 export type TimelinePage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	milestones: Milestone[];
 };
 
 export type ContactPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	fields: ContactField[];
 	recipientOptions: ContactRecipient[];
@@ -503,6 +524,7 @@ export type ContactPage = {
 };
 
 export type EducoreOverviewPage = {
+	headerLogo?: ImageAsset;
 	hero: HeroContent;
 	useCasesHeader: SectionHeader;
 	useCases: EducoreFeatureCard[];

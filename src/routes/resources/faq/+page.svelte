@@ -50,7 +50,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="resourcesFaq" />
+<SectionChrome {chrome} routeKey="resourcesFaq" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

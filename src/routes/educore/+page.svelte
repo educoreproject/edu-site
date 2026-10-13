@@ -68,7 +68,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="educoreOverview" />
+<SectionChrome {chrome} routeKey="educoreOverview" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} icon="affiliate" background="violet" />

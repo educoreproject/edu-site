@@ -1,10 +1,12 @@
 import {defineField, defineType} from 'sanity'
+import {headerLogoField} from './headerLogo'
 
 export const dsuJoin = defineType({
 	name: 'dsuJoin',
 	title: 'DSU joining',
 	type: 'document',
 	fields: [
+		headerLogoField,
 		defineField({
 			name: 'hero',
 			title: 'Hero',

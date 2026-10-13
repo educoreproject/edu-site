@@ -290,6 +290,22 @@ export const sitePage = defineType({
 				'Adds child links for this section in subnavigation and footer areas. Use these for section pages, supporting links, downloads, or external destinations.',
 			type: 'array',
 			of: [{type: 'navItem'}]
+		}),
+		defineField({
+			name: 'headerLogo',
+			title: 'Header logo (this section)',
+			description:
+				'Logo shown in the header for every page in this section. Overrides the site-wide default. Leave blank to use the default logo.',
+			type: 'image',
+			options: {hotspot: true},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Describes the logo for screen reader users.'
+				})
+			]
 		})
 	],
 	preview: {

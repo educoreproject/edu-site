@@ -27,6 +27,14 @@ const heroProjection = `{
 	"ctas": coalesce(ctas[]${ctaProjection}, [])
 }`;
 
+const headerLogoProjection = `"headerLogo": select(
+	defined(headerLogo.asset) => {
+		"url": headerLogo.asset->url,
+		"alt": headerLogo.alt
+	},
+	null
+)`;
+
 const eduOverviewSectionProjection = `{
 	eyebrow,
 	heading,
@@ -141,6 +149,7 @@ const memberOrganizationProjection = `{
 
 export const dsuHomeQuery = `*[_id == "dsuHome"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"pillarsHeader": coalesce(pillarsHeader${sectionHeaderProjection}, {}),
 	"pillars": coalesce(pillars[]{
 		label,
@@ -169,6 +178,7 @@ export const dsuHomeQuery = `*[_id == "dsuHome"][0]{
 
 export const dsuMembersQuery = `*[_id == "dsuMembers"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"videosHeader": coalesce(videosHeader${sectionHeaderProjection}, {}),
 	"videos": coalesce(videos[]{
 		name,
@@ -187,6 +197,7 @@ export const dsuMembersQuery = `*[_id == "dsuMembers"][0]{
 
 export const dsuJoinQuery = `*[_id == "dsuJoin"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"membershipHeader": coalesce(membershipHeader${sectionHeaderProjection}, {}),
 	"membershipTypes": coalesce(membershipTypes[]{
 		kind,
@@ -222,6 +233,7 @@ export const dsuJoinQuery = `*[_id == "dsuJoin"][0]{
 
 export const dsuProjectsQuery = `*[_id == "dsuProjects"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"projectsHeader": coalesce(projectsHeader${sectionHeaderProjection}, {}),
 	"projects": coalesce(projects[]{
 		title,
@@ -240,6 +252,7 @@ export const dsuProjectsQuery = `*[_id == "dsuProjects"][0]{
 
 export const cedsOverviewQuery = `*[_id == "cedsOverview"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"logoImage": select(
 		defined(logoImage.asset) => {
 			"url": logoImage.asset->url,
@@ -264,6 +277,7 @@ export const cedsOverviewQuery = `*[_id == "cedsOverview"][0]{
 
 export const resourcesHubQuery = `*[_id == "resourcesHub"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	eyebrow,
 	heading,
 	"cards": coalesce(cards[]${resourceCardProjection}, []),
@@ -279,6 +293,7 @@ export const resourcesHubQuery = `*[_id == "resourcesHub"][0]{
 
 export const resourcesLibraryQuery = `*[_id == "resourcesLibrary"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		category,
@@ -298,6 +313,7 @@ export const resourcesLibraryQuery = `*[_id == "resourcesLibrary"][0]{
 
 export const resourcesPressQuery = `*[_id == "resourcesPress"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		category,
@@ -317,6 +333,7 @@ export const resourcesPressQuery = `*[_id == "resourcesPress"][0]{
 
 export const resourcesNewsletterQuery = `*[_id == "resourcesNewsletter"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		category,
@@ -335,6 +352,7 @@ export const resourcesNewsletterQuery = `*[_id == "resourcesNewsletter"][0]{
 
 export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"terms": coalesce(terms[]{
 		term,
@@ -348,6 +366,7 @@ export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 
 export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb5add-6399-4b81-ae19-179fd9ae7129"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"terms": coalesce(terms[]{
 		term,
@@ -366,6 +385,7 @@ export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb
 
 export const resourcesFaqQuery = `*[_id == "resourcesFaq"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
 		question,
@@ -377,6 +397,7 @@ export const resourcesFaqQuery = `*[_id == "resourcesFaq"][0]{
 
 export const eventsUpcomingQuery = `*[_id == "eventsUpcoming"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"events": coalesce(events[]${eventItemProjection}, []),
 	counterLabel,
 	${pageCtasProjection}
@@ -384,6 +405,7 @@ export const eventsUpcomingQuery = `*[_id == "eventsUpcoming"][0]{
 
 export const eventsPastQuery = `*[_id == "eventsPast"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"archive": coalesce(archive[]{
 		year,
 		"events": coalesce(events[]${eventItemProjection}, [])
@@ -393,6 +415,7 @@ export const eventsPastQuery = `*[_id == "eventsPast"][0]{
 
 export const eduOverviewQuery = `*[_id == "eduOverview"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	mission${eduOverviewSectionProjection},
 	organization${eduOverviewSectionProjection},
 	willDo${eduListGroupProjection},
@@ -404,6 +427,7 @@ export const eduOverviewQuery = `*[_id == "eduOverview"][0]{
 
 export const eduBoardQuery = `*[_id == "eduBoard"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"members": coalesce(members[]{
 		role,
 		name,
@@ -415,6 +439,7 @@ export const eduBoardQuery = `*[_id == "eduBoard"][0]{
 
 export const dsuBoardQuery = `*[_id == "dsuBoard"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"members": coalesce(members[]{
 		role,
 		name,
@@ -426,6 +451,7 @@ export const dsuBoardQuery = `*[_id == "dsuBoard"][0]{
 
 export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"entries": coalesce(entries[]{
 		year,
 		title,
@@ -436,6 +462,7 @@ export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 
 export const timelineQuery = `*[_id == "timeline"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"milestones": coalesce(milestones[]{
 		_key,
 		group,
@@ -458,6 +485,7 @@ export const timelineQuery = `*[_id == "timeline"][0]{
 
 export const contactPageQuery = `*[_id == "eduContact"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	"fields": coalesce(fields[]{
 		label,
 		placeholder,
@@ -477,6 +505,7 @@ export const contactPageQuery = `*[_id == "eduContact"][0]{
 
 export const educoreOverviewQuery = `*[_id == "educoreOverview"][0]{
 	hero${heroProjection},
+	${headerLogoProjection},
 	useCasesHeader${sectionHeaderProjection},
 	"useCases": coalesce(useCases[]${educoreFeatureCardProjection}, []),
 	why${sectionHeaderProjection},
@@ -503,10 +532,21 @@ export const chromeQuery = `*[_type == "sitePage"] | order(sortOrder asc){
 	disabled,
 	hidden,
 	sortOrder,
+	${headerLogoProjection},
 	"navigationItems": coalesce(navigationItems[]{
 		label,
 		disabled,
 		hidden,
 		destination${linkDestinationProjection}
 	}, [])
+}`;
+
+export const chromeLogoQuery = `*[_id == "siteChrome"][0]{
+	"logo": select(
+		defined(logo.asset) => {
+			"url": logo.asset->url,
+			"alt": logo.alt
+		},
+		null
+	)
 }`;

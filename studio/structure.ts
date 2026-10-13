@@ -99,6 +99,8 @@ export const structure: StructureResolver = (S) =>
 	S.list()
 		.title('Site pages')
 		.items([
+			singleton(S, 'Site chrome', 'siteChrome', 'siteChrome'),
+			S.divider(),
 			...sections.map((section) =>
 				S.listItem()
 					.title(section.title)

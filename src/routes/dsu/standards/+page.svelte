@@ -84,7 +84,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="dsuStandards" />
+<SectionChrome {chrome} routeKey="dsuStandards" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />
