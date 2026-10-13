@@ -51,7 +51,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="contact" />
+<SectionChrome {chrome} routeKey="contact" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} icon="mail" />

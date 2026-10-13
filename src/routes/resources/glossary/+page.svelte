@@ -84,7 +84,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="resourcesGlossary" />
+<SectionChrome {chrome} routeKey="resourcesGlossary" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} background="teal" icon="resource" />

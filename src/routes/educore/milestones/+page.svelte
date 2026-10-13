@@ -76,7 +76,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="educoreMilestones" />
+<SectionChrome {chrome} routeKey="educoreMilestones" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} compact />

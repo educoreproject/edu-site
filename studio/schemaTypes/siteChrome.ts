@@ -6,6 +6,22 @@ export const siteChrome = defineType({
 	type: 'document',
 	fields: [
 		defineField({
+			name: 'logo',
+			title: 'Default header logo',
+			description:
+				'Shown in the site header when a section or page has no logo of its own. This is the site-wide fallback.',
+			type: 'image',
+			options: {hotspot: true},
+			fields: [
+				defineField({
+					name: 'alt',
+					title: 'Alternative text',
+					type: 'string',
+					description: 'Describes the logo for screen reader users.'
+				})
+			]
+		}),
+		defineField({
 			name: 'primaryNav',
 			title: 'Primary navigation',
 			description:

@@ -123,7 +123,7 @@
   />
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="dsuMembers" />
+<SectionChrome {chrome} routeKey="dsuMembers" logoImage={page.headerLogo} />
 
 <main>
   <Hero content={page.hero} compact />

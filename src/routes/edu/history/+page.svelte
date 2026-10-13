@@ -26,7 +26,7 @@
 	/>
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="eduHistory" />
+<SectionChrome {chrome} routeKey="eduHistory" logoImage={page.headerLogo} />
 
 <main>
 	<Hero content={page.hero} compact />

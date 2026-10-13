@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { RoutePageKey } from '$lib/content/route-metadata';
 	import { getRoutePage } from '$lib/content/route-metadata';
-	import type { SiteChrome } from '$lib/content/types';
+	import type { ImageAsset, SiteChrome } from '$lib/content/types';
 	import PrimaryNav from './PrimaryNav.svelte';
 	import SubNav from './SubNav.svelte';
 
@@ -9,17 +9,27 @@
 		chrome: SiteChrome;
 		routeKey: RoutePageKey;
 		logoHref?: string;
+		/** Per-page logo override (from the page document). Falls back to the section, then the global default. */
+		logoImage?: ImageAsset;
 	};
 
-	let { chrome, routeKey, logoHref = '/' }: Props = $props();
+	let { chrome, routeKey, logoHref = '/', logoImage }: Props = $props();
 	let route = $derived(getRoutePage(routeKey));
 	let activeSection = $derived(chrome.sections.find((section) => section.key === route.sectionKey));
+	// Resolution order: page override -> section logo -> global default.
+	let resolvedLogo = $derived(logoImage ?? activeSection?.headerLogo ?? chrome.defaultLogo);
 	let activeChild = $derived(
 		activeSection?.children.find((link) => link.pageKey === routeKey || link.href === route.path)
 	);
 </script>
 
-<PrimaryNav chrome={chrome} activeSectionKey={route.sectionKey} activePageKey={routeKey} {logoHref} />
+<PrimaryNav
+	chrome={chrome}
+	activeSectionKey={route.sectionKey}
+	activePageKey={routeKey}
+	{logoHref}
+	logoImage={resolvedLogo}
+/>
 
 {#if activeSection?.children.length}
 	<SubNav section={activeSection} activeHref={route.path} activeLabel={activeChild?.label ?? route.label} />

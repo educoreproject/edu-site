@@ -63,7 +63,7 @@
   <meta name="description" content={page.hero.description} />
 </svelte:head>
 
-<SectionChrome {chrome} routeKey="dsuJoin" />
+<SectionChrome {chrome} routeKey="dsuJoin" logoImage={page.headerLogo} />
 
 <main>
   <Hero content={page.hero} compact />

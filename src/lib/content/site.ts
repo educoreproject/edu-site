@@ -1,6 +1,7 @@
 import { hasSanityConfig, sanityClient } from '$lib/sanity/client';
 import {
 	chromeQuery,
+	chromeLogoQuery,
 	cedsOverviewQuery,
 	dsuHomeQuery,
 	dsuJoinQuery,
@@ -43,6 +44,7 @@ import type {
 	ContactRecipient,
 	CedsOverviewPage,
 	HeroContent,
+	ImageAsset,
 	InfoCard,
 	MembershipType,
 	ResourceCard,
@@ -145,6 +147,7 @@ type RawSitePage = {
 	disabled?: boolean;
 	hidden?: boolean;
 	sortOrder?: number;
+	headerLogo?: ImageAsset;
 	navigationItems?: RawNavItem[];
 };
 
@@ -352,6 +355,7 @@ export function normalizeSiteChrome(rawPages: RawSitePage[]): SiteChrome {
 
 			return {
 				key: page.sectionKey,
+				headerLogo: page.headerLogo,
 				pageKey: page.routePageKey,
 				label: page.navLabel || section.label,
 				disabled: page.disabled,
@@ -361,7 +365,7 @@ export function normalizeSiteChrome(rawPages: RawSitePage[]): SiteChrome {
 		});
 
 	return {
-		primaryNav: sections.map(({ children, key, pageKey, ...section }) => section),
+		primaryNav: sections.map(({ children, key, headerLogo, pageKey, ...section }) => section),
 		sections,
 		footerColumns: sections.map((section) => ({
 			heading: section.label,
@@ -377,7 +381,19 @@ export async function getSiteChrome(): Promise<SiteChrome> {
 		throw new Error('[content] Sanity returned no site page navigation documents.');
 	}
 
-	return normalizeSiteChrome(rawPages);
+	// The siteChrome singleton (and its default logo) is optional, so fetch it
+	// defensively — a missing document must not break the whole site chrome.
+	let defaultLogo: ImageAsset | undefined;
+	try {
+		const chromeDoc = sanityClient
+			? await sanityClient.fetch<{ logo: ImageAsset | null } | null>(chromeLogoQuery)
+			: null;
+		defaultLogo = chromeDoc?.logo ?? undefined;
+	} catch {
+		defaultLogo = undefined;
+	}
+
+	return { ...normalizeSiteChrome(rawPages), defaultLogo };
 }
 
 export async function getDsuHomePage(): Promise<DsuHomePage> {
