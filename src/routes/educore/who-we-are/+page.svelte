@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Container from '$lib/components/site/Container.svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import RichText from '$lib/components/site/RichText.svelte';
@@ -26,14 +27,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ??
-			'The people building the shared semantic backbone for education and workforce data interoperability.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="educoreWhoWeAre" logoImage={page.headerLogo} />
 

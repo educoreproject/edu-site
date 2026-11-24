@@ -35,6 +35,19 @@ const headerLogoProjection = `"headerLogo": select(
 	null
 )`;
 
+const seoProjection = `"seo": seo{
+	metaTitle,
+	metaDescription,
+	noIndex,
+	"ogImage": select(
+		defined(ogImage.asset) => {
+			"url": ogImage.asset->url,
+			"alt": ogImage.alt
+		},
+		null
+	)
+}`;
+
 const eduOverviewSectionProjection = `{
 	eyebrow,
 	heading,
@@ -149,6 +162,7 @@ const memberOrganizationProjection = `{
 
 export const dsuHomeQuery = `*[_id == "dsuHome"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"pillarsHeader": coalesce(pillarsHeader${sectionHeaderProjection}, {}),
 	"pillars": coalesce(pillars[]{
@@ -178,6 +192,7 @@ export const dsuHomeQuery = `*[_id == "dsuHome"][0]{
 
 export const dsuMembersQuery = `*[_id == "dsuMembers"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"videosHeader": coalesce(videosHeader${sectionHeaderProjection}, {}),
 	"videos": coalesce(videos[]{
@@ -197,6 +212,7 @@ export const dsuMembersQuery = `*[_id == "dsuMembers"][0]{
 
 export const dsuJoinQuery = `*[_id == "dsuJoin"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"membershipHeader": coalesce(membershipHeader${sectionHeaderProjection}, {}),
 	"membershipTypes": coalesce(membershipTypes[]{
@@ -233,6 +249,7 @@ export const dsuJoinQuery = `*[_id == "dsuJoin"][0]{
 
 export const dsuProjectsQuery = `*[_id == "dsuProjects"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"projectsHeader": coalesce(projectsHeader${sectionHeaderProjection}, {}),
 	"projects": coalesce(projects[]{
@@ -252,6 +269,7 @@ export const dsuProjectsQuery = `*[_id == "dsuProjects"][0]{
 
 export const cedsOverviewQuery = `*[_id == "cedsOverview"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"logoImage": select(
 		defined(logoImage.asset) => {
@@ -277,6 +295,7 @@ export const cedsOverviewQuery = `*[_id == "cedsOverview"][0]{
 
 export const resourcesHubQuery = `*[_id == "resourcesHub"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	eyebrow,
 	heading,
@@ -293,6 +312,7 @@ export const resourcesHubQuery = `*[_id == "resourcesHub"][0]{
 
 export const resourcesLibraryQuery = `*[_id == "resourcesLibrary"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
@@ -313,6 +333,7 @@ export const resourcesLibraryQuery = `*[_id == "resourcesLibrary"][0]{
 
 export const resourcesPressQuery = `*[_id == "resourcesPress"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
@@ -333,6 +354,7 @@ export const resourcesPressQuery = `*[_id == "resourcesPress"][0]{
 
 export const resourcesNewsletterQuery = `*[_id == "resourcesNewsletter"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
@@ -352,6 +374,7 @@ export const resourcesNewsletterQuery = `*[_id == "resourcesNewsletter"][0]{
 
 export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"terms": coalesce(terms[]{
@@ -366,6 +389,7 @@ export const resourcesGlossaryQuery = `*[_id == "resourcesGlossary"][0]{
 
 export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb5add-6399-4b81-ae19-179fd9ae7129"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"terms": coalesce(terms[]{
@@ -385,6 +409,7 @@ export const dsuStandardsQuery = `*[_type == "resourcesGlossary" && _id == "5dcb
 
 export const resourcesFaqQuery = `*[_id == "resourcesFaq"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"categories": coalesce(categories, []),
 	"items": coalesce(items[]{
@@ -397,6 +422,7 @@ export const resourcesFaqQuery = `*[_id == "resourcesFaq"][0]{
 
 export const eventsUpcomingQuery = `*[_id == "eventsUpcoming"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"events": coalesce(events[]${eventItemProjection}, []),
 	counterLabel,
@@ -405,6 +431,7 @@ export const eventsUpcomingQuery = `*[_id == "eventsUpcoming"][0]{
 
 export const eventsPastQuery = `*[_id == "eventsPast"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"archive": coalesce(archive[]{
 		year,
@@ -415,6 +442,7 @@ export const eventsPastQuery = `*[_id == "eventsPast"][0]{
 
 export const eduOverviewQuery = `*[_id == "eduOverview"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	mission${eduOverviewSectionProjection},
 	organization${eduOverviewSectionProjection},
@@ -427,6 +455,7 @@ export const eduOverviewQuery = `*[_id == "eduOverview"][0]{
 
 export const eduBoardQuery = `*[_id == "eduBoard"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"members": coalesce(members[]{
 		role,
@@ -439,6 +468,7 @@ export const eduBoardQuery = `*[_id == "eduBoard"][0]{
 
 export const dsuBoardQuery = `*[_id == "dsuBoard"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"members": coalesce(members[]{
 		role,
@@ -451,6 +481,7 @@ export const dsuBoardQuery = `*[_id == "dsuBoard"][0]{
 
 export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"entries": coalesce(entries[]{
 		year,
@@ -462,6 +493,7 @@ export const eduHistoryQuery = `*[_id == "eduHistory"][0]{
 
 export const timelineQuery = `*[_id == "timeline"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"milestones": coalesce(milestones[]{
 		_key,
@@ -485,6 +517,7 @@ export const timelineQuery = `*[_id == "timeline"][0]{
 
 export const whoWeAreQuery = `*[_id == "whoWeAre"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"members": coalesce(members[]{
 		_key,
@@ -514,6 +547,7 @@ export const whoWeAreQuery = `*[_id == "whoWeAre"][0]{
 
 export const contactPageQuery = `*[_id == "eduContact"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	"fields": coalesce(fields[]{
 		label,
@@ -534,6 +568,7 @@ export const contactPageQuery = `*[_id == "eduContact"][0]{
 
 export const educoreOverviewQuery = `*[_id == "educoreOverview"][0]{
 	hero${heroProjection},
+	${seoProjection},
 	${headerLogoProjection},
 	useCasesHeader${sectionHeaderProjection},
 	"useCases": coalesce(useCases[]${educoreFeatureCardProjection}, []),

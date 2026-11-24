@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {seoField} from './seo'
 import {headerLogoField} from './headerLogo'
 
 export const eventsPast = defineType({
@@ -31,7 +32,8 @@ export const eventsPast = defineType({
 				'Selects the shared call-to-action bands shown near the bottom of the Past events page. The order here is the order visitors see.',
 			type: 'array',
 			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
-		})
+		}),
+		seoField
 	],
 	preview: {
 		prepare: () => ({

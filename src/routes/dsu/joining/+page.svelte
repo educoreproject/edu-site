@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from "$lib/components/site/Button.svelte";
+	import Seo from '$lib/components/site/Seo.svelte';
   import Container from "$lib/components/site/Container.svelte";
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
@@ -58,10 +59,7 @@
   </div>
 {/snippet}
 
-<svelte:head>
-  <title>{page.hero.title}</title>
-  <meta name="description" content={page.hero.description} />
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="dsuJoin" logoImage={page.headerLogo} />
 

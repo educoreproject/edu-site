@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CategorySelector from '$lib/components/site/CategorySelector.svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
@@ -37,13 +38,7 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'Newsletter archive from Education Data Unlimited.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="resourcesNewsletter" logoImage={page.headerLogo} />
 

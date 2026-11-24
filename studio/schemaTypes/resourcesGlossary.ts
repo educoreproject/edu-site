@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {seoField} from './seo'
 import {headerLogoField} from './headerLogo'
 
 export const resourcesGlossary = defineType({
@@ -111,7 +112,8 @@ export const resourcesGlossary = defineType({
 				'Selects the shared call-to-action bands shown near the bottom of the Glossary page. The order here is the order visitors see.',
 			type: 'array',
 			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
-		})
+		}),
+		seoField
 	],
 	preview: {
 		select: {title: 'hero.title'},

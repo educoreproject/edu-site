@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Container from '$lib/components/site/Container.svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
 	import PageCtas from '$lib/components/site/PageCtas.svelte';
@@ -18,13 +19,7 @@
 	let chrome = $derived(data.chrome);
 </script>
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'Education Data Unlimited history and milestones.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="eduHistory" logoImage={page.headerLogo} />
 

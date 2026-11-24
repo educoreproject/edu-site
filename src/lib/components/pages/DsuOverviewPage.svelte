@@ -1,5 +1,6 @@
 <script lang="ts">
   import Container from "$lib/components/site/Container.svelte";
+	import Seo from '$lib/components/site/Seo.svelte';
   import Hero from "$lib/components/site/Hero.svelte";
   import PageFooter from "$lib/components/site/PageFooter.svelte";
   import PageCtas from "$lib/components/site/PageCtas.svelte";
@@ -55,10 +56,7 @@
   </div>
 {/snippet}
 
-<svelte:head>
-  <title>{page.hero.title}</title>
-  <meta name="description" content={page.hero.description} />
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="dsuHome" logoImage={page.headerLogo} />
 

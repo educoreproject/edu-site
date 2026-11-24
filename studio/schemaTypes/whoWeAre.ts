@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {seoField} from './seo'
 import {headerLogoField} from './headerLogo'
 
 export const whoWeAre = defineType({
@@ -85,7 +86,8 @@ export const whoWeAre = defineType({
 					}
 				})
 			]
-		})
+		}),
+		seoField
 	],
 	preview: {
 		prepare: () => ({

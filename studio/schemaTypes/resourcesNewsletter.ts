@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {seoField} from './seo'
 import {headerLogoField} from './headerLogo'
 
 export const resourcesNewsletter = defineType({
@@ -40,7 +41,8 @@ export const resourcesNewsletter = defineType({
 				'Selects the shared call-to-action bands shown near the bottom of the Newsletter archive page. The order here is the order visitors see.',
 			type: 'array',
 			of: [{type: 'reference', to: [{type: 'sharedCta'}]}]
-		})
+		}),
+		seoField
 	],
 	preview: {
 		prepare: () => ({

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Card from '$lib/components/site/Card.svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
 	import PageFooter from '$lib/components/site/PageFooter.svelte';
@@ -60,13 +61,7 @@
 	</span>
 {/snippet}
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'EDUcore tools for education data standards.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="educoreOverview" logoImage={page.headerLogo} />
 

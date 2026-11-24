@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/site/Button.svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import Card from '$lib/components/site/Card.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
@@ -75,13 +76,7 @@
 	/>
 {/snippet}
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'Common Education Data Standards overview.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="cedsOverview" logoImage={page.headerLogo} />
 

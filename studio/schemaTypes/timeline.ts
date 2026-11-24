@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {seoField} from './seo'
 import {headerLogoField} from './headerLogo'
 
 export const timeline = defineType({
@@ -79,7 +80,8 @@ export const timeline = defineType({
 					}
 				})
 			]
-		})
+		}),
+		seoField
 	],
 	preview: {
 		prepare: () => ({

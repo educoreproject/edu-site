@@ -54,6 +54,7 @@ import {resourcesNewsletter} from './resourcesNewsletter'
 import {resourcesPress} from './resourcesPress'
 import {timeline} from './timeline'
 import {whoWeAre} from './whoWeAre'
+import {seo} from './seo'
 import {siteChrome} from './siteChrome'
 import {linkDestination, navItem, sitePage} from './siteNavigation'
 
@@ -63,6 +64,7 @@ export const schemaTypes = [
 	navItem,
 	sitePage,
 	siteChrome,
+	seo,
 	cta,
 	sharedCta,
 	heroContent,

@@ -94,6 +94,13 @@ export type ImageAsset = {
 	alt?: string;
 };
 
+export type Seo = {
+	metaTitle?: string;
+	metaDescription?: string;
+	ogImage?: ImageAsset;
+	noIndex?: boolean;
+};
+
 export type MemberOrganization = {
 	name: string;
 	url: string;
@@ -338,6 +345,7 @@ export type SiteChrome = {
 export type DsuHomePage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	pillarsHeader: SectionHeader;
 	pillars: TextBlock[];
 	valuesHeader: SectionHeader;
@@ -354,6 +362,7 @@ export type DsuHomePage = {
 export type DsuMembersPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	videosHeader: SectionHeader;
 	videos: VideoTestimonial[];
 	signatoryMembersHeader: SectionHeader;
@@ -367,6 +376,7 @@ export type DsuMembersPage = {
 export type DsuJoinPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	membershipHeader: SectionHeader;
 	membershipTypes: MembershipType[];
 	process: {
@@ -381,6 +391,7 @@ export type DsuJoinPage = {
 export type DsuProjectsPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	projectsHeader: SectionHeader;
 	projects: DsuProject[];
 	ctas: SharedCtaContent[];
@@ -389,6 +400,7 @@ export type DsuProjectsPage = {
 export type CedsOverviewPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	logoImage?: ImageAsset;
 	overview: SectionHeader;
 	reasons: TextBlock[];
@@ -402,6 +414,7 @@ export type CedsOverviewPage = {
 export type ResourcesHubPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	eyebrow: string;
 	heading: string;
 	cards: ResourceCard[];
@@ -411,6 +424,7 @@ export type ResourcesHubPage = {
 export type ResourcesLibraryPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	categories: ResourceDocumentItem['category'][];
 	items: ResourceDocumentItem[];
 	ctas: SharedCtaContent[];
@@ -419,6 +433,7 @@ export type ResourcesLibraryPage = {
 export type ResourcesPressPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	categories: PressDocumentItem['category'][];
 	items: PressDocumentItem[];
 	ctas: SharedCtaContent[];
@@ -427,6 +442,7 @@ export type ResourcesPressPage = {
 export type ResourcesNewsletterPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	categories: NewsletterDocumentItem['category'][];
 	items: NewsletterDocumentItem[];
 	ctas: SharedCtaContent[];
@@ -435,6 +451,7 @@ export type ResourcesNewsletterPage = {
 export type ResourcesGlossaryPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	categories: string[];
 	terms: GlossaryTerm[];
 	categoryIntros?: CategoryIntro[];
@@ -445,6 +462,7 @@ export type ResourcesGlossaryPage = {
 export type ResourcesFaqPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	categories: string[];
 	items: FaqItem[];
 	ctas: SharedCtaContent[];
@@ -453,6 +471,7 @@ export type ResourcesFaqPage = {
 export type EventsUpcomingPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	events: EventItem[];
 	counterLabel: string;
 	ctas: SharedCtaContent[];
@@ -461,6 +480,7 @@ export type EventsUpcomingPage = {
 export type EventsPastPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	archive: EventArchiveGroup[];
 	ctas: SharedCtaContent[];
 };
@@ -468,6 +488,7 @@ export type EventsPastPage = {
 export type EduOverviewPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	mission: EduOverviewSection;
 	organization: EduOverviewSection;
 	willDo: EduListGroup;
@@ -480,6 +501,7 @@ export type EduOverviewPage = {
 export type EduBoardPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	members: BoardMember[];
 	ctas: SharedCtaContent[];
 };
@@ -487,6 +509,7 @@ export type EduBoardPage = {
 export type DsuBoardPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	members: BoardMember[];
 	ctas: SharedCtaContent[];
 };
@@ -494,6 +517,7 @@ export type DsuBoardPage = {
 export type EduHistoryPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	entries: TimelineEntry[];
 	ctas: SharedCtaContent[];
 };
@@ -510,6 +534,7 @@ export type Milestone = {
 export type TimelinePage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	milestones: Milestone[];
 };
 
@@ -525,12 +550,14 @@ export type TeamMember = {
 export type WhoWeArePage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	members: TeamMember[];
 };
 
 export type ContactPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	fields: ContactField[];
 	recipientOptions: ContactRecipient[];
 	directCard: InfoCard;
@@ -541,6 +568,7 @@ export type ContactPage = {
 export type EducoreOverviewPage = {
 	headerLogo?: ImageAsset;
 	hero: HeroContent;
+	seo?: Seo;
 	useCasesHeader: SectionHeader;
 	useCases: EducoreFeatureCard[];
 	why: SectionHeader;

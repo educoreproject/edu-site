@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, tick } from 'svelte';
+	import Seo from '$lib/components/site/Seo.svelte';
 	import CategorySelector from '$lib/components/site/CategorySelector.svelte';
 	import Container from '$lib/components/site/Container.svelte';
 	import Hero from '$lib/components/site/Hero.svelte';
@@ -76,13 +77,7 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{page.hero.title}</title>
-	<meta
-		name="description"
-		content={page.hero.description ?? 'DSU standards reference.'}
-	/>
-</svelte:head>
+<Seo seo={page.seo} hero={page.hero} {chrome} />
 
 <SectionChrome {chrome} routeKey="dsuStandards" logoImage={page.headerLogo} />
 
